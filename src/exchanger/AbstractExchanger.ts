@@ -26,11 +26,6 @@ export abstract class AbstractExchanger {
             return false
         }
 
-        // 不处理人名币
-        if (content.startsWith('¥')) {
-            return false
-        }
-
         // 文本中有数字 eg: ARS$ 399,53
         if (content.match(/\d/) === null) {
             return false
@@ -92,6 +87,7 @@ export abstract class AbstractExchanger {
      * @param content 包含货币和价格的字符串
      */
     getPrice(content: string) {
+        debugger
         const matches = content.match(/\d.+/)
         if (!matches) {
             throw Error('提取价格失败：content:' + content)
