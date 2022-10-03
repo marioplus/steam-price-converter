@@ -20,11 +20,18 @@ export abstract class AbstractExchanger {
             return false
         }
 
-        // 文本中有数字 eg: ARS$ 399,53
         const content = elementSnap.textContext
+
         if (!content) {
             return false
         }
+
+        // 不处理人名币
+        if (content.startsWith("¥")){
+            return false
+        }
+
+        // 文本中有数字 eg: ARS$ 399,53
         if (content.match(/\d/) === null) {
             return false
         }
