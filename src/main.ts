@@ -30,19 +30,26 @@ GM_addStyle(`
 `)
 // 获取国家代码
 let countyCode: string = ''
-document.querySelectorAll('script').forEach(scriptEl => {
-    if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
-        countyCode = scriptEl.innerText.trim()
-            .split(';')[5]
-            .split(',')[16]
-            .replaceAll(/'/g, '')
-            .trim()
-    }
-})
+try {
+    document.querySelectorAll('script').forEach(scriptEl => {
+        if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
+            countyCode = scriptEl.innerText.trim()
+                .replaceAll(/[\n\t\s ]/g, '')
+                .split(';')
+                .filter(str => str.startsWith('GDynamicStore.Init'))[0]
+                .split(',')[16]
+                .replaceAll(/'/g, '')
+                .trim()
+        }
+    })
+} catch (e) {
+    throw ('获取国家代码失败！')
+}
 if (!countyCode || countyCode.length === 0) {
     throw Error('获取国家代码失败！')
 }
 console.log('countyCode', countyCode)
+
 if (countyCode === 'CN') {
     console.log('人名币无需转换')
 } else {
