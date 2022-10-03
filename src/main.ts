@@ -12,6 +12,7 @@ GM_addStyle(`
       display: inline-block !important;
     }
     
+    /*商店搜索列表*/
     .search_result_row
     .col.search_price {
       width: 175px;
@@ -19,6 +20,11 @@ GM_addStyle(`
     .search_result_row
     .col.search_name {
       width: 200px;
+    }
+    
+    /*市场列表*/
+    .market_listing_their_price {
+      width: 160px;
     }
 `)
 

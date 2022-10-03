@@ -13,39 +13,19 @@ export class SearchPageExchanger extends AbstractExchanger {
         const strike = elementSnap.element.querySelector('strike')
         // 原价
         if (strike && strike.textContent) {
-            const content: string = strike.textContent.trim()
-                .replaceAll(/\(.+$/g,'')
-                .trim()
-            const currency = super.getCurrency(content)
-            const price = super.getPrice(content)
-            const rate = rateProvider(currency)
-            const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
-            strike.textContent = `${content}(¥${cnyPrice})`
+            strike.textContent = this.doExChange(strike.textContent, rateProvider)
 
             // 现价
             // @ts-ignore
             const textNode = elementSnap.element.firstChild.nextSibling.nextSibling.nextSibling
             if (textNode && textNode.nodeValue) {
-                const content: string = textNode.nodeValue.trim()
-                    .replaceAll(/\(.+$/g,'')
-                    .trim()
-                const currency = super.getCurrency(content)
-                const price = super.getPrice(content)
-                const rate = rateProvider(currency)
-                const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
-                textNode.nodeValue = `${content}(¥${cnyPrice})`
+                textNode.nodeValue = this.doExChange(textNode.nodeValue, rateProvider)
             }
             return true
         }
 
         // @ts-ignore match 方法已经检查过了，不可能为 null
-        const content: string = elementSnap.textContext.trim()
-        const currency = super.getCurrency(content)
-        const price = super.getPrice(content)
-        const rate = rateProvider(currency)
-        const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
-
-        elementSnap.element.textContent = `${content}(¥${cnyPrice})`
+        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rateProvider)
 
         return true
     }

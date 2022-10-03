@@ -1,10 +1,11 @@
 import {AbstractExchanger} from './AbstractExchanger'
-import {HomePageExchanger} from './HomePageExchanger'
+import {DefaultExchanger} from './DefaultExchanger'
 import {ExchangeRateManager} from '../remote/ExchangeRateManager'
 import {SearchPageExchanger} from './SearchPageExchanger'
 
 const currencies = new Map([
-    ['HK', 'HKD']
+    ['HK', 'HKD'],
+    ['$','USD']
 ])
 export const exchangedClassName = 'spe-exchanged'
 
@@ -23,7 +24,7 @@ export class ExchangerManager {
 
     private constructor() {
         this.exchangers = [
-            new HomePageExchanger(),
+            new DefaultExchanger(),
             new SearchPageExchanger()
         ]
     }
@@ -58,10 +59,10 @@ export class ExchangerManager {
 
                                 const exchanged = exchanger.doExchange(elementSnap, (currency: string): number => {
                                     // 转换操作
-                                    const finalCurrency = currencies.get('') || currency
-                                    // const rate = rateRes.rates.get(finalCurrency)
+                                    const finalCurrency = currencies.get(currency) || currency
                                     const rate = rateRes.rates.get(finalCurrency)
                                     if (!rate) {
+                                        console.log(elementSnap.element)
                                         throw Error(`获取汇率失败：${currency}`)
                                     }
                                     return rate

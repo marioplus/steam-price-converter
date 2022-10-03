@@ -15,7 +15,8 @@ export default defineConfig({
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'marioplus/steam-price-exchanger',
                 match: [
-                    'http*://*.steampowered.com/*'
+                    'http*://*.steampowered.com/*',
+                    'http*://*.steamcommunity.com/*'
                 ]
             },
         }),

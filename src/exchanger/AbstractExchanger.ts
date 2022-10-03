@@ -29,6 +29,11 @@ export abstract class AbstractExchanger {
             return false
         }
 
+        // 只有数字没有货币特征
+        if (/^[,.\d\s]+$/.test(content)) {
+            return false
+        }
+
         // 该 exchanger 定义的选择器找到的
         const parent = elementSnap.element.parentElement
         if (!parent) {
@@ -51,6 +56,24 @@ export abstract class AbstractExchanger {
     abstract doExchange(elementSnap: ElementSnap, rateProvider: (currency: string) => number): boolean
 
     /**
+     * 具体操作,执行替换字符
+     * @param originalContent 原始内容
+     * @param rateProvider 使用汇率获取汇率的提供者
+     * @return 替换后的内容
+     * @return 处理结果
+     */
+    protected doExChange(originalContent: string, rateProvider: (currency: string) => number): string {
+        const safeContent = originalContent.trim()
+            .replaceAll(/\(.+$/g, '')
+            .trim()
+        const currency = this.getCurrency(safeContent)
+        const price = this.getPrice(safeContent)
+        const rate = rateProvider(currency)
+        const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
+        return `${safeContent}(¥${cnyPrice})`
+    }
+
+    /**
      * 替换之后的操作
      * @param elementSnap 选择器选择到的元素快照
      */
@@ -63,7 +86,17 @@ export abstract class AbstractExchanger {
      * @param content 包含货币和价格的字符串
      */
     getCurrency(content: string): string {
-        const matches = content.match(/\w+/)
+        // ARS$ 1.399,53
+        let matches = content.match(/[a-zA-Z]+/)
+        if (matches) {
+            return matches[0]
+        }
+        // $1.2
+        matches = content.match(/\D+/)
+        if (matches) {
+            return matches[0]
+        }
+        console.log('Currency', content)
         if (!matches) {
             throw Error('提取获取货币代码失败：content:' + content)
         }
@@ -71,7 +104,7 @@ export abstract class AbstractExchanger {
     }
 
     /**
-     * 提取获取价格 eg: ARS$ 1.399,53
+     * 提取获取价格 eg: ARS$ 1.399,53 $1.2
      * @param content 包含货币和价格的字符串
      */
     getPrice(content: string) {
