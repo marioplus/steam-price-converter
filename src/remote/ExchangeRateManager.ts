@@ -24,6 +24,8 @@ class RateCache extends Serializable<RateCache> {
 
 export class ExchangeRateManager implements IRateApi {
 
+    private static refreshLock = false
+
     public static instance: ExchangeRateManager = new ExchangeRateManager()
     rateApis: Array<IRateApi> = new Array<IRateApi>()
     rateCache?: RateCache
@@ -44,11 +46,21 @@ export class ExchangeRateManager implements IRateApi {
         }
         // 过期需要重新获取
         if (this.rateCache.expired()) {
+            // 防止异步同时请求
+            if (ExchangeRateManager.refreshLock) {
+                await new Promise((resolve) => setTimeout(resolve, 50))
+            } else {
+                ExchangeRateManager.refreshLock = true
+            }
+
             // 两小时过期时间
             console.log('本地缓存已过期')
             this.rateCache.rates = await this.getRates()
             this.rateCache.expiredAt = new Date().getTime() + (1000 * 60 * 60)
             this.saveRateCache(this.rateCache)
+
+            // 重置锁
+            ExchangeRateManager.refreshLock = true
         }
         return this.rateCache
     }
@@ -64,5 +76,6 @@ export class ExchangeRateManager implements IRateApi {
         console.log('保存本地汇率缓存')
         GM_setValue(RateCacheStorageKey, rateCache.toJsonString())
     }
+
 }
 
