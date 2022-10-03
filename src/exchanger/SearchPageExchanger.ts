@@ -9,17 +9,17 @@ export class SearchPageExchanger extends AbstractExchanger {
         ]
     }
 
-    doExchange(elementSnap: ElementSnap, rateProvider: (currency: string) => number): boolean {
+    doExchange(elementSnap: ElementSnap, rate: number): boolean {
         const strike = elementSnap.element.querySelector('strike')
         // 原价
         if (strike && strike.textContent) {
-            strike.textContent = this.doExChange(strike.textContent, rateProvider)
+            strike.textContent = this.doExChange(strike.textContent, rate)
 
             // 现价
             // @ts-ignore
             const textNode = elementSnap.element.firstChild.nextSibling.nextSibling.nextSibling
             if (textNode && textNode.nodeValue) {
-                textNode.nodeValue = this.doExChange(textNode.nodeValue, rateProvider)
+                textNode.nodeValue = this.doExChange(textNode.nodeValue, rate)
             }
             return true
         }

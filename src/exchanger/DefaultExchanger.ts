@@ -32,10 +32,10 @@ export class DefaultExchanger extends AbstractExchanger {
         ]
     }
 
-    doExchange(elementSnap: ElementSnap, rateProvider: (currency: string) => number): boolean {
+    doExchange(elementSnap: ElementSnap, rate: number): boolean {
         // 提取货币代码和货币量
         // @ts-ignore match 方法已经检查过了，不可能为 null
-        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rateProvider)
+        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rate)
         return true
     }
 }

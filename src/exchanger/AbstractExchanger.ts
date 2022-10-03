@@ -57,25 +57,23 @@ export abstract class AbstractExchanger {
     /**
      * 具体操作
      * @param elementSnap 选择器选择到的元素快照
-     * @param rateProvider 使用汇率获取汇率的提供者
+     * @param rate 汇率
      * @return 处理结果
      */
-    abstract doExchange(elementSnap: ElementSnap, rateProvider: (currency: string) => number): boolean
+    abstract doExchange(elementSnap: ElementSnap, rate: number): boolean
 
     /**
      * 具体操作,执行替换字符
      * @param originalContent 原始内容
-     * @param rateProvider 使用汇率获取汇率的提供者
+     * @param rate 汇率
      * @return 替换后的内容
      * @return 处理结果
      */
-    protected doExChange(originalContent: string, rateProvider: (currency: string) => number): string {
+    protected doExChange(originalContent: string, rate: number): string {
         const safeContent = originalContent.trim()
             .replaceAll(/\(.+$/g, '')
             .trim()
-        const currency = this.getCurrency(safeContent)
         const price = this.getPrice(safeContent)
-        const rate = rateProvider(currency)
         // console.log('safeContent', safeContent, 'currency', currency, 'price', price, 'rate', rate)
         const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
         return `${safeContent}(¥${cnyPrice})`
@@ -87,28 +85,6 @@ export abstract class AbstractExchanger {
      */
     afterExchange(elementSnap: ElementSnap): void {
         elementSnap.element.classList.add(exchangedClassName)
-    }
-
-    /**
-     * 提取获取货币代码 eg: ARS$ 1.399,53
-     * @param content 包含货币和价格的字符串
-     */
-    getCurrency(content: string): string {
-        // ARS$ 1.399,53
-        let matches = content.match(/[a-zA-Z]+/)
-        if (matches) {
-            return matches[0]
-        }
-        // $1.2
-        matches = content.match(/\D+/)
-        if (matches) {
-            return matches[0]
-        }
-        console.log('Currency', content)
-        if (!matches) {
-            throw Error('提取获取货币代码失败：content:' + content)
-        }
-        return matches[0]
     }
 
     /**

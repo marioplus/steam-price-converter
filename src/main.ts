@@ -58,7 +58,15 @@ async function doExchange() {
     console.log('获取货币代码', county)
 
     // 获取汇率
+    let rate: number | undefined
     await ExchangeRateManager.instance.refreshRate()
+        .then(resRate => rate = resRate.rates.get(county.currencyCode))
+
+    if (!rate) {
+        throw Error('获取汇率失败')
+    } else {
+        console.log('rate', rate)
+    }
 
     // 注册观察者
     const priceObserver = new MutationObserver(mutations => {
@@ -69,7 +77,7 @@ async function doExchange() {
             if (!priceEls || priceEls.length === 0) {
                 return
             }
-            await ExchangerManager.instance.doExchange(priceEls)
+            await ExchangerManager.instance.doExchange(priceEls, <number>rate)
         })
     })
     priceObserver.observe(document, {
