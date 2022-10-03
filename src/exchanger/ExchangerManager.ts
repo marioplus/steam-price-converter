@@ -1,6 +1,7 @@
 import {AbstractExchanger} from './AbstractExchanger'
 import {HomePageExchanger} from './HomePageExchanger'
 import {ExchangeRateManager} from '../remote/ExchangeRateManager'
+import {SearchPageExchanger} from './SearchPageExchanger'
 
 const currencies = new Map([
     ['HK', 'HKD']
@@ -22,7 +23,8 @@ export class ExchangerManager {
 
     private constructor() {
         this.exchangers = [
-            new HomePageExchanger()
+            new HomePageExchanger(),
+            new SearchPageExchanger()
         ]
     }
 

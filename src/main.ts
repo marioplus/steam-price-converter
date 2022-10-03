@@ -11,6 +11,15 @@ GM_addStyle(`
     .discount_final_price {
       display: inline-block !important;
     }
+    
+    .search_result_row
+    .col.search_price {
+      width: 175px;
+    }
+    .search_result_row
+    .col.search_name {
+      width: 200px;
+    }
 `)
 
 const priceObserver = new MutationObserver(mutations => {
