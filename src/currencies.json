@@ -1,0 +1,674 @@
+[
+    {
+        "county": "Albania",
+        "currency": "Lek",
+        "currencyCode": "ALL",
+        "symbol": "Lek"
+    },
+    {
+        "county": "Afghanistan",
+        "currency": "Afghani",
+        "currencyCode": "AFN",
+        "symbol": "؋"
+    },
+    {
+        "county": "Argentina",
+        "currency": "Peso",
+        "currencyCode": "ARS",
+        "symbol": "$"
+    },
+    {
+        "county": "Aruba",
+        "currency": "Guilder",
+        "currencyCode": "AWG",
+        "symbol": "ƒ"
+    },
+    {
+        "county": "Australia",
+        "currency": "Dollar",
+        "currencyCode": "AUD",
+        "symbol": "$"
+    },
+    {
+        "county": "Azerbaijan",
+        "currency": "Manat",
+        "currencyCode": "AZN",
+        "symbol": "₼"
+    },
+    {
+        "county": "Bahamas",
+        "currency": "Dollar",
+        "currencyCode": "BSD",
+        "symbol": "$"
+    },
+    {
+        "county": "Barbados",
+        "currency": "Dollar",
+        "currencyCode": "BBD",
+        "symbol": "$"
+    },
+    {
+        "county": "Belarus",
+        "currency": "Ruble",
+        "currencyCode": "BYR",
+        "symbol": "p."
+    },
+    {
+        "county": "Belize",
+        "currency": "Dollar",
+        "currencyCode": "BZD",
+        "symbol": "BZ$"
+    },
+    {
+        "county": "Bermuda",
+        "currency": "Dollar",
+        "currencyCode": "BMD",
+        "symbol": "$"
+    },
+    {
+        "county": "Bolivia",
+        "currency": "Boliviano",
+        "currencyCode": "BOB",
+        "symbol": "$b"
+    },
+    {
+        "county": "Bosnia and Herzegovina",
+        "currency": "Convertible Marka",
+        "currencyCode": "BAM",
+        "symbol": "KM"
+    },
+    {
+        "county": "Botswana",
+        "currency": "Pula",
+        "currencyCode": "BWP",
+        "symbol": "P"
+    },
+    {
+        "county": "Bulgaria",
+        "currency": "Lev",
+        "currencyCode": "BGN",
+        "symbol": "лв"
+    },
+    {
+        "county": "Brazil",
+        "currency": "Real",
+        "currencyCode": "BRL",
+        "symbol": "R$"
+    },
+    {
+        "county": "Brunei",
+        "currency": "Darussalam Dollar",
+        "currencyCode": "BND",
+        "symbol": "$"
+    },
+    {
+        "county": "Cambodia",
+        "currency": "Riel",
+        "currencyCode": "KHR",
+        "symbol": "៛"
+    },
+    {
+        "county": "Canada",
+        "currency": "Dollar",
+        "currencyCode": "CAD",
+        "symbol": "$"
+    },
+    {
+        "county": "Cayman",
+        "currency": "Dollar",
+        "currencyCode": "KYD",
+        "symbol": "$"
+    },
+    {
+        "county": "Chile",
+        "currency": "Peso",
+        "currencyCode": "CLP",
+        "symbol": "$"
+    },
+    {
+        "county": "China",
+        "currency": "Yuan Renminbi",
+        "currencyCode": "CNY",
+        "symbol": "¥"
+    },
+    {
+        "county": "Colombia",
+        "currency": "Peso",
+        "currencyCode": "COP",
+        "symbol": "$"
+    },
+    {
+        "county": "Costa Rica",
+        "currency": "Colon",
+        "currencyCode": "CRC",
+        "symbol": "₡"
+    },
+    {
+        "county": "Croatia",
+        "currency": "Kuna",
+        "currencyCode": "HRK",
+        "symbol": "kn"
+    },
+    {
+        "county": "Cuba",
+        "currency": "Peso",
+        "currencyCode": "CUP",
+        "symbol": "₱"
+    },
+    {
+        "county": "Czech Republic",
+        "currency": "Koruna",
+        "currencyCode": "CZK",
+        "symbol": "Kč"
+    },
+    {
+        "county": "Denmark",
+        "currency": "Krone",
+        "currencyCode": "DKK",
+        "symbol": "kr"
+    },
+    {
+        "county": "Dominican Republic",
+        "currency": "Peso",
+        "currencyCode": "DOP",
+        "symbol": "RD$"
+    },
+    {
+        "county": "Egypt",
+        "currency": "Pound",
+        "currencyCode": "EGP",
+        "symbol": "£"
+    },
+    {
+        "county": "El Salvador",
+        "currency": "Colon",
+        "currencyCode": "SVC",
+        "symbol": "$"
+    },
+    {
+        "county": "Estonia",
+        "currency": "Kroon",
+        "currencyCode": "EEK",
+        "symbol": "kr"
+    },
+    {
+        "county": "Euro Member",
+        "currency": "Euro",
+        "currencyCode": "EUR",
+        "symbol": "€"
+    },
+    {
+        "county": "Falkland Islands",
+        "currency": "Pound",
+        "currencyCode": "FKP",
+        "symbol": "£"
+    },
+    {
+        "county": "Fiji",
+        "currency": "Dollar",
+        "currencyCode": "FJD",
+        "symbol": "$"
+    },
+    {
+        "county": "Georgia",
+        "currency": "Lari",
+        "currencyCode": "GEL",
+        "symbol": "₾"
+    },
+    {
+        "county": "Ghana",
+        "currency": "Cedis",
+        "currencyCode": "GHC",
+        "symbol": "¢"
+    },
+    {
+        "county": "Gibraltar",
+        "currency": "Pound",
+        "currencyCode": "GIP",
+        "symbol": "£"
+    },
+    {
+        "county": "Guatemala",
+        "currency": "Quetzal",
+        "currencyCode": "GTQ",
+        "symbol": "Q"
+    },
+    {
+        "county": "Guernsey",
+        "currency": "Pound",
+        "currencyCode": "GGP",
+        "symbol": "£"
+    },
+    {
+        "county": "Guyana",
+        "currency": "Dollar",
+        "currencyCode": "GYD",
+        "symbol": "$"
+    },
+    {
+        "county": "Honduras",
+        "currency": "Lempira",
+        "currencyCode": "HNL",
+        "symbol": "L"
+    },
+    {
+        "county": "Hong Kong",
+        "currency": "Dollar",
+        "currencyCode": "HKD",
+        "symbol": "$"
+    },
+    {
+        "county": "Hungary",
+        "currency": "Forint",
+        "currencyCode": "HUF",
+        "symbol": "Ft"
+    },
+    {
+        "county": "Iceland",
+        "currency": "Krona",
+        "currencyCode": "ISK",
+        "symbol": "kr"
+    },
+    {
+        "county": "India",
+        "currency": "Rupee",
+        "currencyCode": "INR",
+        "symbol": "₹"
+    },
+    {
+        "county": "Indonesia",
+        "currency": "Rupiah",
+        "currencyCode": "IDR",
+        "symbol": "Rp"
+    },
+    {
+        "county": "Iran",
+        "currency": "Rial",
+        "currencyCode": "IRR",
+        "symbol": "﷼"
+    },
+    {
+        "county": "Isle of Man",
+        "currency": "Pound",
+        "currencyCode": "IMP",
+        "symbol": "£"
+    },
+    {
+        "county": "Israel",
+        "currency": "Shekel",
+        "currencyCode": "ILS",
+        "symbol": "₪"
+    },
+    {
+        "county": "Jamaica",
+        "currency": "Dollar",
+        "currencyCode": "JMD",
+        "symbol": "J$"
+    },
+    {
+        "county": "Japan",
+        "currency": "Yen",
+        "currencyCode": "JPY",
+        "symbol": "¥"
+    },
+    {
+        "county": "Jersey",
+        "currency": "Pound",
+        "currencyCode": "JEP",
+        "symbol": "£"
+    },
+    {
+        "county": "Kazakhstan",
+        "currency": "Tenge",
+        "currencyCode": "KZT",
+        "symbol": "лв"
+    },
+    {
+        "county": "Korea (North)",
+        "currency": "Won",
+        "currencyCode": "KPW",
+        "symbol": "₩"
+    },
+    {
+        "county": "Korea (South)",
+        "currency": "Won",
+        "currencyCode": "KRW",
+        "symbol": "₩"
+    },
+    {
+        "county": "Kyrgyzstan",
+        "currency": "Som",
+        "currencyCode": "KGS",
+        "symbol": "лв"
+    },
+    {
+        "county": "Laos",
+        "currency": "Kip",
+        "currencyCode": "LAK",
+        "symbol": "₭"
+    },
+    {
+        "county": "Latvia",
+        "currency": "Lat",
+        "currencyCode": "LVL",
+        "symbol": "Ls"
+    },
+    {
+        "county": "Lebanon",
+        "currency": "Pound",
+        "currencyCode": "LBP",
+        "symbol": "£"
+    },
+    {
+        "county": "Liberia",
+        "currency": "Dollar",
+        "currencyCode": "LRD",
+        "symbol": "$"
+    },
+    {
+        "county": "Lithuania",
+        "currency": "Litas",
+        "currencyCode": "LTL",
+        "symbol": "Lt"
+    },
+    {
+        "county": "Macedonia",
+        "currency": "Denar",
+        "currencyCode": "MKD",
+        "symbol": "ден"
+    },
+    {
+        "county": "Malaysia",
+        "currency": "Ringgit",
+        "currencyCode": "MYR",
+        "symbol": "RM"
+    },
+    {
+        "county": "Mauritius",
+        "currency": "Rupee",
+        "currencyCode": "MUR",
+        "symbol": "₨"
+    },
+    {
+        "county": "Mexico",
+        "currency": "Peso",
+        "currencyCode": "MXN",
+        "symbol": "$"
+    },
+    {
+        "county": "Mongolia",
+        "currency": "Tughrik",
+        "currencyCode": "MNT",
+        "symbol": "₮"
+    },
+    {
+        "county": "Mozambique",
+        "currency": "Metical",
+        "currencyCode": "MZN",
+        "symbol": "MT"
+    },
+    {
+        "county": "Namibia",
+        "currency": "Dollar",
+        "currencyCode": "NAD",
+        "symbol": "$"
+    },
+    {
+        "county": "Nepal",
+        "currency": "Rupee",
+        "currencyCode": "NPR",
+        "symbol": "₨"
+    },
+    {
+        "county": "Netherlands",
+        "currency": "Antilles Guilder",
+        "currencyCode": "ANG",
+        "symbol": "ƒ"
+    },
+    {
+        "county": "New Zealand",
+        "currency": "Dollar",
+        "currencyCode": "NZD",
+        "symbol": "$"
+    },
+    {
+        "county": "Nicaragua",
+        "currency": "Cordoba",
+        "currencyCode": "NIO",
+        "symbol": "C$"
+    },
+    {
+        "county": "Nigeria",
+        "currency": "Naira",
+        "currencyCode": "NGN",
+        "symbol": "₦"
+    },
+    {
+        "county": "Norway",
+        "currency": "Krone",
+        "currencyCode": "NOK",
+        "symbol": "kr"
+    },
+    {
+        "county": "Oman",
+        "currency": "Rial",
+        "currencyCode": "OMR",
+        "symbol": "﷼"
+    },
+    {
+        "county": "Pakistan",
+        "currency": "Rupee",
+        "currencyCode": "PKR",
+        "symbol": "₨"
+    },
+    {
+        "county": "Panama",
+        "currency": "Balboa",
+        "currencyCode": "PAB",
+        "symbol": "B/."
+    },
+    {
+        "county": "Paraguay",
+        "currency": "Guarani",
+        "currencyCode": "PYG",
+        "symbol": "Gs"
+    },
+    {
+        "county": "Peru",
+        "currency": "Nuevo Sol",
+        "currencyCode": "PEN",
+        "symbol": "S/."
+    },
+    {
+        "county": "Philippines",
+        "currency": "Peso",
+        "currencyCode": "PHP",
+        "symbol": "₱"
+    },
+    {
+        "county": "Poland",
+        "currency": "Zloty",
+        "currencyCode": "PLN",
+        "symbol": "zł"
+    },
+    {
+        "county": "Qatar",
+        "currency": "Riyal",
+        "currencyCode": "QAR",
+        "symbol": "﷼"
+    },
+    {
+        "county": "Romania",
+        "currency": "New Leu",
+        "currencyCode": "RON",
+        "symbol": "lei"
+    },
+    {
+        "county": "Russia",
+        "currency": "Ruble",
+        "currencyCode": "RUB",
+        "symbol": "₽"
+    },
+    {
+        "county": "Saint Helena",
+        "currency": "Pound",
+        "currencyCode": "SHP",
+        "symbol": "£"
+    },
+    {
+        "county": "Saudi Arabia",
+        "currency": "Riyal",
+        "currencyCode": "SAR",
+        "symbol": "﷼"
+    },
+    {
+        "county": "Serbia",
+        "currency": "Dinar",
+        "currencyCode": "RSD",
+        "symbol": "Дин."
+    },
+    {
+        "county": "Seychelles",
+        "currency": "Rupee",
+        "currencyCode": "SCR",
+        "symbol": "₨"
+    },
+    {
+        "county": "Singapore",
+        "currency": "Dollar",
+        "currencyCode": "SGD",
+        "symbol": "$"
+    },
+    {
+        "county": "Solomon Islands",
+        "currency": "Dollar",
+        "currencyCode": "SBD",
+        "symbol": "$"
+    },
+    {
+        "county": "Somalia",
+        "currency": "Shilling",
+        "currencyCode": "SOS",
+        "symbol": "S"
+    },
+    {
+        "county": "South Africa",
+        "currency": "Rand",
+        "currencyCode": "ZAR",
+        "symbol": "R"
+    },
+    {
+        "county": "Sri Lanka",
+        "currency": "Rupee",
+        "currencyCode": "LKR",
+        "symbol": "₨"
+    },
+    {
+        "county": "Sweden",
+        "currency": "Krona",
+        "currencyCode": "SEK",
+        "symbol": "kr"
+    },
+    {
+        "county": "Switzerland",
+        "currency": "Franc",
+        "currencyCode": "CHF",
+        "symbol": "CHF"
+    },
+    {
+        "county": "Suriname",
+        "currency": "Dollar",
+        "currencyCode": "SRD",
+        "symbol": "$"
+    },
+    {
+        "county": "Syria",
+        "currency": "Pound",
+        "currencyCode": "SYP",
+        "symbol": "£"
+    },
+    {
+        "county": "Taiwan",
+        "currency": "New Dollar",
+        "currencyCode": "TWD",
+        "symbol": "NT$"
+    },
+    {
+        "county": "Thailand",
+        "currency": "Baht",
+        "currencyCode": "THB",
+        "symbol": "฿"
+    },
+    {
+        "county": "Trinidad and Tobago",
+        "currency": "Dollar",
+        "currencyCode": "TTD",
+        "symbol": "TT$"
+    },
+    {
+        "county": "Turkey",
+        "currency": "Lira",
+        "currencyCode": "TRL",
+        "symbol": "₺"
+    },
+    {
+        "county": "Tuvalu",
+        "currency": "Dollar",
+        "currencyCode": "TVD",
+        "symbol": "$"
+    },
+    {
+        "county": "Ukraine",
+        "currency": "Hryvna",
+        "currencyCode": "UAH",
+        "symbol": "₴"
+    },
+    {
+        "county": "United Kingdom",
+        "currency": "Pound",
+        "currencyCode": "GBP",
+        "symbol": "£"
+    },
+    {
+        "county": "United States",
+        "currency": "Dollar",
+        "currencyCode": "USD",
+        "symbol": "$"
+    },
+    {
+        "county": "Uruguay",
+        "currency": "Peso",
+        "currencyCode": "UYU",
+        "symbol": "$U"
+    },
+    {
+        "county": "Uzbekistan",
+        "currency": "Som",
+        "currencyCode": "UZS",
+        "symbol": "лв"
+    },
+    {
+        "county": "Venezuela",
+        "currency": "Bolivar Fuerte",
+        "currencyCode": "VEF",
+        "symbol": "Bs"
+    },
+    {
+        "county": "Viet Nam",
+        "currency": "Dong",
+        "currencyCode": "VND",
+        "symbol": "₫"
+    },
+    {
+        "county": "Yemen",
+        "currency": "Rial",
+        "currencyCode": "YER",
+        "symbol": "﷼"
+    },
+    {
+        "county": "Zimbabwe",
+        "currency": "Dollar",
+        "currencyCode": "ZWD",
+        "symbol": "Z$"
+    }
+]

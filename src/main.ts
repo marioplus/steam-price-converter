@@ -1,7 +1,8 @@
 import 'reflect-metadata'
 import {GM_addStyle} from 'vite-plugin-monkey/dist/client'
 import {ExchangerManager} from './exchanger/ExchangerManager'
-// import rate1 from './rate.json'
+import {counties} from './County'
+import {ExchangeRateManager} from './remote/ExchangeRateManager'
 
 GM_addStyle(`
     .tab_item_discount {
@@ -27,21 +28,52 @@ GM_addStyle(`
       width: 160px;
     }
 `)
+// 获取国家代码
+let countyCode: string = ''
+document.querySelectorAll('script').forEach(scriptEl => {
+    if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
+        countyCode = scriptEl.innerText.trim()
+            .split(';')[5]
+            .split(',')[16]
+            .replaceAll(/'/g, '')
+            .trim()
+    }
+})
+if (!countyCode || countyCode.length === 0) {
+    throw Error('获取国家代码失败！')
+}
+console.log('countyCode', countyCode)
+if (countyCode === 'CN') {
+    console.log('人名币无需转换')
+} else {
+    await doExchange()
+}
 
-const priceObserver = new MutationObserver(mutations => {
-    mutations.forEach(async mutation => {
-        const target = <HTMLElement>mutation.target
-        const selector = ExchangerManager.instance.getSelector()
-        const priceEls = target.querySelectorAll(selector)
-        if (!priceEls || priceEls.length === 0) {
-            return
-        }
-        await ExchangerManager.instance.doExchange(priceEls)
+async function doExchange() {
+    // 获取货币代码
+    const county = counties.get(countyCode)
+    if (!county) {
+        throw Error('获取货币代码失败')
+    }
+    console.log('获取货币代码', county)
+
+    // 获取汇率
+    await ExchangeRateManager.instance.refreshRate()
+
+    // 注册观察者
+    const priceObserver = new MutationObserver(mutations => {
+        mutations.forEach(async mutation => {
+            const target = <HTMLElement>mutation.target
+            const selector = ExchangerManager.instance.getSelector()
+            const priceEls = target.querySelectorAll(selector)
+            if (!priceEls || priceEls.length === 0) {
+                return
+            }
+            await ExchangerManager.instance.doExchange(priceEls)
+        })
     })
-})
-
-priceObserver.observe(document, {
-    childList: true,
-    subtree: true,
-})
-
+    priceObserver.observe(document, {
+        childList: true,
+        subtree: true,
+    })
+}

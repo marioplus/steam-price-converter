@@ -4,8 +4,15 @@ import {ExchangeRateManager} from '../remote/ExchangeRateManager'
 import {SearchPageExchanger} from './SearchPageExchanger'
 
 const currencies = new Map([
+    // 香港
     ['HK', 'HKD'],
-    ['$','USD']
+    // 台湾
+    ['NT','TWD'],
+    // 美国
+    ['$','USD'],
+    // 新加坡
+    ['S','SGD'],
+    //
 ])
 export const exchangedClassName = 'spe-exchanged'
 

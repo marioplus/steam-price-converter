@@ -27,7 +27,7 @@ export abstract class AbstractExchanger {
         }
 
         // 不处理人名币
-        if (content.startsWith("¥")){
+        if (content.startsWith('¥')) {
             return false
         }
 
@@ -76,6 +76,7 @@ export abstract class AbstractExchanger {
         const currency = this.getCurrency(safeContent)
         const price = this.getPrice(safeContent)
         const rate = rateProvider(currency)
+        // console.log('safeContent', safeContent, 'currency', currency, 'price', price, 'rate', rate)
         const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
         return `${safeContent}(¥${cnyPrice})`
     }

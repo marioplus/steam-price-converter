@@ -1,0 +1,1202 @@
+[
+    {
+        "county": "Afghanistan",
+        "countyCode": "+93",
+        "countyIsoCode": "AF"
+    },
+    {
+        "county": "Albania",
+        "countyCode": "+355",
+        "countyIsoCode": "AL"
+    },
+    {
+        "county": "Algeria",
+        "countyCode": "+213",
+        "countyIsoCode": "DZ"
+    },
+    {
+        "county": "American Samoa",
+        "countyCode": "+1-684",
+        "countyIsoCode": "AS"
+    },
+    {
+        "county": "Andorra",
+        "countyCode": "+376",
+        "countyIsoCode": "AD"
+    },
+    {
+        "county": "Angola",
+        "countyCode": "+244",
+        "countyIsoCode": "AO"
+    },
+    {
+        "county": "Anguilla",
+        "countyCode": "+1-264",
+        "countyIsoCode": "AI"
+    },
+    {
+        "county": "Antarctica",
+        "countyCode": "+672",
+        "countyIsoCode": "AQ"
+    },
+    {
+        "county": "Antigua and Barbuda",
+        "countyCode": "+1-268",
+        "countyIsoCode": "AG"
+    },
+    {
+        "county": "Argentina",
+        "countyCode": "+54",
+        "countyIsoCode": "AR"
+    },
+    {
+        "county": "Armenia",
+        "countyCode": "+374",
+        "countyIsoCode": "AM"
+    },
+    {
+        "county": "Aruba",
+        "countyCode": "+297",
+        "countyIsoCode": "AW"
+    },
+    {
+        "county": "Australia",
+        "countyCode": "+61",
+        "countyIsoCode": "AU"
+    },
+    {
+        "county": "Austria",
+        "countyCode": "+43",
+        "countyIsoCode": "AT"
+    },
+    {
+        "county": "Azerbaijan",
+        "countyCode": "+994",
+        "countyIsoCode": "AZ"
+    },
+    {
+        "county": "Bahamas",
+        "countyCode": "+1-242",
+        "countyIsoCode": "BS"
+    },
+    {
+        "county": "Bahrain",
+        "countyCode": "+973",
+        "countyIsoCode": "BH"
+    },
+    {
+        "county": "Bangladesh",
+        "countyCode": "+880",
+        "countyIsoCode": "BD"
+    },
+    {
+        "county": "Barbados",
+        "countyCode": "+1-246",
+        "countyIsoCode": "BB"
+    },
+    {
+        "county": "Belarus",
+        "countyCode": "+375",
+        "countyIsoCode": "BY"
+    },
+    {
+        "county": "Belgium",
+        "countyCode": "+32",
+        "countyIsoCode": "BE"
+    },
+    {
+        "county": "Belize",
+        "countyCode": "+501",
+        "countyIsoCode": "BZ"
+    },
+    {
+        "county": "Benin",
+        "countyCode": "+229",
+        "countyIsoCode": "BJ"
+    },
+    {
+        "county": "Bermuda",
+        "countyCode": "+1-441",
+        "countyIsoCode": "BM"
+    },
+    {
+        "county": "Bhutan",
+        "countyCode": "+975",
+        "countyIsoCode": "BT"
+    },
+    {
+        "county": "Bolivia",
+        "countyCode": "+591",
+        "countyIsoCode": "BO"
+    },
+    {
+        "county": "Bosnia and Herzegovina",
+        "countyCode": "+387",
+        "countyIsoCode": "BA"
+    },
+    {
+        "county": "Botswana",
+        "countyCode": "+267",
+        "countyIsoCode": "BW"
+    },
+    {
+        "county": "Brazil",
+        "countyCode": "+55",
+        "countyIsoCode": "BR"
+    },
+    {
+        "county": "British Indian Ocean Territory",
+        "countyCode": "+246",
+        "countyIsoCode": "IO"
+    },
+    {
+        "county": "British Virgin Islands",
+        "countyCode": "+1-284",
+        "countyIsoCode": "VG"
+    },
+    {
+        "county": "Brunei",
+        "countyCode": "+673",
+        "countyIsoCode": "BN"
+    },
+    {
+        "county": "Bulgaria",
+        "countyCode": "+359",
+        "countyIsoCode": "BG"
+    },
+    {
+        "county": "Burkina Faso",
+        "countyCode": "+226",
+        "countyIsoCode": "BF"
+    },
+    {
+        "county": "Burundi",
+        "countyCode": "+257",
+        "countyIsoCode": "BI"
+    },
+    {
+        "county": "Cambodia",
+        "countyCode": "+855",
+        "countyIsoCode": "KH"
+    },
+    {
+        "county": "Cameroon",
+        "countyCode": "+237",
+        "countyIsoCode": "CM"
+    },
+    {
+        "county": "Canada",
+        "countyCode": "+1",
+        "countyIsoCode": "CA"
+    },
+    {
+        "county": "Cape Verde",
+        "countyCode": "+238",
+        "countyIsoCode": "CV"
+    },
+    {
+        "county": "Cayman Islands",
+        "countyCode": "+1-345",
+        "countyIsoCode": "KY"
+    },
+    {
+        "county": "Central African Republic",
+        "countyCode": "+236",
+        "countyIsoCode": "CF"
+    },
+    {
+        "county": "Chad",
+        "countyCode": "+235",
+        "countyIsoCode": "TD"
+    },
+    {
+        "county": "Chile",
+        "countyCode": "+56",
+        "countyIsoCode": "CL"
+    },
+    {
+        "county": "China",
+        "countyCode": "+86",
+        "countyIsoCode": "CN"
+    },
+    {
+        "county": "Christmas Island",
+        "countyCode": "+61",
+        "countyIsoCode": "CX"
+    },
+    {
+        "county": "Cocos Islands",
+        "countyCode": "+61",
+        "countyIsoCode": "CC"
+    },
+    {
+        "county": "Colombia",
+        "countyCode": "+57",
+        "countyIsoCode": "CO"
+    },
+    {
+        "county": "Comoros",
+        "countyCode": "+269",
+        "countyIsoCode": "KM"
+    },
+    {
+        "county": "Cook Islands",
+        "countyCode": "+682",
+        "countyIsoCode": "CK"
+    },
+    {
+        "county": "Costa Rica",
+        "countyCode": "+506",
+        "countyIsoCode": "CR"
+    },
+    {
+        "county": "Croatia",
+        "countyCode": "+385",
+        "countyIsoCode": "HR"
+    },
+    {
+        "county": "Cuba",
+        "countyCode": "+53",
+        "countyIsoCode": "CU"
+    },
+    {
+        "county": "Curacao",
+        "countyCode": "+599",
+        "countyIsoCode": "CW"
+    },
+    {
+        "county": "Cyprus",
+        "countyCode": "+357",
+        "countyIsoCode": "CY"
+    },
+    {
+        "county": "Czech Republic",
+        "countyCode": "+420",
+        "countyIsoCode": "CZ"
+    },
+    {
+        "county": "Democratic Republic of the Congo",
+        "countyCode": "+243",
+        "countyIsoCode": "CD"
+    },
+    {
+        "county": "Denmark",
+        "countyCode": "+45",
+        "countyIsoCode": "DK"
+    },
+    {
+        "county": "Djibouti",
+        "countyCode": "+253",
+        "countyIsoCode": "DJ"
+    },
+    {
+        "county": "Dominica",
+        "countyCode": "+1-767",
+        "countyIsoCode": "DM"
+    },
+    {
+        "county": "Dominican Republic",
+        "countyCode": "+1-809",
+        "countyIsoCode": "DO"
+    },
+    {
+        "county": "East Timor",
+        "countyCode": "+670",
+        "countyIsoCode": "TL"
+    },
+    {
+        "county": "Ecuador",
+        "countyCode": "+593",
+        "countyIsoCode": "EC"
+    },
+    {
+        "county": "Egypt",
+        "countyCode": "+20",
+        "countyIsoCode": "EG"
+    },
+    {
+        "county": "El Salvador",
+        "countyCode": "+503",
+        "countyIsoCode": "SV"
+    },
+    {
+        "county": "Equatorial Guinea",
+        "countyCode": "+240",
+        "countyIsoCode": "GQ"
+    },
+    {
+        "county": "Eritrea",
+        "countyCode": "+291",
+        "countyIsoCode": "ER"
+    },
+    {
+        "county": "Estonia",
+        "countyCode": "+372",
+        "countyIsoCode": "EE"
+    },
+    {
+        "county": "Ethiopia",
+        "countyCode": "+251",
+        "countyIsoCode": "ET"
+    },
+    {
+        "county": "Falkland Islands",
+        "countyCode": "+500",
+        "countyIsoCode": "FK"
+    },
+    {
+        "county": "Faroe Islands",
+        "countyCode": "+298",
+        "countyIsoCode": "FO"
+    },
+    {
+        "county": "Fiji",
+        "countyCode": "+679",
+        "countyIsoCode": "FJ"
+    },
+    {
+        "county": "Finland",
+        "countyCode": "+358",
+        "countyIsoCode": "FI"
+    },
+    {
+        "county": "France",
+        "countyCode": "+33",
+        "countyIsoCode": "FR"
+    },
+    {
+        "county": "French Polynesia",
+        "countyCode": "+689",
+        "countyIsoCode": "PF"
+    },
+    {
+        "county": "Gabon",
+        "countyCode": "+241",
+        "countyIsoCode": "GA"
+    },
+    {
+        "county": "Gambia",
+        "countyCode": "+220",
+        "countyIsoCode": "GM"
+    },
+    {
+        "county": "Georgia",
+        "countyCode": "+995",
+        "countyIsoCode": "GE"
+    },
+    {
+        "county": "Germany",
+        "countyCode": "+49",
+        "countyIsoCode": "DE"
+    },
+    {
+        "county": "Ghana",
+        "countyCode": "+233",
+        "countyIsoCode": "GH"
+    },
+    {
+        "county": "Gibraltar",
+        "countyCode": "+350",
+        "countyIsoCode": "GI"
+    },
+    {
+        "county": "Greece",
+        "countyCode": "+30",
+        "countyIsoCode": "GR"
+    },
+    {
+        "county": "Greenland",
+        "countyCode": "+299",
+        "countyIsoCode": "GL"
+    },
+    {
+        "county": "Grenada",
+        "countyCode": "+1-473",
+        "countyIsoCode": "GD"
+    },
+    {
+        "county": "Guam",
+        "countyCode": "+1-671",
+        "countyIsoCode": "GU"
+    },
+    {
+        "county": "Guatemala",
+        "countyCode": "+502",
+        "countyIsoCode": "GT"
+    },
+    {
+        "county": "Guernsey",
+        "countyCode": "+44-1481",
+        "countyIsoCode": "GG"
+    },
+    {
+        "county": "Guinea",
+        "countyCode": "+224",
+        "countyIsoCode": "GN"
+    },
+    {
+        "county": "Guinea Bissau",
+        "countyCode": "+245",
+        "countyIsoCode": "GW"
+    },
+    {
+        "county": "Guyana",
+        "countyCode": "+592",
+        "countyIsoCode": "GY"
+    },
+    {
+        "county": "Haiti",
+        "countyCode": "+509",
+        "countyIsoCode": "HT"
+    },
+    {
+        "county": "Honduras",
+        "countyCode": "+504",
+        "countyIsoCode": "HN"
+    },
+    {
+        "county": "Hong Kong",
+        "countyCode": "+852",
+        "countyIsoCode": "HK"
+    },
+    {
+        "county": "Hungary",
+        "countyCode": "+36",
+        "countyIsoCode": "HU"
+    },
+    {
+        "county": "Iceland",
+        "countyCode": "+354",
+        "countyIsoCode": "IS"
+    },
+    {
+        "county": "India",
+        "countyCode": "+91",
+        "countyIsoCode": "IN"
+    },
+    {
+        "county": "Indonesia",
+        "countyCode": "+62",
+        "countyIsoCode": "ID"
+    },
+    {
+        "county": "Iran",
+        "countyCode": "+98",
+        "countyIsoCode": "IR"
+    },
+    {
+        "county": "Iraq",
+        "countyCode": "+964",
+        "countyIsoCode": "IQ"
+    },
+    {
+        "county": "Ireland",
+        "countyCode": "+353",
+        "countyIsoCode": "IE"
+    },
+    {
+        "county": "Isle of Man",
+        "countyCode": "+44-1624",
+        "countyIsoCode": "IM"
+    },
+    {
+        "county": "Israel",
+        "countyCode": "+972",
+        "countyIsoCode": "IL"
+    },
+    {
+        "county": "Italy",
+        "countyCode": "+39",
+        "countyIsoCode": "IT"
+    },
+    {
+        "county": "Ivory Coast",
+        "countyCode": "+225",
+        "countyIsoCode": "CI"
+    },
+    {
+        "county": "Jamaica",
+        "countyCode": "+1-876",
+        "countyIsoCode": "JM"
+    },
+    {
+        "county": "Japan",
+        "countyCode": "+81",
+        "countyIsoCode": "JP"
+    },
+    {
+        "county": "Jersey",
+        "countyCode": "+44-1534",
+        "countyIsoCode": "JE"
+    },
+    {
+        "county": "Jordan",
+        "countyCode": "+962",
+        "countyIsoCode": "JO"
+    },
+    {
+        "county": "Kazakhstan",
+        "countyCode": "+7",
+        "countyIsoCode": "KZ"
+    },
+    {
+        "county": "Kenya",
+        "countyCode": "+254",
+        "countyIsoCode": "KE"
+    },
+    {
+        "county": "Kiribati",
+        "countyCode": "+686",
+        "countyIsoCode": "KI"
+    },
+    {
+        "county": "Kosovo",
+        "countyCode": "+383",
+        "countyIsoCode": "XK"
+    },
+    {
+        "county": "Kuwait",
+        "countyCode": "+965",
+        "countyIsoCode": "KW"
+    },
+    {
+        "county": "Kyrgyzstan",
+        "countyCode": "+996",
+        "countyIsoCode": "KG"
+    },
+    {
+        "county": "Laos",
+        "countyCode": "+856",
+        "countyIsoCode": "LA"
+    },
+    {
+        "county": "Latvia",
+        "countyCode": "+371",
+        "countyIsoCode": "LV"
+    },
+    {
+        "county": "Lebanon",
+        "countyCode": "+961",
+        "countyIsoCode": "LB"
+    },
+    {
+        "county": "Lesotho",
+        "countyCode": "+266",
+        "countyIsoCode": "LS"
+    },
+    {
+        "county": "Liberia",
+        "countyCode": "+231",
+        "countyIsoCode": "LR"
+    },
+    {
+        "county": "Libya",
+        "countyCode": "+218",
+        "countyIsoCode": "LY"
+    },
+    {
+        "county": "Liechtenstein",
+        "countyCode": "+423",
+        "countyIsoCode": "LI"
+    },
+    {
+        "county": "Lithuania",
+        "countyCode": "+370",
+        "countyIsoCode": "LT"
+    },
+    {
+        "county": "Luxembourg",
+        "countyCode": "+352",
+        "countyIsoCode": "LU"
+    },
+    {
+        "county": "Macau",
+        "countyCode": "+853",
+        "countyIsoCode": "MO"
+    },
+    {
+        "county": "Macedonia",
+        "countyCode": "+389",
+        "countyIsoCode": "MK"
+    },
+    {
+        "county": "Madagascar",
+        "countyCode": "+261",
+        "countyIsoCode": "MG"
+    },
+    {
+        "county": "Malawi",
+        "countyCode": "+265",
+        "countyIsoCode": "MW"
+    },
+    {
+        "county": "Malaysia",
+        "countyCode": "+60",
+        "countyIsoCode": "MY"
+    },
+    {
+        "county": "Maldives",
+        "countyCode": "+960",
+        "countyIsoCode": "MV"
+    },
+    {
+        "county": "Mali",
+        "countyCode": "+223",
+        "countyIsoCode": "ML"
+    },
+    {
+        "county": "Malta",
+        "countyCode": "+356",
+        "countyIsoCode": "MT"
+    },
+    {
+        "county": "Marshall Islands",
+        "countyCode": "+692",
+        "countyIsoCode": "MH"
+    },
+    {
+        "county": "Mauritania",
+        "countyCode": "+222",
+        "countyIsoCode": "MR"
+    },
+    {
+        "county": "Mauritius",
+        "countyCode": "+230",
+        "countyIsoCode": "MU"
+    },
+    {
+        "county": "Mayotte",
+        "countyCode": "+262",
+        "countyIsoCode": "YT"
+    },
+    {
+        "county": "Mexico",
+        "countyCode": "+52",
+        "countyIsoCode": "MX"
+    },
+    {
+        "county": "Micronesia",
+        "countyCode": "+691",
+        "countyIsoCode": "FM"
+    },
+    {
+        "county": "Moldova",
+        "countyCode": "+373",
+        "countyIsoCode": "MD"
+    },
+    {
+        "county": "Monaco",
+        "countyCode": "+377",
+        "countyIsoCode": "MC"
+    },
+    {
+        "county": "Mongolia",
+        "countyCode": "+976",
+        "countyIsoCode": "MN"
+    },
+    {
+        "county": "Montenegro",
+        "countyCode": "+382",
+        "countyIsoCode": "ME"
+    },
+    {
+        "county": "Montserrat",
+        "countyCode": "+1-664",
+        "countyIsoCode": "MS"
+    },
+    {
+        "county": "Morocco",
+        "countyCode": "+212",
+        "countyIsoCode": "MA"
+    },
+    {
+        "county": "Mozambique",
+        "countyCode": "+258",
+        "countyIsoCode": "MZ"
+    },
+    {
+        "county": "Myanmar",
+        "countyCode": "+95",
+        "countyIsoCode": "MM"
+    },
+    {
+        "county": "Namibia",
+        "countyCode": "+264",
+        "countyIsoCode": "NA"
+    },
+    {
+        "county": "Nauru",
+        "countyCode": "+674",
+        "countyIsoCode": "NR"
+    },
+    {
+        "county": "Nepal",
+        "countyCode": "+977",
+        "countyIsoCode": "NP"
+    },
+    {
+        "county": "Netherlands",
+        "countyCode": "+31",
+        "countyIsoCode": "NL"
+    },
+    {
+        "county": "Netherlands Antilles",
+        "countyCode": "+599",
+        "countyIsoCode": "AN"
+    },
+    {
+        "county": "New Caledonia",
+        "countyCode": "+687",
+        "countyIsoCode": "NC"
+    },
+    {
+        "county": "New Zealand",
+        "countyCode": "+64",
+        "countyIsoCode": "NZ"
+    },
+    {
+        "county": "Nicaragua",
+        "countyCode": "+505",
+        "countyIsoCode": "NI"
+    },
+    {
+        "county": "Niger",
+        "countyCode": "+227",
+        "countyIsoCode": "NE"
+    },
+    {
+        "county": "Nigeria",
+        "countyCode": "+234",
+        "countyIsoCode": "NG"
+    },
+    {
+        "county": "Niue",
+        "countyCode": "+683",
+        "countyIsoCode": "NU"
+    },
+    {
+        "county": "North Korea",
+        "countyCode": "+850",
+        "countyIsoCode": "KP"
+    },
+    {
+        "county": "Northern Mariana Islands",
+        "countyCode": "+1-670",
+        "countyIsoCode": "MP"
+    },
+    {
+        "county": "Norway",
+        "countyCode": "+47",
+        "countyIsoCode": "NO"
+    },
+    {
+        "county": "Oman",
+        "countyCode": "+968",
+        "countyIsoCode": "OM"
+    },
+    {
+        "county": "Pakistan",
+        "countyCode": "+92",
+        "countyIsoCode": "PK"
+    },
+    {
+        "county": "Palau",
+        "countyCode": "+680",
+        "countyIsoCode": "PW"
+    },
+    {
+        "county": "Palestine",
+        "countyCode": "+970",
+        "countyIsoCode": "PS"
+    },
+    {
+        "county": "Panama",
+        "countyCode": "+507",
+        "countyIsoCode": "PA"
+    },
+    {
+        "county": "Papua New Guinea",
+        "countyCode": "+675",
+        "countyIsoCode": "PG"
+    },
+    {
+        "county": "Paraguay",
+        "countyCode": "+595",
+        "countyIsoCode": "PY"
+    },
+    {
+        "county": "Peru",
+        "countyCode": "+51",
+        "countyIsoCode": "PE"
+    },
+    {
+        "county": "Philippines",
+        "countyCode": "+63",
+        "countyIsoCode": "PH"
+    },
+    {
+        "county": "Pitcairn",
+        "countyCode": "+64",
+        "countyIsoCode": "PN"
+    },
+    {
+        "county": "Poland",
+        "countyCode": "+48",
+        "countyIsoCode": "PL"
+    },
+    {
+        "county": "Portugal",
+        "countyCode": "+351",
+        "countyIsoCode": "PT"
+    },
+    {
+        "county": "Puerto Rico",
+        "countyCode": "+1-787",
+        "countyIsoCode": "PR"
+    },
+    {
+        "county": "Qatar",
+        "countyCode": "+974",
+        "countyIsoCode": "QA"
+    },
+    {
+        "county": "Republic of the Congo",
+        "countyCode": "+242",
+        "countyIsoCode": "CG"
+    },
+    {
+        "county": "Reunion",
+        "countyCode": "+262",
+        "countyIsoCode": "RE"
+    },
+    {
+        "county": "Romania",
+        "countyCode": "+40",
+        "countyIsoCode": "RO"
+    },
+    {
+        "county": "Russia",
+        "countyCode": "+7",
+        "countyIsoCode": "RU"
+    },
+    {
+        "county": "Rwanda",
+        "countyCode": "+250",
+        "countyIsoCode": "RW"
+    },
+    {
+        "county": "Saint Barthelemy",
+        "countyCode": "+590",
+        "countyIsoCode": "BL"
+    },
+    {
+        "county": "Saint Helena",
+        "countyCode": "+290",
+        "countyIsoCode": "SH"
+    },
+    {
+        "county": "Saint Kitts and Nevis",
+        "countyCode": "+1-869",
+        "countyIsoCode": "KN"
+    },
+    {
+        "county": "Saint Lucia",
+        "countyCode": "+1-758",
+        "countyIsoCode": "LC"
+    },
+    {
+        "county": "Saint Martin",
+        "countyCode": "+590",
+        "countyIsoCode": "MF"
+    },
+    {
+        "county": "Saint Pierre and Miquelon",
+        "countyCode": "+508",
+        "countyIsoCode": "PM"
+    },
+    {
+        "county": "Saint Vincent and the Grenadines",
+        "countyCode": "+1-784",
+        "countyIsoCode": "VC"
+    },
+    {
+        "county": "Samoa",
+        "countyCode": "+685",
+        "countyIsoCode": "WS"
+    },
+    {
+        "county": "San Marino",
+        "countyCode": "+378",
+        "countyIsoCode": "SM"
+    },
+    {
+        "county": "Sao Tome and Principe",
+        "countyCode": "+239",
+        "countyIsoCode": "ST"
+    },
+    {
+        "county": "Saudi Arabia",
+        "countyCode": "+966",
+        "countyIsoCode": "SA"
+    },
+    {
+        "county": "Senegal",
+        "countyCode": "+221",
+        "countyIsoCode": "SN"
+    },
+    {
+        "county": "Serbia",
+        "countyCode": "+381",
+        "countyIsoCode": "RS"
+    },
+    {
+        "county": "Seychelles",
+        "countyCode": "+248",
+        "countyIsoCode": "SC"
+    },
+    {
+        "county": "Sierra Leone",
+        "countyCode": "+232",
+        "countyIsoCode": "SL"
+    },
+    {
+        "county": "Singapore",
+        "countyCode": "+65",
+        "countyIsoCode": "SG"
+    },
+    {
+        "county": "Sint Maarten",
+        "countyCode": "+1-721",
+        "countyIsoCode": "SX"
+    },
+    {
+        "county": "Slovakia",
+        "countyCode": "+421",
+        "countyIsoCode": "SK"
+    },
+    {
+        "county": "Slovenia",
+        "countyCode": "+386",
+        "countyIsoCode": "SI"
+    },
+    {
+        "county": "Solomon Islands",
+        "countyCode": "+677",
+        "countyIsoCode": "SB"
+    },
+    {
+        "county": "Somalia",
+        "countyCode": "+252",
+        "countyIsoCode": "SO"
+    },
+    {
+        "county": "South Africa",
+        "countyCode": "+27",
+        "countyIsoCode": "ZA"
+    },
+    {
+        "county": "South Korea",
+        "countyCode": "+82",
+        "countyIsoCode": "KR"
+    },
+    {
+        "county": "South Sudan",
+        "countyCode": "+211",
+        "countyIsoCode": "SS"
+    },
+    {
+        "county": "Spain",
+        "countyCode": "+34",
+        "countyIsoCode": "ES"
+    },
+    {
+        "county": "Sri Lanka",
+        "countyCode": "+94",
+        "countyIsoCode": "LK"
+    },
+    {
+        "county": "Sudan",
+        "countyCode": "+249",
+        "countyIsoCode": "SD"
+    },
+    {
+        "county": "Suriname",
+        "countyCode": "+597",
+        "countyIsoCode": "SR"
+    },
+    {
+        "county": "Svalbard and Jan Mayen",
+        "countyCode": "+47",
+        "countyIsoCode": "SJ"
+    },
+    {
+        "county": "Swaziland",
+        "countyCode": "+268",
+        "countyIsoCode": "SZ"
+    },
+    {
+        "county": "Sweden",
+        "countyCode": "+46",
+        "countyIsoCode": "SE"
+    },
+    {
+        "county": "Switzerland",
+        "countyCode": "+41",
+        "countyIsoCode": "CH"
+    },
+    {
+        "county": "Syria",
+        "countyCode": "+963",
+        "countyIsoCode": "SY"
+    },
+    {
+        "county": "Taiwan",
+        "countyCode": "+886",
+        "countyIsoCode": "TW"
+    },
+    {
+        "county": "Tajikistan",
+        "countyCode": "+992",
+        "countyIsoCode": "TJ"
+    },
+    {
+        "county": "Tanzania",
+        "countyCode": "+255",
+        "countyIsoCode": "TZ"
+    },
+    {
+        "county": "Thailand",
+        "countyCode": "+66",
+        "countyIsoCode": "TH"
+    },
+    {
+        "county": "Togo",
+        "countyCode": "+228",
+        "countyIsoCode": "TG"
+    },
+    {
+        "county": "Tokelau",
+        "countyCode": "+690",
+        "countyIsoCode": "TK"
+    },
+    {
+        "county": "Tonga",
+        "countyCode": "+676",
+        "countyIsoCode": "TO"
+    },
+    {
+        "county": "Trinidad and Tobago",
+        "countyCode": "+1-868",
+        "countyIsoCode": "TT"
+    },
+    {
+        "county": "Tunisia",
+        "countyCode": "+216",
+        "countyIsoCode": "TN"
+    },
+    {
+        "county": "Turkey",
+        "countyCode": "+90",
+        "countyIsoCode": "TR"
+    },
+    {
+        "county": "Turkmenistan",
+        "countyCode": "+993",
+        "countyIsoCode": "TM"
+    },
+    {
+        "county": "Turks and Caicos Islands",
+        "countyCode": "+1-649",
+        "countyIsoCode": "TC"
+    },
+    {
+        "county": "Tuvalu",
+        "countyCode": "+688",
+        "countyIsoCode": "TV"
+    },
+    {
+        "county": "U.S. Virgin Islands",
+        "countyCode": "+1-340",
+        "countyIsoCode": "VI"
+    },
+    {
+        "county": "Uganda",
+        "countyCode": "+256",
+        "countyIsoCode": "UG"
+    },
+    {
+        "county": "Ukraine",
+        "countyCode": "+380",
+        "countyIsoCode": "UA"
+    },
+    {
+        "county": "United Arab Emirates",
+        "countyCode": "+971",
+        "countyIsoCode": "AE"
+    },
+    {
+        "county": "United Kingdom",
+        "countyCode": "+44",
+        "countyIsoCode": "GB"
+    },
+    {
+        "county": "United States",
+        "countyCode": "+1",
+        "countyIsoCode": "US"
+    },
+    {
+        "county": "Uruguay",
+        "countyCode": "+598",
+        "countyIsoCode": "UY"
+    },
+    {
+        "county": "Uzbekistan",
+        "countyCode": "+998",
+        "countyIsoCode": "UZ"
+    },
+    {
+        "county": "Vanuatu",
+        "countyCode": "+678",
+        "countyIsoCode": "VU"
+    },
+    {
+        "county": "Vatican",
+        "countyCode": "+379",
+        "countyIsoCode": "VA"
+    },
+    {
+        "county": "Venezuela",
+        "countyCode": "+58",
+        "countyIsoCode": "VE"
+    },
+    {
+        "county": "Vietnam",
+        "countyCode": "+84",
+        "countyIsoCode": "VN"
+    },
+    {
+        "county": "Wallis and Futuna",
+        "countyCode": "+681",
+        "countyIsoCode": "WF"
+    },
+    {
+        "county": "Western Sahara",
+        "countyCode": "+212",
+        "countyIsoCode": "EH"
+    },
+    {
+        "county": "Yemen",
+        "countyCode": "+967",
+        "countyIsoCode": "YE"
+    },
+    {
+        "county": "Zambia",
+        "countyCode": "+260",
+        "countyIsoCode": "ZM"
+    },
+    {
+        "county": "Zimbabwe",
+        "countyCode": "+263",
+        "countyIsoCode": "ZW"
+    }
+]
