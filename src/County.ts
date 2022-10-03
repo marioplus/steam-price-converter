@@ -111,4 +111,6 @@ export const counties = new Map<string, County>([
     ['VE', {'countyCode': 'VE', 'name': 'Venezuela', 'currencyCode': 'VEF'}],
     ['YE', {'countyCode': 'YE', 'name': 'Yemen', 'currencyCode': 'YER'}],
     ['ZW', {'countyCode': 'ZW', 'name': 'Zimbabwe', 'currencyCode': 'ZWD'}],
+    ['KR', {'countyCode': 'KR', 'name': 'South Korea', 'currencyCode': 'KRW'}],
+    ['KP', {'countyCode': 'KR', 'name': 'North Korea', 'currencyCode': 'KPW'}],
 ])
