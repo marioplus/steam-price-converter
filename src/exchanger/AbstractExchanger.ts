@@ -87,7 +87,6 @@ export abstract class AbstractExchanger {
      * @param content 包含货币和价格的字符串
      */
     getPrice(content: string) {
-        debugger
         const matches = content.match(/\d.+/)
         if (!matches) {
             throw Error('提取价格失败：content:' + content)
@@ -98,7 +97,7 @@ export abstract class AbstractExchanger {
         // 139953
         let price = Number.parseInt(priceStr)
         // 小数点 1399.53
-        if (content.match(/\D\d\d/)) {
+        if (content.match(/\D\d\d$/)) {
             price = price / 100
         }
         return price
