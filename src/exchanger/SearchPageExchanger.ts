@@ -25,7 +25,7 @@ export class SearchPageExchanger extends AbstractExchanger {
         }
 
         // @ts-ignore match 方法已经检查过了，不可能为 null
-        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rateProvider)
+        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rate)
 
         return true
     }

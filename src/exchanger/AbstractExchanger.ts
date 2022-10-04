@@ -83,11 +83,18 @@ export abstract class AbstractExchanger {
     }
 
     /**
-     * 提取获取价格 eg: ARS$ 1.399,53 $1.2
+     * 提取获取价格 eg: ARS$ 1.399,53pd. $1.23
      * @param content 包含货币和价格的字符串
      */
     getPrice(content: string) {
-        const matches = content.match(/\d.+/)
+        /*
+         * 1                1
+         * 1.0              1.0
+         * 1.               1
+         * ARS$ 1.399,53    1.399,53
+         * 1.399,53€        1.399,53
+         */
+        const matches = content.match(/(?<=^\D*)\d+[\d,.]*?(?=\D*$)/)
         if (!matches) {
             throw Error('提取价格失败：content:' + content)
         }
