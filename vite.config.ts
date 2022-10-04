@@ -9,7 +9,7 @@ export default defineConfig({
             userscript: {
                 name: 'steam价格转换',
                 author: 'marioplus',
-                description: 'steam商店中的价格转换为人名币',
+                description: 'steam商店中的价格转换为人民币',
                 version: '1.0.0',
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
