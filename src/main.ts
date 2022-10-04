@@ -28,6 +28,8 @@ GM_addStyle(`
       width: 160px;
     }
 `)
+
+
 // 获取国家代码
 let countyCode: string = ''
 try {
@@ -92,3 +94,4 @@ async function doExchange() {
         subtree: true,
     })
 }
+

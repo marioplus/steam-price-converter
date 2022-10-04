@@ -69,7 +69,7 @@ export abstract class AbstractExchanger {
             .replaceAll(/\(.+$/g, '')
             .trim()
         const price = this.getPrice(safeContent)
-        // console.log('safeContent', safeContent, 'currency', currency, 'price', price, 'rate', rate)
+        console.log('safeContent', safeContent, 'price', price, 'rate', rate)
         const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
         return `${safeContent}(¥${cnyPrice})`
     }
@@ -97,7 +97,7 @@ export abstract class AbstractExchanger {
         // 139953
         let price = Number.parseInt(priceStr)
         // 小数点 1399.53
-        if (priceStr.match(/\D\d\d$/)) {
+        if (matches[0].match(/\D\d\d$/)) {
             price = price / 100
         }
         return price
