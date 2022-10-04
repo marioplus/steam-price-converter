@@ -97,7 +97,7 @@ export abstract class AbstractExchanger {
         // 139953
         let price = Number.parseInt(priceStr)
         // 小数点 1399.53
-        if (content.match(/\D\d\d$/)) {
+        if (priceStr.match(/\D\d\d$/)) {
             price = price / 100
         }
         return price
