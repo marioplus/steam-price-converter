@@ -12,7 +12,7 @@ export default defineConfig({
                 description: 'steam商店中的价格转换为人名币',
                 version: '1.0.0',
                 icon: 'https://vitejs.dev/logo.svg',
-                namespace: 'marioplus/steam-price-converter',
+                namespace: 'https://github.com/marioplus/steam-price-converter',
                 match: [
                     'https://store.steampowered.com/*',
                     'https://steamcommunity.com/*'
