@@ -17,6 +17,10 @@ export default defineConfig({
                 match: [
                     'http*://*.steampowered.com/*',
                     'http*://*.steamcommunity.com/*'
+                ],
+                connect:[
+                    'open.er-api.com',
+                    'store.steampowered.com'
                 ]
             },
         }),

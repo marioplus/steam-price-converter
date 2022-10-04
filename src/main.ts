@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import {GM_addStyle} from 'vite-plugin-monkey/dist/client'
+import {GM_addStyle, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ExchangerManager} from './exchanger/ExchangerManager'
 import {counties} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
@@ -29,33 +29,59 @@ GM_addStyle(`
     }
 `)
 
-
 // 获取国家代码
-let countyCode: string = ''
-try {
-    document.querySelectorAll('script').forEach(scriptEl => {
-        if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
-            countyCode = scriptEl.innerText.trim()
-                .replaceAll(/[\n\t\s ]/g, '')
-                .split(';')
-                .filter(str => str.startsWith('GDynamicStore.Init'))[0]
-                .split(',')[16]
-                .replaceAll(/'/g, '')
-                .trim()
-        }
-    })
-} catch (e) {
-    throw ('获取国家代码失败！')
-}
+let countyCode: string = await getCountyCode()
 if (!countyCode || countyCode.length === 0) {
     throw Error('获取国家代码失败！')
 }
+
 console.log('countyCode', countyCode)
 
 if (countyCode === 'CN') {
     console.log('人名币无需转换')
 } else {
     await doExchange()
+}
+
+async function getCountyCode(): Promise<string> {
+    let countyCode: string | null = null
+    // 商店页面直接抓取
+    if (window.location.href.includes('store.steampowered.com')) {
+        document.querySelectorAll('script').forEach(scriptEl => {
+            if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
+                countyCode = scriptEl.innerText.trim()
+                    .replaceAll(/[\n\t\s ]/g, '')
+                    .split(';')
+                    .filter(str => str.startsWith('GDynamicStore.Init'))[0]
+                    .split(',')[16]
+                    .replaceAll(/'/g, '')
+                    .trim()
+            }
+        })
+        if (countyCode) {
+            return countyCode
+        }
+        throw Error('获取国家代码失败')
+    }
+
+    // 非商店页面请求商店首页抓取
+    await new Promise<string>(resolve => GM_xmlhttpRequest({
+        url: 'https://store.steampowered.com/',
+        onload: response => resolve(response.responseText)
+    }))
+        .then(res => {
+            const match = res.match(/(?<=GDynamicStore.Init\(.+')[A-Z][A-Z](?=',)/)
+            if (!match || match.length <= 0) {
+                throw Error('获取国家代码失败')
+            }
+            countyCode = match[0]
+        })
+
+    if (countyCode) {
+        return countyCode
+    }
+
+    throw Error('获取国家代码失败')
 }
 
 async function doExchange() {
