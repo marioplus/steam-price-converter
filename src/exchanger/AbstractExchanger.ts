@@ -69,7 +69,7 @@ export abstract class AbstractExchanger {
             .replaceAll(/\(.+$/g, '')
             .trim()
         const price = this.getPrice(safeContent)
-        console.log('safeContent', safeContent, 'price', price, 'rate', rate)
+        // console.log('safeContent', safeContent, 'price', price, 'rate', rate)
         const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
         return `${safeContent}(¥${cnyPrice})`
     }
@@ -79,7 +79,8 @@ export abstract class AbstractExchanger {
      * @param elementSnap 选择器选择到的元素快照
      */
     afterExchange(elementSnap: ElementSnap): void {
-        elementSnap.element.classList.add(exchangedClassName)
+        elementSnap.element
+        return
     }
 
     /**

@@ -103,21 +103,27 @@ async function doExchange() {
         console.log('rate', rate)
     }
 
+    const exchangerManager = ExchangerManager.instance
+    // 手动触发一次
+    const elements = document.querySelectorAll(exchangerManager.getSelector())
+    exchangerManager.doExchange(elements, rate)
+
     // 注册观察者
     const priceObserver = new MutationObserver(mutations => {
         mutations.forEach(async mutation => {
             const target = <HTMLElement>mutation.target
-            const selector = ExchangerManager.instance.getSelector()
+            const selector = exchangerManager.getSelector()
             const priceEls = target.querySelectorAll(selector)
             if (!priceEls || priceEls.length === 0) {
                 return
             }
-            await ExchangerManager.instance.doExchange(priceEls, <number>rate)
+            await exchangerManager.doExchange(priceEls, <number>rate)
         })
     })
     priceObserver.observe(document, {
         childList: true,
         subtree: true,
     })
+
 }
 

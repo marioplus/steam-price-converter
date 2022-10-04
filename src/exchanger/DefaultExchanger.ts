@@ -21,7 +21,8 @@ export class DefaultExchanger extends AbstractExchanger {
             // 总余额
             '#marketWalletBalanceAmount',
             // 列表
-            '.normal_price .normal_price',
+            'span.normal_price[data-price]',
+            'span.sale_price',
             // 求购、求售统计
             '.market_commodity_orders_header_promote:nth-child(even)',
             // 求购、求售列表
