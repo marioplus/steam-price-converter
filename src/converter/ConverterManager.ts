@@ -1,6 +1,6 @@
-import {AbstractExchanger} from './AbstractExchanger'
-import {DefaultExchanger} from './DefaultExchanger'
-import {SearchPageExchanger} from './SearchPageExchanger'
+import {AbstractConverter} from './AbstractConverter'
+import {DefaultConverter} from './DefaultConverter'
+import {SearchPageConverter} from './SearchPageConverter'
 
 export const exchangedClassName = 'spe-exchanged'
 
@@ -11,16 +11,16 @@ export type ElementSnap = {
     readonly attributes: NamedNodeMap
 }
 
-export class ExchangerManager {
+export class ConverterManager {
 
-    static instance: ExchangerManager = new ExchangerManager()
+    static instance: ConverterManager = new ConverterManager()
 
-    private exchangers: AbstractExchanger[]
+    private exchangers: AbstractConverter[]
 
     private constructor() {
         this.exchangers = [
-            new DefaultExchanger(),
-            new SearchPageExchanger()
+            new DefaultConverter(),
+            new SearchPageConverter()
         ]
     }
 
@@ -32,7 +32,7 @@ export class ExchangerManager {
             .join(', ')
     }
 
-    doExchange(elements: NodeListOf<Element>, rate: number) {
+    convert(elements: NodeListOf<Element>, rate: number) {
         if (!elements) {
             return
         }
@@ -51,7 +51,7 @@ export class ExchangerManager {
 
                     // 转换后续操作
                     if (exchanged) {
-                        exchanger.afterExchange(elementSnap)
+                        exchanger.afterConvert(elementSnap)
                     }
                 })
         })

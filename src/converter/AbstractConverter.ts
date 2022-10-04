@@ -1,6 +1,6 @@
-import {ElementSnap, exchangedClassName} from './ExchangerManager'
+import {ElementSnap, exchangedClassName} from './ConverterManager'
 
-export abstract class AbstractExchanger {
+export abstract class AbstractConverter {
 
     /**
      * 获取css选择器
@@ -78,7 +78,7 @@ export abstract class AbstractExchanger {
      * 替换之后的操作
      * @param elementSnap 选择器选择到的元素快照
      */
-    afterExchange(elementSnap: ElementSnap): void {
+    afterConvert(elementSnap: ElementSnap): void {
         elementSnap.element
         return
     }

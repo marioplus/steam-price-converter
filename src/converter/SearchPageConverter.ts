@@ -1,7 +1,7 @@
-import {AbstractExchanger} from './AbstractExchanger'
-import {ElementSnap} from './ExchangerManager'
+import {AbstractConverter} from './AbstractConverter'
+import {ElementSnap} from './ConverterManager'
 
-export class SearchPageExchanger extends AbstractExchanger {
+export class SearchPageConverter extends AbstractConverter {
 
     getCssSelectors(): string[] {
         return [

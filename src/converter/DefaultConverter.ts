@@ -1,7 +1,7 @@
-import {AbstractExchanger} from './AbstractExchanger'
-import {ElementSnap} from './ExchangerManager'
+import {AbstractConverter} from './AbstractConverter'
+import {ElementSnap} from './ConverterManager'
 
-export class DefaultExchanger extends AbstractExchanger {
+export class DefaultConverter extends AbstractConverter {
 
     getCssSelectors(): string[] {
         return [

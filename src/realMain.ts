@@ -1,5 +1,5 @@
 import {GM_addStyle, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
-import {ExchangerManager} from './exchanger/ExchangerManager'
+import {ConverterManager} from './converter/ConverterManager'
 import {counties} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
 
@@ -41,7 +41,7 @@ export async function main() {
     if (countyCode === 'CN') {
         console.log('人名币无需转换')
     } else {
-        await doExchange(countyCode)
+        await convert(countyCode)
     }
 
 }
@@ -87,7 +87,7 @@ async function getCountyCode(): Promise<string> {
     throw Error('获取国家代码失败')
 }
 
-async function doExchange(countyCode: string) {
+async function convert(countyCode: string) {
     // 获取货币代码
     const county = counties.get(countyCode)
     if (!county) {
@@ -106,10 +106,10 @@ async function doExchange(countyCode: string) {
         console.log('rate', rate)
     }
 
-    const exchangerManager = ExchangerManager.instance
+    const exchangerManager = ConverterManager.instance
     // 手动触发一次
     const elements = document.querySelectorAll(exchangerManager.getSelector())
-    exchangerManager.doExchange(elements, rate)
+    exchangerManager.convert(elements, rate)
 
     // 注册观察者
     const priceObserver = new MutationObserver(mutations => {
@@ -120,7 +120,7 @@ async function doExchange(countyCode: string) {
             if (!priceEls || priceEls.length === 0) {
                 return
             }
-            await exchangerManager.doExchange(priceEls, <number>rate)
+            await exchangerManager.convert(priceEls, <number>rate)
         })
     })
     priceObserver.observe(document, {
