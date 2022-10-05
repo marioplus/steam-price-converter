@@ -1,3 +1,3 @@
-import {main} from './realMain'
+import {main} from './RealMain'
 
 (async () => await main())()
