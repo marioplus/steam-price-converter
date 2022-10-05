@@ -20,10 +20,15 @@ export class DefaultConverter extends AbstractConverter {
             '.game_purchase_price.price',
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
+
             // 购物车
             '.cart_item_price > div.price',
             '#cart_estimated_total',
             '.game_purchase_action_bg > .price',
+            // 购物车 复核
+            '.checkout_review_item_price > .price',
+            '#review_subtotal_value.price',
+            '#review_total_value.price',
 
             // iframe
             '.game_purchase_price.price',
