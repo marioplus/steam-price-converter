@@ -1,34 +1,11 @@
-import {GM_addStyle, GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
+import {GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ConverterManager} from './converter/ConverterManager'
 import {counties} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
+import './stype.css'
 
 
 export async function main() {
-    GM_addStyle(`
-    .tab_item_discount {
-      min-width: 113px !important;
-      width: unset;
-    }
-    .discount_final_price {
-      display: inline-block !important;
-    }
-    
-    /*商店搜索列表*/
-    .search_result_row
-    .col.search_price {
-      width: 175px;
-    }
-    .search_result_row
-    .col.search_name {
-      width: 200px;
-    }
-    
-    /*市场列表*/
-    .market_listing_their_price {
-      width: 160px;
-    }
-`)
 
     // 获取国家代码
     let countyCode: string = await getCountyCode()
