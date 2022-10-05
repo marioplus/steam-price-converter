@@ -16,9 +16,17 @@ export class DefaultConverter extends AbstractConverter {
             // 新版卡片
             '.salepreviewwidgets_StoreOriginalPrice_1EKGZ',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8',
-
+            // 分类查看游戏
             '.game_purchase_price.price',
+            '.contenthubshared_OriginalPrice_3hBh3',
+            '.contenthubshared_FinalPrice_F_tGv',
+            // 购物车
+            '.cart_item_price > div.price',
+            '#cart_estimated_total',
+            '.game_purchase_action_bg > .price',
 
+            // iframe
+            '.game_purchase_price.price',
             // 市场
             // 总余额
             '#marketWalletBalanceAmount',

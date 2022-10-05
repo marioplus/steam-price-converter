@@ -1,4 +1,4 @@
-import {GM_addStyle, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
+import {GM_addStyle, GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ConverterManager} from './converter/ConverterManager'
 import {counties} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
@@ -47,6 +47,16 @@ export async function main() {
 }
 
 async function getCountyCode(): Promise<string> {
+
+    if (self != top) {
+        return getCountyCodeInIframe()
+    } else {
+        return getCountyCodeNotInIframe()
+    }
+
+}
+
+async function getCountyCodeInIframe(): Promise<string> {
     let countyCode: string | null = null
     // 商店页面直接抓取
     if (window.location.href.includes('store.steampowered.com')) {
@@ -64,7 +74,44 @@ async function getCountyCode(): Promise<string> {
         if (countyCode) {
             return countyCode
         }
-        throw Error('获取国家代码失败')
+    }
+
+    // iframe 尝试从 cookie中获取
+    const iframeGetPromise = new Promise<string | null>(resolve => GM_cookie.list({name: 'steamCountry'}, cookies => {
+        if (cookies && cookies.length > 0) {
+            const match = cookies[0].value.match(/^[a-zA-Z][a-zA-Z]/)
+            if (match) {
+                resolve(match[0])
+            }
+        }
+        resolve(null)
+    }))
+    countyCode = await iframeGetPromise
+    if (countyCode) {
+        console.log('通过 cookie 获取国家代码 : ' + countyCode)
+        return countyCode
+    }
+    throw Error('获取国家代码失败')
+}
+
+async function getCountyCodeNotInIframe(): Promise<string> {
+    let countyCode: string | null = null
+    // 商店页面直接抓取
+    if (window.location.href.includes('store.steampowered.com')) {
+        document.querySelectorAll('script').forEach(scriptEl => {
+            if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
+                countyCode = scriptEl.innerText.trim()
+                    .replaceAll(/[\n\t\s ]/g, '')
+                    .split(';')
+                    .filter(str => str.startsWith('GDynamicStore.Init'))[0]
+                    .split(',')[16]
+                    .replaceAll(/'/g, '')
+                    .trim()
+            }
+        })
+        if (countyCode) {
+            return countyCode
+        }
     }
 
     // 非商店页面请求商店首页抓取
@@ -79,11 +126,9 @@ async function getCountyCode(): Promise<string> {
             }
             countyCode = match[0]
         })
-
     if (countyCode) {
         return countyCode
     }
-
     throw Error('获取国家代码失败')
 }
 
