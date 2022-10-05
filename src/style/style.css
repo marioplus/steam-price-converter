@@ -8,13 +8,11 @@
 }
 
 /*商店搜索列表*/
-.search_result_row,
-.col.search_price {
+.search_result_row .col.search_price {
     width: 175px;
 }
 
-.search_result_row,
-.col.search_name {
+.search_result_row .col.search_name {
     width: 200px;
 }
 
