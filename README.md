@@ -4,7 +4,7 @@
 
 ## 使用
 
-脚本托管于 [Greasy Fork](greasyforkhttps://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
+脚本托管于 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
 
 ## 开发
 
