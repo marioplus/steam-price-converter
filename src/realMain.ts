@@ -2,7 +2,7 @@ import {GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ConverterManager} from './converter/ConverterManager'
 import {counties} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
-import './stype.css'
+import './style.css'
 
 
 export async function main() {
