@@ -12,25 +12,17 @@ export async function main() {
     if (!countyCode || countyCode.length === 0) {
         throw Error('获取国家代码失败！')
     }
-
-    console.log('countyCode', countyCode)
-
+    console.log('成功获取到国家代码：', countyCode)
     if (countyCode === 'CN') {
-        console.log('人名币无需转换')
-    } else {
-        await convert(countyCode)
+        console.log('人民币无需转换')
+        return
     }
 
+    await convert(countyCode)
 }
 
 async function getCountyCode(): Promise<string> {
-
-    if (self != top) {
-        return getCountyCodeInIframe()
-    } else {
-        return getCountyCodeNotInIframe()
-    }
-
+    return self == top ? getCountyCodeNotInIframe() : getCountyCodeInIframe()
 }
 
 async function getCountyCodeInIframe(): Promise<string> {
