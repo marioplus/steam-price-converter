@@ -2,6 +2,10 @@
 
 一个 Tampermonkey 插件，能将 steam 商店和市场的的价格转换为人民币展示。理论上支持所有区域。
 
+## 使用
+
+脚本托管于 [Greasy Fork](greasyforkhttps://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
+
 ## 开发
 
 根据[此处](https://github.com/lisonge/vite-plugin-monkey/issues/1)提示关闭 Tampermonkey 的 CSP 检测
