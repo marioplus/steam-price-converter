@@ -6,7 +6,6 @@ import './stype.css'
 
 
 export async function main() {
-
     // 获取国家代码
     let countyCode: string = await getCountyCode()
     if (!countyCode || countyCode.length === 0) {
