@@ -17,6 +17,8 @@ export class DefaultConverter extends AbstractConverter {
             '.salepreviewwidgets_StoreOriginalPrice_1EKGZ',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8',
 
+            '.game_purchase_price.price',
+
             // 市场
             // 总余额
             '#marketWalletBalanceAmount',
