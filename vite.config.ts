@@ -1,5 +1,5 @@
 import {defineConfig} from 'vite'
-import monkey from 'vite-plugin-monkey'
+import monkey, {cdn} from 'vite-plugin-monkey'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,6 +22,11 @@ export default defineConfig({
                     'open.er-api.com',
                     'store.steampowered.com'
                 ]
+            },
+            build: {
+                externalGlobals: {
+                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.js')
+                }
             },
         }),
     ],
