@@ -43,10 +43,10 @@ export class DefaultConverter extends AbstractConverter {
         ]
     }
 
-    doExchange(elementSnap: ElementSnap, rate: number): boolean {
+    convert(elementSnap: ElementSnap, rate: number): boolean {
         // 提取货币代码和货币量
         // @ts-ignore match 方法已经检查过了，不可能为 null
-        elementSnap.element.textContent = this.doExChange(elementSnap.textContext, rate)
+        elementSnap.element.textContent = this.convertUseText(elementSnap.textContext, rate)
         return true
     }
 }

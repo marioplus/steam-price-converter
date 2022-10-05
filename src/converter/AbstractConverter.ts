@@ -55,7 +55,7 @@ export abstract class AbstractConverter {
      * @param rate 汇率
      * @return 处理结果
      */
-    abstract doExchange(elementSnap: ElementSnap, rate: number): boolean
+    abstract convert(elementSnap: ElementSnap, rate: number): boolean
 
     /**
      * 具体操作,执行替换字符
@@ -64,7 +64,7 @@ export abstract class AbstractConverter {
      * @return 替换后的内容
      * @return 处理结果
      */
-    protected doExChange(originalContent: string, rate: number): string {
+    protected convertUseText(originalContent: string, rate: number): string {
         const safeContent = originalContent.trim()
             .replaceAll(/\(.+$/g, '')
             .trim()
@@ -78,9 +78,8 @@ export abstract class AbstractConverter {
      * 替换之后的操作
      * @param elementSnap 选择器选择到的元素快照
      */
+    // @ts-ignore
     afterConvert(elementSnap: ElementSnap): void {
-        elementSnap.element
-        return
     }
 
     /**

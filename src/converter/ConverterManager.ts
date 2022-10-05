@@ -47,7 +47,7 @@ export class ConverterManager {
             this.exchangers
                 .filter(exchanger => exchanger.match(elementSnap))
                 .forEach(exchanger => {
-                    const exchanged = exchanger.doExchange(elementSnap, rate)
+                    const exchanged = exchanger.convert(elementSnap, rate)
 
                     // 转换后续操作
                     if (exchanged) {
