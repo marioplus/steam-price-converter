@@ -1,5 +1,5 @@
 import {GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
-import {XhrRequest} from 'vite-plugin-monkey/src/client/types'
+import {XhrRequest} from '$'
 import {Serializable} from '../Serializable'
 
 export class Http {

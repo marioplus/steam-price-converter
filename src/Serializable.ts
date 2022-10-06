@@ -58,9 +58,6 @@ export class Serializable<T extends Serializable<T>> {
 
     readJson(json: any): this {
         const anyThis: any = <any>this
-        // if (Object.keys(json).length === 0) {
-        //     return this
-        // }
         Object.keys(this).forEach(propKey => {
             const config = Reflect.getMetadata(metadataKey, this, propKey)
             const prop = anyThis[propKey]
