@@ -4,7 +4,7 @@ import log from 'loglevel'
 
 (async () => {
     log.setLevel('DEBUG')
-    // log.setLevel('INFO')
+    log.setLevel('INFO')
     // @ts-ignore
     const cn: County = counties.get('CN')
     await main(cn)
