@@ -7,12 +7,17 @@ type parseTextNodeFn = (element: Element) => ChildNode
 export class TextNodeConverter extends AbstractConverter {
 
     // @ts-ignore
-    targets: Map<string, parseTextNodeFn> = new Map<string, parseTextNodeFn>([
-        // @ts-ignore
-        ['.col.search_price.responsive_secondrow', el => el.firstChild.nextSibling.nextSibling.nextSibling],
-        ['#header_wallet_balance', el => el.firstChild],
+    targets: Map<string, parseTextNodeFn[]> = new Map<string, parseTextNodeFn[]>([
+        ['.col.search_price.responsive_secondrow',
+            [
+                // @ts-ignore
+                el => el.firstChild.nextSibling.nextSibling.nextSibling,
+                el => el.firstChild,
+            ],
+        ],
+        ['#header_wallet_balance', [el => el.firstChild]],
         // iframe
-        ['.game_purchase_price.price', el => el.firstChild],
+        ['.game_purchase_price.price', [el => el.firstChild]],
     ])
 
     getCssSelectors(): string[] {
@@ -26,31 +31,33 @@ export class TextNodeConverter extends AbstractConverter {
         this.targets.get(selector)
 
         // 拿到对应的 textNode
-        const parseNodeFn: parseTextNodeFn | undefined = this.targets.get(selector)
-        if (!parseNodeFn) {
+        const parseNodeFns: parseTextNodeFn[] | undefined = this.targets.get(selector)
+        if (!parseNodeFns) {
             return false
         }
 
-        const textNode = this.safeParseNode(selector, elementSnap.element, parseNodeFn)
+        const textNode = this.safeParseNode(selector, elementSnap.element, parseNodeFns)
         if (!textNode) {
             return false
         }
 
         // 转换
         const content = textNode.nodeValue
-        if (!content) {
+        if (!content || !content.trim()) {
             return false
         }
         textNode.nodeValue = convertPriceContent(content, rate)
         return true
     }
 
-    safeParseNode(selector: string, el: Element, fn: parseTextNodeFn): ChildNode | null {
-        try {
-            return fn(el)
-        } catch (e) {
-            console.debug('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
-            return null
+    safeParseNode(selector: string, el: Element, fns: parseTextNodeFn[]): ChildNode | null {
+        for (let fn of fns) {
+            try {
+                fn(el)
+            } catch (e) {
+                console.debug('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
+            }
         }
+        return null
     }
 }
