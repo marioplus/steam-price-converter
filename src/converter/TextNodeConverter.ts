@@ -43,7 +43,7 @@ export class TextNodeConverter extends AbstractConverter {
 
         // 转换
         const content = textNode.nodeValue
-        if (!content || !content.trim()) {
+        if (!content || content.trim().length === 0) {
             return false
         }
         textNode.nodeValue = convertPriceContent(content, rate)
@@ -53,7 +53,10 @@ export class TextNodeConverter extends AbstractConverter {
     safeParseNode(selector: string, el: Element, fns: parseTextNodeFn[]): ChildNode | null {
         for (let fn of fns) {
             try {
-                fn(el)
+                const node = fn(el)
+                if (node.nodeName === '#text' && node.nodeValue && node.nodeValue.length > 0) {
+                    return node
+                }
             } catch (e) {
                 console.debug('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
             }
