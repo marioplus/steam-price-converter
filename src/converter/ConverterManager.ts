@@ -1,6 +1,7 @@
 import {AbstractConverter} from './AbstractConverter'
 import {DefaultConverter} from './DefaultConverter'
 import {SearchPageConverter} from './SearchPageConverter'
+import log from 'loglevel'
 
 export type ElementSnap = {
     element: Element,
@@ -51,10 +52,10 @@ export class ConverterManager {
                             converter.afterConvert(elementSnap)
                         }
                     } catch (e) {
-                        console.log('转换失败请将下列内容反馈给开发者')
-                        console.error('==========================================')
-                        console.error(element)
-                        console.error('==========================================')
+                        log.error('转换失败请将下列内容反馈给开发者，右键 > 复制(copy) > 复制元素(copy element)')
+                        log.error('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓')
+                        log.error(element)
+                        log.error('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑')
                     }
                 })
         })

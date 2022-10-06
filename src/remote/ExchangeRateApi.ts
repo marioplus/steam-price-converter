@@ -1,6 +1,7 @@
 import {IRateApi} from './IRateApi'
 import {JsonAlias, JsonProperty, Serializable} from '../Serializable'
 import {Http} from './Http'
+import log from 'loglevel'
 
 
 export class RateRes extends Serializable<RateRes> {
@@ -35,7 +36,7 @@ export class RateRes extends Serializable<RateRes> {
 export class ExchangeRateApi implements IRateApi {
 
     async getRates(): Promise<Map<string, number>> {
-        console.log('通过 www.exchangerate-api.com 获取汇率')
+        log.info('通过 www.exchangerate-api.com 获取汇率')
         let rates: Map<string, number> = new Map<string, number>()
         await Http.get<RateRes>('https://open.er-api.com/v6/latest/CNY', RateRes)
             .then(res => rates = <Map<string, number>>res.rates)

@@ -1,4 +1,5 @@
 import {ElementSnap} from './ConverterManager'
+import log from 'loglevel'
 
 export abstract class AbstractConverter {
 
@@ -64,7 +65,7 @@ export abstract class AbstractConverter {
             .replaceAll(/\(.+$/g, '')
             .trim()
         const price = this.getPrice(safeContent)
-        // console.log('safeContent', safeContent, 'price', price, 'rate', rate)
+        log.debug('safeContent', safeContent, 'price', price)
         const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
         return `${safeContent}(¥${cnyPrice})`
     }

@@ -25,7 +25,8 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.js')
+                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.min.js'),
+                    'loglevel': cdn.jsdelivr('', 'loglevel.min.js'),
                 }
             },
         }),
