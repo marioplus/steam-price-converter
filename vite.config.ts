@@ -1,5 +1,5 @@
 import {defineConfig} from 'vite'
-import monkey, {cdn} from 'vite-plugin-monkey'
+import monkey from 'vite-plugin-monkey'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +13,7 @@ export default defineConfig({
                 version: '1.0.4',
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
+                homepage: 'https://github.com/marioplus',
                 license: 'AGPL-3.0-or-later',
                 match: [
                     'https://store.steampowered.com/*',
@@ -25,8 +26,8 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.js'),
-                }
+                    // 'reflect-metadata': cdn.jsdelivr('', 'Reflect.min.js'),
+                },
             },
         }),
     ]

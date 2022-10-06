@@ -4,5 +4,5 @@ import {counties, County} from './County'
 (async () => {
     // @ts-ignore
     const cn: County = counties.get('CN')
-    main(cn).then()
+    await main(cn)
 })()
