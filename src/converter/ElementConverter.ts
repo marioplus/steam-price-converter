@@ -24,16 +24,14 @@ export class ElementConverter extends AbstractConverter {
             '.contenthubshared_FinalPrice_F_tGv',
 
             // 购物车
-            '.cart_item_price > div.price',
+            '.original_price.price',
+            '.cart_item_price.with_discount > div.price:not(.original_price)',
             '#cart_estimated_total',
-            '.game_purchase_action_bg > .price',
             // 购物车 复核
             '.checkout_review_item_price > .price',
             '#review_subtotal_value.price',
             '#review_total_value.price',
 
-            // iframe
-            '.game_purchase_price.price',
             // 市场
             // 总余额
             '#marketWalletBalanceAmount',

@@ -11,6 +11,8 @@ export class TextNodeConverter extends AbstractConverter {
         // @ts-ignore
         ['.col.search_price.responsive_secondrow', el => el.firstChild.nextSibling.nextSibling.nextSibling],
         ['#header_wallet_balance', el => el.firstChild],
+        // iframe
+        ['.game_purchase_price.price', el => el.firstChild],
     ])
 
     getCssSelectors(): string[] {
@@ -28,7 +30,8 @@ export class TextNodeConverter extends AbstractConverter {
         if (!parseNodeFn) {
             return false
         }
-        const textNode = parseNodeFn(elementSnap.element)
+
+        const textNode = this.safeParseNode(selector, elementSnap.element, parseNodeFn)
         if (!textNode) {
             return false
         }
@@ -40,5 +43,14 @@ export class TextNodeConverter extends AbstractConverter {
         }
         textNode.nodeValue = convertPriceContent(content, rate)
         return true
+    }
+
+    safeParseNode(selector: string, el: Element, fn: parseTextNodeFn): ChildNode | null {
+        try {
+            return fn(el)
+        } catch (e) {
+            console.warn('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
+            return null
+        }
     }
 }
