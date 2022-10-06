@@ -26,7 +26,14 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    // 'reflect-metadata': cdn.jsdelivr('', 'Reflect.min.js'),
+                    'reflect-metadata': [
+                        'Reflect',
+                        `data:application/javascript,${encodeURIComponent(
+                            ';var Reflect=window.Reflect;'
+                        )}`,
+                        (version) =>
+                            `https://cdn.jsdelivr.net/npm/reflect-metadata@${version}/Reflect.min.js`,
+                    ],
                 },
             },
         }),
