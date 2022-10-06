@@ -2,7 +2,7 @@ import {IRateApi} from './IRateApi'
 import {ExchangeRateApi} from './ExchangeRateApi'
 import {JsonAlias, JsonProperty, Serializable} from '../Serializable'
 import {GM_getValue, GM_setValue} from 'vite-plugin-monkey/dist/client'
-import log from 'loglevel'
+
 
 const RateCacheStorageKey = 'Storage:RateCache'
 
@@ -47,7 +47,7 @@ export class ExchangeRateManager implements IRateApi {
         if (this.rateCache.expired()) {
 
             // 两小时过期时间
-            log.info('本地缓存已过期')
+            console.info('本地缓存已过期')
             this.rateCache.rates = await this.getRates()
             this.rateCache.expiredAt = new Date().getTime() + (1000 * 60 * 60)
             this.saveRateCache(this.rateCache)
@@ -57,14 +57,14 @@ export class ExchangeRateManager implements IRateApi {
     }
 
     private loadRateCache(): RateCache {
-        log.info('读取本地汇率缓存')
+        console.info('读取本地汇率缓存')
         const jsonString = GM_getValue(RateCacheStorageKey, '{}')
         const cache = new RateCache()
         return cache.readJsonString(jsonString)
     }
 
     private saveRateCache(rateCache: RateCache) {
-        log.info('保存本地汇率缓存')
+        console.info('保存本地汇率缓存')
         GM_setValue(RateCacheStorageKey, rateCache.toJsonString())
     }
 

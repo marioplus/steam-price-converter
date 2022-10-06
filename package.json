@@ -14,7 +14,6 @@
         "vite-plugin-monkey": "^2.5.0"
     },
     "dependencies": {
-        "loglevel": "^1.8.0",
         "reflect-metadata": "^0.1.13"
     }
 }

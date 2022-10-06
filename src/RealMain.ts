@@ -3,14 +3,13 @@ import {ConverterManager} from './converter/ConverterManager'
 import {counties, County} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
 import './style/style.css'
-import log from 'loglevel'
 
 
 export async function main(targetCounty: County) {
     // 获取国家代码
     let countyCode: string = await getCountyCode()
     if (targetCounty.code === countyCode) {
-        log.info(`${targetCounty.name}无需转换`)
+        console.info(`${targetCounty.name}无需转换`)
         return
     }
 
@@ -19,14 +18,14 @@ export async function main(targetCounty: County) {
     if (!currCounty) {
         throw Error('获取货币代码失败')
     }
-    log.info('获取货币代码', currCounty)
+    console.info('获取货币代码', currCounty)
 
     // 获取汇率
     let rate: number | undefined
     await ExchangeRateManager.instance.refreshRate()
         .then(resRate => rate = resRate.rates.get(currCounty.currencyCode))
     if (rate) {
-        log.info(`汇率：${rate}`)
+        console.info(`汇率：${rate}`)
     } else {
         throw Error('获取汇率失败')
     }
@@ -37,7 +36,7 @@ export async function main(targetCounty: County) {
 async function getCountyCode(): Promise<string> {
     const countyCode = self == top ? await getCountyCodeNotInIframe() : await getCountyCodeInIframe()
     if (countyCode) {
-        log.info('成功获取到国家代码：', countyCode)
+        console.info('成功获取到国家代码：', countyCode)
         return countyCode
     }
     throw Error('获取国家代码失败！')
@@ -75,7 +74,7 @@ async function getCountyCodeInIframe(): Promise<string> {
     }))
     countyCode = await iframeGetPromise
     if (countyCode) {
-        log.info('通过 cookie 获取国家代码 : ' + countyCode)
+        console.info('通过 cookie 获取国家代码 : ' + countyCode)
         return countyCode
     }
     throw Error('获取国家代码失败')

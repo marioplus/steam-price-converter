@@ -1,5 +1,3 @@
-import log from 'loglevel'
-
 /**
  * 提取获取价格
  * 1                1
@@ -49,7 +47,7 @@ export function convertPriceContent(originalContent: string, rate: number): stri
     const price = parsePrice(safeContent)
     const convertedPrice = convertPrice(price, rate)
     const finalContent = `${safeContent}(¥${convertedPrice})`
-    log.debug(
+    console.debug(
         `转换前文本  ：${safeContent}`,
         `提取到的价格：${price}`,
         `转换后的价格：${convertedPrice}`,

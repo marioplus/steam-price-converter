@@ -10,7 +10,7 @@ export default defineConfig({
                 name: 'steam价格转换',
                 author: 'marioplus',
                 description: 'steam商店中的价格转换为人民币',
-                version: '1.0.3',
+                version: '1.0.4',
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
                 license: 'AGPL-3.0-or-later',
@@ -25,8 +25,7 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.min.js'),
-                    'loglevel': cdn.jsdelivr('', 'loglevel.min.js'),
+                    'reflect-metadata': cdn.jsdelivr('', 'Reflect.js'),
                 }
             },
         }),
