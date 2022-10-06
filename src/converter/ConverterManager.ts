@@ -2,8 +2,6 @@ import {AbstractConverter} from './AbstractConverter'
 import {DefaultConverter} from './DefaultConverter'
 import {SearchPageConverter} from './SearchPageConverter'
 
-export const exchangedClassName = 'spe-exchanged'
-
 export type ElementSnap = {
     element: Element,
     readonly textContext: string | null,
@@ -15,20 +13,19 @@ export class ConverterManager {
 
     static instance: ConverterManager = new ConverterManager()
 
-    private exchangers: AbstractConverter[]
+    private converters: AbstractConverter[]
 
     private constructor() {
-        this.exchangers = [
+        this.converters = [
             new DefaultConverter(),
             new SearchPageConverter()
         ]
     }
 
     getSelector(): string {
-        return this.exchangers
+        return this.converters
             .map(exchanger => exchanger.getCssSelectors())
             .flat(1)
-            .map(selector => `${selector}:not(.${exchangedClassName})`)
             .join(', ')
     }
 
@@ -44,14 +41,20 @@ export class ConverterManager {
                 attributes: element.attributes
             }
 
-            this.exchangers
-                .filter(exchanger => exchanger.match(elementSnap))
-                .forEach(exchanger => {
-                    const exchanged = exchanger.convert(elementSnap, rate)
-
-                    // 转换后续操作
-                    if (exchanged) {
-                        exchanger.afterConvert(elementSnap)
+            this.converters
+                .filter(converter => converter.match(elementSnap))
+                .forEach(converter => {
+                    try {
+                        const exchanged = converter.convert(elementSnap, rate)
+                        // 转换后续操作
+                        if (exchanged) {
+                            converter.afterConvert(elementSnap)
+                        }
+                    } catch (e) {
+                        console.log('转换失败请将下列内容反馈给开发者')
+                        console.error('==========================================')
+                        console.error(element)
+                        console.error('==========================================')
                     }
                 })
         })

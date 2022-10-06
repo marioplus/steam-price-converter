@@ -1,27 +1,45 @@
 import {GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ConverterManager} from './converter/ConverterManager'
-import {counties} from './County'
+import {counties, County} from './County'
 import {ExchangeRateManager} from './remote/ExchangeRateManager'
 import './style/style.css'
 
 
-export async function main() {
+export async function main(targetCounty: County) {
     // 获取国家代码
     let countyCode: string = await getCountyCode()
-    if (!countyCode || countyCode.length === 0) {
-        throw Error('获取国家代码失败！')
-    }
-    console.log('成功获取到国家代码：', countyCode)
-    if (countyCode === 'CN') {
-        console.log('人民币无需转换')
+    if (targetCounty.code === countyCode) {
+        console.log(`${targetCounty.name}无需转换`)
         return
     }
 
-    await convert(countyCode)
+    // 获取货币代码
+    const currCounty = counties.get(countyCode)
+    if (!currCounty) {
+        throw Error('获取货币代码失败')
+    }
+    console.log('获取货币代码', currCounty)
+
+    // 获取汇率
+    let rate: number | undefined
+    await ExchangeRateManager.instance.refreshRate()
+        .then(resRate => rate = resRate.rates.get(currCounty.currencyCode))
+    if (rate) {
+        console.log(`汇率：${rate}`)
+    } else {
+        throw Error('获取汇率失败')
+    }
+
+    await convert(rate)
 }
 
 async function getCountyCode(): Promise<string> {
-    return self == top ? getCountyCodeNotInIframe() : getCountyCodeInIframe()
+    const countyCode = self == top ? await getCountyCodeNotInIframe() : await getCountyCodeInIframe()
+    if (countyCode) {
+        console.log('成功获取到国家代码：', countyCode)
+        return countyCode
+    }
+    throw Error('获取国家代码失败！')
 }
 
 async function getCountyCodeInIframe(): Promise<string> {
@@ -100,25 +118,7 @@ async function getCountyCodeNotInIframe(): Promise<string> {
     throw Error('获取国家代码失败')
 }
 
-async function convert(countyCode: string) {
-    // 获取货币代码
-    const county = counties.get(countyCode)
-    if (!county) {
-        throw Error('获取货币代码失败')
-    }
-    console.log('获取货币代码', county)
-
-    // 获取汇率
-    let rate: number | undefined
-    await ExchangeRateManager.instance.refreshRate()
-        .then(resRate => rate = resRate.rates.get(county.currencyCode))
-
-    if (!rate) {
-        throw Error('获取汇率失败')
-    } else {
-        console.log('rate', rate)
-    }
-
+async function convert(rate: number) {
     const exchangerManager = ConverterManager.instance
     // 手动触发一次
     const elements = document.querySelectorAll(exchangerManager.getSelector())
@@ -133,7 +133,7 @@ async function convert(countyCode: string) {
             if (!priceEls || priceEls.length === 0) {
                 return
             }
-            await exchangerManager.convert(priceEls, <number>rate)
+            exchangerManager.convert(priceEls, <number>rate)
         })
     })
     priceObserver.observe(document, {

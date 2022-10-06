@@ -1,4 +1,4 @@
-import {ElementSnap, exchangedClassName} from './ConverterManager'
+import {ElementSnap} from './ConverterManager'
 
 export abstract class AbstractConverter {
 
@@ -15,13 +15,8 @@ export abstract class AbstractConverter {
         if (!elementSnap || !elementSnap.element) {
             return false
         }
-        // 未处理过
-        if (elementSnap.element.classList.contains(exchangedClassName)) {
-            return false
-        }
 
         const content = elementSnap.textContext
-
         if (!content) {
             return false
         }
