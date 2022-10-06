@@ -1,5 +1,4 @@
 import {ElementSnap} from './ConverterManager'
-import log from 'loglevel'
 
 export abstract class AbstractConverter {
 
@@ -38,7 +37,9 @@ export abstract class AbstractConverter {
             return false
         }
         for (const selector of this.getCssSelectors()) {
-            if (parent.querySelector(selector)) {
+            const element = parent.querySelector(selector)
+            if (element && element === elementSnap.element) {
+                elementSnap.selector = selector
                 return true
             }
         }
@@ -54,55 +55,10 @@ export abstract class AbstractConverter {
     abstract convert(elementSnap: ElementSnap, rate: number): boolean
 
     /**
-     * 具体操作,执行替换字符
-     * @param originalContent 原始内容
-     * @param rate 汇率
-     * @return 替换后的内容
-     * @return 处理结果
-     */
-    protected convertUseText(originalContent: string, rate: number): string {
-        const safeContent = originalContent.trim()
-            .replaceAll(/\(.+$/g, '')
-            .trim()
-        const price = this.getPrice(safeContent)
-        log.debug('safeContent', safeContent, 'price', price)
-        const cnyPrice = Number.parseFloat((price / rate).toFixed(2))
-        return `${safeContent}(¥${cnyPrice})`
-    }
-
-    /**
      * 替换之后的操作
      * @param elementSnap 选择器选择到的元素快照
      */
     // @ts-ignore
     afterConvert(elementSnap: ElementSnap): void {
-    }
-
-    /**
-     * 提取获取价格 eg: ARS$ 1.399,53pd. $1.23
-     * @param content 包含货币和价格的字符串
-     */
-    getPrice(content: string) {
-        /*
-         * 1                1
-         * 1.0              1.0
-         * 1.               1
-         * ARS$ 1.399,53    1.399,53
-         * 1.399,53€        1.399,53
-         */
-        const matches = content.match(/(?<=^\D*)\d+[\d,.]*?(?=\D*$)/)
-        if (!matches) {
-            throw Error('提取价格失败：content:' + content)
-        }
-        // 1.399,53
-        let priceStr = matches[0]
-            .replaceAll(/\D/g, '')
-        // 139953
-        let price = Number.parseInt(priceStr)
-        // 小数点 1399.53
-        if (matches[0].match(/\D\d\d$/)) {
-            price = price / 100
-        }
-        return price
     }
 }

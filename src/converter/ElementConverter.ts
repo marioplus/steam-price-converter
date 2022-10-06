@@ -1,7 +1,8 @@
 import {AbstractConverter} from './AbstractConverter'
 import {ElementSnap} from './ConverterManager'
+import {convertPriceContent} from './ConvertUtils'
 
-export class DefaultConverter extends AbstractConverter {
+export class ElementConverter extends AbstractConverter {
 
     getCssSelectors(): string[] {
         return [
@@ -9,8 +10,9 @@ export class DefaultConverter extends AbstractConverter {
             // 首页
             '.discount_original_price',
             '.discount_final_price',
+            '.col.search_price.responsive_secondrow',
             // 头像旁边
-            '#header_wallet_balance',
+            '#header_wallet_balance > span.tooltip',
             // 愿望单总价值
             '.esi-wishlist-stat > .num',
             // 新版卡片
@@ -51,7 +53,7 @@ export class DefaultConverter extends AbstractConverter {
     convert(elementSnap: ElementSnap, rate: number): boolean {
         // 提取货币代码和货币量
         // @ts-ignore match 方法已经检查过了，不可能为 null
-        elementSnap.element.textContent = this.convertUseText(elementSnap.textContext, rate)
+        elementSnap.element.textContent = convertPriceContent(elementSnap.textContext, rate)
         return true
     }
 }

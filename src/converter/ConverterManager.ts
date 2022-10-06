@@ -1,13 +1,14 @@
 import {AbstractConverter} from './AbstractConverter'
-import {DefaultConverter} from './DefaultConverter'
-import {SearchPageConverter} from './SearchPageConverter'
+import {ElementConverter} from './ElementConverter'
+import {TextNodeConverter} from './TextNodeConverter'
 import log from 'loglevel'
 
 export type ElementSnap = {
     element: Element,
     readonly textContext: string | null,
     readonly classList: DOMTokenList,
-    readonly attributes: NamedNodeMap
+    readonly attributes: NamedNodeMap,
+    selector?: string
 }
 
 export class ConverterManager {
@@ -18,8 +19,8 @@ export class ConverterManager {
 
     private constructor() {
         this.converters = [
-            new DefaultConverter(),
-            new SearchPageConverter()
+            new ElementConverter(),
+            new TextNodeConverter(),
         ]
     }
 
@@ -52,10 +53,13 @@ export class ConverterManager {
                             converter.afterConvert(elementSnap)
                         }
                     } catch (e) {
+                        console.group('转换失败')
+                        log.error(e)
                         log.error('转换失败请将下列内容反馈给开发者，右键 > 复制(copy) > 复制元素(copy element)')
                         log.error('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓')
                         log.error(element)
                         log.error('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑')
+                        console.groupEnd()
                     }
                 })
         })
