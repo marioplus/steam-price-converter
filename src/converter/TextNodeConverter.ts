@@ -49,7 +49,7 @@ export class TextNodeConverter extends AbstractConverter {
         try {
             return fn(el)
         } catch (e) {
-            console.warn('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
+            console.debug('获取文本节点失败，但不确定该节点是否一定会出现。selector：' + selector)
             return null
         }
     }

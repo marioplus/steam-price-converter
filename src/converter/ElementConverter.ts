@@ -10,7 +10,7 @@ export class ElementConverter extends AbstractConverter {
             // 首页
             '.discount_original_price',
             '.discount_final_price',
-            '.col.search_price.responsive_secondrow',
+            '.col.search_price.responsive_secondrow strike',
             // 头像旁边
             '#header_wallet_balance > span.tooltip',
             // 愿望单总价值
