@@ -46,8 +46,6 @@ export class ElementConverter extends AbstractConverter {
             // 详情列表
             '.market_table_value > span',
             '.jqplot-highlighter-tooltip',
-            // 脚本兼容
-            '#mini_cart div.mini_price',
         ]
     }
 
