@@ -15,16 +15,17 @@ export class ElementConverter extends AbstractConverter {
             '#header_wallet_balance > span.tooltip',
             // 愿望单总价值
             '.esi-wishlist-stat > .num',
-            // 新版卡片
+            // // 新版卡片
             '.salepreviewwidgets_StoreOriginalPrice_1EKGZ',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8',
             // 分类查看游戏
             '.game_purchase_price.price',
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
+            '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
 
             // 购物车
-            '.original_price.price',
+            '.cart_item_price.with_discount > .original_price',
             '.cart_item_price.with_discount > div.price:not(.original_price)',
             '#cart_estimated_total',
             // 购物车 复核
@@ -45,6 +46,8 @@ export class ElementConverter extends AbstractConverter {
             // 详情列表
             '.market_table_value > span',
             '.jqplot-highlighter-tooltip',
+            // 脚本兼容
+            '#mini_cart div.mini_price',
         ]
     }
 
