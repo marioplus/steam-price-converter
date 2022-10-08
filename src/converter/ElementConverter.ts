@@ -46,6 +46,11 @@ export class ElementConverter extends AbstractConverter {
             // 详情列表
             '.market_table_value > span',
             '.jqplot-highlighter-tooltip',
+
+            // 消费记录
+            'tr.wallet_table_row > td.wht_total',
+            'tr.wallet_table_row > td.wht_wallet_change.wallet_column',
+            'tr.wallet_table_row > td.wht_wallet_balance.wallet_column',
         ]
     }
 
