@@ -86,13 +86,11 @@ async function getCountyCodeNotInIframe(): Promise<string> {
     if (window.location.href.includes('store.steampowered.com')) {
         document.querySelectorAll('script').forEach(scriptEl => {
             if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
-                countyCode = scriptEl.innerText.trim()
-                    .replaceAll(/[\n\t\s ]/g, '')
-                    .split(';')
-                    .filter(str => str.startsWith('GDynamicStore.Init'))[0]
-                    .split(',')[16]
-                    .replaceAll(/'/g, '')
-                    .trim()
+                const matcher = /(?<=')[A-Z]{2}(?!=')/g
+                const match = document.querySelectorAll('script')[24].innerText.match(matcher)
+                if (match){
+                    countyCode = match.toString()
+                }
             }
         })
         if (countyCode) {
