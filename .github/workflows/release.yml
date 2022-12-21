@@ -1,0 +1,101 @@
+name: Deploy to GitHub Releases
+
+on:
+  push:
+    branches: [ master ]
+    pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.9.0]
+    outputs:
+      version: ${{ steps.properties.outputs.version }}
+      changelog: ${{ steps.properties.outputs.changelog }}
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      # Setup node environment
+      - name: Setup Node ${{ matrix.node-version }}
+        users: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Set environment variables
+      - name: Set Environment Variables
+        id: properties
+        shell: bash
+        run: |
+          VERSION=$( grep -n '## \[' CHANGELOG.md | awk -F '[\\[\\]]' 'NR == 1  { print $2 }')
+          
+          FILENAME="${{ github.repository }}"
+          FILENAME=${FILENAME/${{ github.repository_owner }}\/}
+          FILENAME="$FILENAME.user.js-$VERSION"
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+          
+          sl=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 1  { print $1-1 }')
+          el=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 2  { print $1 }')
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          awk "NR > $sl && NR < $el" CHANGELOG.md | while IFS=$'\r\n' read -r line; do
+            echo "$line" >> $GITHUB_OUTPUT
+          done
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # Run build
+      - name: Run Build
+        run: npm run build
+
+      # Upload artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.properties.outputs.filename }}
+          path: |
+            dist/*
+
+  releaseDraft:
+    name: Release Draft
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      # Remove old release drafts by using the curl request for the available releases with draft flag
+      - name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/{owner}/{repo}/releases \
+            --jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+
+      # Create new release draft - which is not publicly visible and requires manual acceptance
+      - name: Create Release Draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v${{ needs.build.outputs.version }} \
+            --draft \
+            --title "v${{ needs.build.outputs.version }}" \
+            --notes "$(cat << 'EOM'
+          ${{ needs.build.outputs.changelog }}
+          EOM
+          )"
