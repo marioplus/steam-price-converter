@@ -45,22 +45,11 @@ async function getCountyCode(): Promise<string> {
 async function getCountyCodeInIframe(): Promise<string> {
     let countyCode: string | null = null
     // 商店页面直接抓取
-    if (window.location.href.includes('store.steampowered.com')) {
-        document.querySelectorAll('script').forEach(scriptEl => {
-            if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
-                countyCode = scriptEl.innerText.trim()
-                    .replaceAll(/[\n\t\s ]/g, '')
-                    .split(';')
-                    .filter(str => str.startsWith('GDynamicStore.Init'))[0]
-                    .split(',')[16]
-                    .replaceAll(/'/g, '')
-                    .trim()
-            }
-        })
-        if (countyCode) {
-            return countyCode
-        }
+    countyCode = await getCountyCodeNotInIframe()
+    if (countyCode) {
+        return countyCode
     }
+
 
     // iframe 尝试从 cookie中获取
     const iframeGetPromise = new Promise<string | null>(resolve => GM_cookie.list({name: 'steamCountry'}, cookies => {
@@ -88,7 +77,7 @@ async function getCountyCodeNotInIframe(): Promise<string> {
             if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
                 const matcher = /(?<=')[A-Z]{2}(?!=')/g
                 const match = document.querySelectorAll('script')[24].innerText.match(matcher)
-                if (match){
+                if (match) {
                     countyCode = match.toString()
                 }
             }
