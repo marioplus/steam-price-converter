@@ -2,6 +2,10 @@
 
 # steam-price-converter Changelog
 
+## [1.0.11] - 2023-01-14
+
+1. Augmented Steam 兼容问题修复
+
 ## [1.0.10] - 2022-12-26
 
 1. 适配G胖更新网页结构导致获取区域代码失效（iframe）
