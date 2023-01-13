@@ -19,7 +19,6 @@ export class ElementConverter extends AbstractConverter {
             '.salepreviewwidgets_StoreOriginalPrice_1EKGZ',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8',
             // 分类查看游戏
-            '.game_purchase_price.price',
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
