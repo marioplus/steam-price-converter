@@ -2,11 +2,17 @@ import {IRateApi} from './IRateApi'
 import {ExchangeRateApi} from './ExchangeRateApi'
 import {JsonAlias, JsonProperty, Serializable} from '../Serializable'
 import {GM_getValue, GM_setValue} from 'vite-plugin-monkey/dist/client'
+import {County} from '../County'
 
-
-const RateCacheStorageKey = 'Storage:RateCache'
+const RATE_CACHE_STORAGE_KEY = 'Storage:RateCache'
 
 class RateCache extends Serializable<RateCache> {
+
+    @JsonAlias('from')
+    from: string = ''
+
+    @JsonAlias('to')
+    to: string = ''
 
     @JsonAlias('expiredAt')
     expiredAt: number = 0
@@ -27,46 +33,56 @@ export class ExchangeRateManager implements IRateApi {
 
     public static instance: ExchangeRateManager = new ExchangeRateManager()
     rateApis: Array<IRateApi> = new Array<IRateApi>()
-    rateCache?: RateCache
+    // from:to
+    rateCacheMap: Map<string, RateCache> = new Map<string, RateCache>()
 
     private constructor() {
         this.rateApis.push(new ExchangeRateApi())
     }
 
-    getRates(): Promise<Map<string, number>> {
-        return this.rateApis[0].getRates()
+    getRates(currCounty: County, targetCounty: County): Promise<Map<string, number>> {
+        return this.rateApis[0].getRates(currCounty, targetCounty)
     }
 
-    async refreshRate(): Promise<RateCache> {
+    async refreshRate(currCounty: County, targetCounty: County): Promise<RateCache> {
         // 先从 storage 获取
-        if (!this.rateCache) {
-            this.rateCache = this.loadRateCache()
-            return this.refreshRate()
+        let storageKey = this.calcStorageKey(currCounty, targetCounty)
+        let cache = this.rateCacheMap.get(storageKey)
+        if (this.rateCacheMap.size == 0) {
+            const rateCache: RateCache = this.loadRateCache(currCounty, targetCounty)
+            this.rateCacheMap.set(storageKey, rateCache)
+            return this.refreshRate(currCounty, targetCounty)
         }
         // 过期需要重新获取
-        if (this.rateCache.expired()) {
-
+        if (cache == undefined || cache.expired()) {
             // 两小时过期时间
-            console.info('本地缓存已过期')
-            this.rateCache.rates = await this.getRates()
-            this.rateCache.expiredAt = new Date().getTime() + (1000 * 60 * 60)
-            this.saveRateCache(this.rateCache)
+            console.info(`本地缓存已过期`)
+            cache = new RateCache()
+            cache.rates = await this.getRates(currCounty, targetCounty)
+            cache.expiredAt = new Date().getTime() + (1000 * 60 * 60)
+            this.rateCacheMap.set(storageKey, cache)
+            this.saveRateCache(cache, currCounty, targetCounty)
 
         }
-        return this.rateCache
+        return cache
     }
 
-    private loadRateCache(): RateCache {
-        console.info('读取本地汇率缓存')
-        const jsonString = GM_getValue(RateCacheStorageKey, '{}')
+    private loadRateCache(currCounty: County, targetCounty: County): RateCache {
+        console.info(`读取本地汇率缓存:${currCounty.currencyCode} -> ${targetCounty.currencyCode}`)
+        const storageKey = this.calcStorageKey(currCounty, targetCounty)
+        const jsonString = GM_getValue(storageKey, '{}')
         const cache = new RateCache()
         return cache.readJsonString(jsonString)
     }
 
-    private saveRateCache(rateCache: RateCache) {
-        console.info('保存本地汇率缓存')
-        GM_setValue(RateCacheStorageKey, rateCache.toJsonString())
+    private saveRateCache(rateCache: RateCache, currCounty: County, targetCounty: County) {
+        console.info(`保存本地汇率缓存:${currCounty.currencyCode} -> ${targetCounty.currencyCode}`)
+        const storageKey = this.calcStorageKey(currCounty, targetCounty)
+        GM_setValue(storageKey, rateCache.toJsonString())
     }
 
+    private calcStorageKey(currCounty: County, targetCounty: County): string {
+        return `${RATE_CACHE_STORAGE_KEY}:${currCounty.currencyCode}:${targetCounty.currencyCode}`
+    }
 }
 

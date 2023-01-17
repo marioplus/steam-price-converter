@@ -1,6 +1,7 @@
 import {IRateApi} from './IRateApi'
 import {JsonAlias, JsonProperty, Serializable} from '../Serializable'
 import {Http} from './Http'
+import {County} from '../County'
 
 
 export class RateRes extends Serializable<RateRes> {
@@ -34,10 +35,12 @@ export class RateRes extends Serializable<RateRes> {
 
 export class ExchangeRateApi implements IRateApi {
 
-    async getRates(): Promise<Map<string, number>> {
+    async getRates(currCounty: County, targetCounty: County): Promise<Map<string, number>> {
         console.info('通过 www.exchangerate-api.com 获取汇率')
+        console.debug(currCounty, targetCounty)
         let rates: Map<string, number> = new Map<string, number>()
-        await Http.get<RateRes>('https://open.er-api.com/v6/latest/CNY', RateRes)
+        const url = `https://open.er-api.com/v6/latest/${targetCounty.currencyCode}`
+        await Http.get<RateRes>(url, RateRes)
             .then(res => rates = <Map<string, number>>res.rates)
         return rates
     }

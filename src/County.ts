@@ -9,4 +9,6 @@ export type County = {
     currencyCode: string
 }
 
-export const counties = new Map<string, County>(countyCurrencyCodes.map(v => [v.code, v]))
+export const CountyCode2County = new Map<string, County>(countyCurrencyCodes.map(v => [v.code, v]))
+
+export const CurrencyCode2County = new Map<string, County>(countyCurrencyCodes.map(v => [v.currencyCode, v]))
