@@ -1,5 +1,5 @@
 import {Setting} from './Setting'
-import {GM_getValue, GM_setValue} from 'vite-plugin-monkey/dist/client'
+import {GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {STORAGE_KEY_SETTING} from '../constant/Constant'
 import {CountyCode2County} from '../County'
 
@@ -10,7 +10,7 @@ export class SettingManager {
     private constructor() {
         this.setting = this.loadSetting()
         // @ts-ignore
-        window.ScpSettingManager = this
+        unsafeWindow.ScpSettingManager = this
     }
 
     private loadSetting(): Setting {
