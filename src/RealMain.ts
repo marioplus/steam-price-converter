@@ -1,7 +1,7 @@
 import {GM_cookie, GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {ConverterManager} from './converter/ConverterManager'
 import {County, CountyCode2County} from './County'
-import {ExchangeRateManager} from './remote/ExchangeRateManager'
+import {RateManager} from './remote/RateManager'
 import './style/style.css'
 
 
@@ -22,7 +22,7 @@ export async function main(targetCounty: County) {
 
     // 获取汇率
     let rate: number | undefined
-    await ExchangeRateManager.instance.refreshRate(currCounty, targetCounty)
+    await RateManager.instance.refreshRate(currCounty, targetCounty)
         .then(resRate => rate = resRate.rates.get(currCounty.currencyCode))
     if (!rate) {
         throw Error('获取汇率失败')

@@ -1,10 +1,51 @@
 # steam-price-converter
 
-一个 Tampermonkey 插件，能将 steam 商店和市场的的价格转换为人民币展示。理论上支持所有区域。
+一个 Tampermonkey 插件，能将 steam 商店和市场的的价格转换为某种货币展示。理论上支持所有区域。
 
 ## 使用
 
+### 安装
+
 脚本托管于 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
+
+### 更换转换货币
+
+默认将价格转化为人名币，如果需要转换其他货币展示需要在控制台(F12)执行内置方法
+
+![](https://s3.bmp.ovh/imgs/2023/01/18/b6ddbc484aba86a5.png)
+
+刷新页面就能看到结果
+
+![](https://s3.bmp.ovh/imgs/2023/01/18/2c9b9545580babf6.png)
+
+#### 设置国家代码
+
+可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/countyCurrencyCodes.json)查看代码(文中的 code)
+
+```js
+ScpSettingManager.setCountyCode('CN')
+```
+
+#### 设置货币符号
+
+```js
+ScpSettingManager.setCurrencySymbol('￥')
+```
+
+#### 设置货币符号是否在前
+
+```js
+ScpSettingManager.setSymbolPositionFirst(true)
+```
+
+- true :在前
+- false :在后
+
+#### 重置设置
+
+```js
+ScpSettingManager.reset()
+```
 
 ## 开发
 

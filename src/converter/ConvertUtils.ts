@@ -1,3 +1,5 @@
+import {SettingManager} from '../setting/SettingManager'
+
 /**
  * 提取获取价格
  * 1                1
@@ -46,7 +48,14 @@ export function convertPriceContent(originalContent: string, rate: number): stri
         .trim()
     const price = parsePrice(safeContent)
     const convertedPrice = convertPrice(price, rate)
-    const finalContent = `${safeContent}(¥${convertedPrice})`
+    const setting = SettingManager.instance.setting
+    let finalContent
+    if (setting.symbolPositionFirst) {
+        finalContent = `${safeContent}(${setting.currencySymbol}${convertedPrice})`
+    } else {
+        finalContent = `${safeContent}(${convertedPrice}${setting.currencySymbol})`
+    }
+
     console.debug(
         `转换前文本  ：${safeContent}`,
         `提取到的价格：${price}`,

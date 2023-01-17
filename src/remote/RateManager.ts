@@ -29,9 +29,9 @@ class RateCache extends Serializable<RateCache> {
 }
 
 
-export class ExchangeRateManager implements IRateApi {
+export class RateManager implements IRateApi {
 
-    public static instance: ExchangeRateManager = new ExchangeRateManager()
+    public static instance: RateManager = new RateManager()
     rateApis: Array<IRateApi> = new Array<IRateApi>()
     // from:to
     rateCacheMap: Map<string, RateCache> = new Map<string, RateCache>()
