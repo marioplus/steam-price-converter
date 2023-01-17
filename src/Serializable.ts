@@ -31,8 +31,7 @@ export class Serializable<T extends Serializable<T>> {
         Object.keys(this).forEach(propKey => {
             const config = Reflect.getMetadata(metadataKey, this, propKey)
             const prop = anyThis[propKey]
-
-            if (!config || !prop) {
+            if (!config || prop === undefined) {
                 return
             }
 
@@ -62,7 +61,7 @@ export class Serializable<T extends Serializable<T>> {
             const config = Reflect.getMetadata(metadataKey, this, propKey)
             const prop = anyThis[propKey]
             const jsonNode = json[config.alias]
-            if (!config || !jsonNode) {
+            if (!config || jsonNode === undefined) {
                 return
             }
             if (config.typeAs || config.typeAs === Map) {
