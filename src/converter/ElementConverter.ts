@@ -50,6 +50,8 @@ export class ElementConverter extends AbstractConverter {
             'tr.wallet_table_row > td.wht_total',
             'tr.wallet_table_row > td.wht_wallet_change.wallet_column',
             'tr.wallet_table_row > td.wht_wallet_balance.wallet_column',
+            // dlc
+            '.game_area_dlc_row > .game_area_dlc_price',
         ]
     }
 
