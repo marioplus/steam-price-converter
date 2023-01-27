@@ -64,8 +64,7 @@ jobs:
       - name: Run Steam++ build
         shell: bash
         run: |
-          cd 
-          sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' /dist/*.js  >  /dist${{ steps.properties.outputs.steamfilename }}
+          sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' /dist/*.js  >  /dist/${{ steps.properties.outputs.steamfilename }}
           
 
       # Upload artifact
