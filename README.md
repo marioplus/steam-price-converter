@@ -23,19 +23,19 @@
 可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/countyCurrencyCodes.json)查看代码(文中的 code)
 
 ```js
-ScpSettingManager.setCountyCode('CN')
+SpcManager.setCountyCode('CN')
 ```
 
 #### 设置货币符号
 
 ```js
-ScpSettingManager.setCurrencySymbol('￥')
+SpcManager.setCurrencySymbol('￥')
 ```
 
 #### 设置货币符号是否在前
 
 ```js
-ScpSettingManager.setSymbolPositionFirst(true)
+SpcManager.IsCurrencySymbolBeforeValue(true)
 ```
 
 - true :在前

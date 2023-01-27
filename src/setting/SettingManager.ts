@@ -42,8 +42,8 @@ export class SettingManager {
         this.saveSetting(this.setting)
     }
 
-    public setSymbolPositionFirst(symbolPositionFirst: boolean) {
-        this.setting.symbolPositionFirst = symbolPositionFirst
+    public isCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue: boolean) {
+        this.setting.currencySymbolBeforeValue = isCurrencySymbolBeforeValue
         this.saveSetting(this.setting)
     }
 

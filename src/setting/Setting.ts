@@ -17,7 +17,7 @@ export class Setting extends Serializable<Setting> {
      * 符号位置在首
      */
     @JsonProperty()
-    symbolPositionFirst: boolean = true
+    currencySymbolBeforeValue: boolean = true
 
     @JsonProperty()
     rateCacheExpired: number = 1000 * 60 * 60

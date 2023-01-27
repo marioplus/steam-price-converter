@@ -51,7 +51,7 @@ export function convertPriceContent(originalContent: string, rate: number): stri
     const convertedPrice = convertPrice(price, rate)
     const setting = SettingManager.instance.setting
     let finalContent
-    if (setting.symbolPositionFirst) {
+    if (setting.currencySymbolBeforeValue) {
         finalContent = `${safeContent}(${setting.currencySymbol}${convertedPrice})`
     } else {
         finalContent = `${safeContent}(${convertedPrice}${setting.currencySymbol})`
