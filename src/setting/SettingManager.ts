@@ -1,6 +1,6 @@
 import {Setting} from './Setting'
-import {GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
-import { STORAGE_KEY_SETTING} from '../constant/Constant'
+import {GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
+import {STORAGE_KEY_SETTING} from '../constant/Constant'
 import {CountyCode2CountyInfo} from '../county/CountyInfo'
 import {format} from '../LogUtil'
 
@@ -10,10 +10,6 @@ export class SettingManager {
 
     private constructor() {
         this.setting = this.loadSetting()
-        // @ts-ignore
-        unsafeWindow.ScpSettingManager = this
-        // @ts-ignore
-        unsafeWindow.SpcSettingManager = this
     }
 
     private loadSetting(): Setting {
@@ -55,7 +51,7 @@ export class SettingManager {
         this.saveSetting(new Setting())
     }
 
-    public setRateCacheExpired(rateCacheExpired:number){
+    public setRateCacheExpired(rateCacheExpired: number) {
         this.setting.rateCacheExpired = rateCacheExpired
         this.saveSetting(this.setting)
     }

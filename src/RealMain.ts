@@ -4,9 +4,13 @@ import {RateManager} from './rate/RateManager'
 import './style/style.css'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {format} from './LogUtil'
+import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
+import {SpcManager} from './SpcManager'
 
 
 export async function main(targetCounty: CountyInfo) {
+    // @ts-ignore
+    unsafeWindow.SpcManager = SpcManager.instance
 
     // 获取国家代码
     let countyCode: string = await CountyCodeGetterManager.instance.getCountyCode()

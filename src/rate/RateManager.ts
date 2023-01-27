@@ -1,6 +1,6 @@
 import {IRateApi} from './IRateApi'
 import {ExchangeRateApi} from './ExchangeRateApi'
-import {GM_deleteValue, GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
+import {GM_deleteValue, GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {CountyInfo} from '../county/CountyInfo'
 import {format} from '../LogUtil'
 import {RateCache, RateCaches} from './RateCaches'
@@ -18,9 +18,6 @@ export class RateManager implements IRateApi {
             new ExchangeRateApi()
         ]
         this.rateCaches = this.loadRateCache()
-
-        // @ts-ignore
-        unsafeWindow.RateManager = this
     }
 
     private async getRate4Remote(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
@@ -64,7 +61,7 @@ export class RateManager implements IRateApi {
         GM_setValue(STORAGE_KEY_RATE_CACHES, this.rateCaches.toJsonString())
     }
 
-    public reset() {
+    public clear() {
         GM_deleteValue(STORAGE_KEY_RATE_CACHES)
     }
 
