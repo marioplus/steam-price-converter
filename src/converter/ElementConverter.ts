@@ -31,6 +31,7 @@ export class ElementConverter extends AbstractConverter {
             '.checkout_review_item_price > .price',
             '#review_subtotal_value.price',
             '#review_total_value.price',
+            '.cart_item_price > .price',
 
             // 市场
             // 总余额
