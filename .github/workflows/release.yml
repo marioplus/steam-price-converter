@@ -37,8 +37,9 @@ jobs:
           VERSION=$( grep -n '## \[' CHANGELOG.md | awk -F '[\\[\\]]' 'NR == 1  { print $2 }')
           
           FILENAME="${{ github.repository }}"
-          FILENAME="${FILENAME/${{ github.repository_owner }}\/}.user.js-$VERSION"
+          FILENAME="${FILENAME/${{ github.repository_owner }}\/}"
           STEAM_FILENAME="$FILENAME.user.steam++.js"
+          FILENAME="${FILENAME.user.js-$VERSION"
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
