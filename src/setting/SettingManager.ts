@@ -1,6 +1,6 @@
 import {Setting} from './Setting'
 import {GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
-import {STORAGE_KEY_SETTING} from '../constant/Constant'
+import { STORAGE_KEY_SETTING} from '../constant/Constant'
 import {CountyCode2CountyInfo} from '../county/CountyInfo'
 import {format} from '../LogUtil'
 
@@ -49,10 +49,14 @@ export class SettingManager {
     public setSymbolPositionFirst(symbolPositionFirst: boolean) {
         this.setting.symbolPositionFirst = symbolPositionFirst
         this.saveSetting(this.setting)
-        console.log(this.setting.toJsonString())
     }
 
     public reset() {
         this.saveSetting(new Setting())
+    }
+
+    public setRateCacheExpired(rateCacheExpired:number){
+        this.setting.rateCacheExpired = rateCacheExpired
+        this.saveSetting(this.setting)
     }
 }

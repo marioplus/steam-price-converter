@@ -1,21 +1,24 @@
-import {JsonAlias, Serializable} from '../Serializable'
+import {JsonProperty, Serializable} from '../Serializable'
 
 export class Setting extends Serializable<Setting> {
     /**
      * 目标国家代码，默认CN
      */
-    @JsonAlias('countyCode')
+    @JsonProperty()
     countyCode: string = 'CN'
 
     /**
      * 目标货币符号，默认 ￥
      */
-    @JsonAlias('currencySymbol')
+    @JsonProperty()
     currencySymbol: string = '￥'
 
     /**
      * 符号位置在首
      */
-    @JsonAlias('symbolPositionFirst')
+    @JsonProperty()
     symbolPositionFirst: boolean = true
+
+    @JsonProperty()
+    rateCacheExpired: number = 1000 * 60 * 60
 }

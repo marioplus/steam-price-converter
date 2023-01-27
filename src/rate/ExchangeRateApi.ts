@@ -37,8 +37,11 @@ export class RateRes extends Serializable<RateRes> {
 export class ExchangeRateApi implements IRateApi {
 
     async getRate(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
-        console.info(format('通过 www.exchangerate-api.com 获取汇率'))
-        console.debug(currCounty, targetCounty)
+        console.info(format('通过 www.exchangerate-api.com 获取汇率 %s(%s) -> %s(%s)...',
+            currCounty.currencyCode,
+            currCounty.name,
+            targetCounty.currencyCode,
+            targetCounty.name))
         const url = `https://open.er-api.com/v6/latest/${targetCounty.currencyCode}`
         let rate: number | undefined = await Http.get<RateRes>(url, RateRes)
             .then(res => {
@@ -46,8 +49,9 @@ export class ExchangeRateApi implements IRateApi {
                 return rates.get(currCounty.currencyCode)
             })
         if (rate) {
+            console.info(format('通过 www.exchangerate-api.com 获取汇率成功：%s', rate))
             return rate
         }
-        throw new Error('')
+        throw new Error('通过 www.exchangerate-api.com 获取汇率失败。')
     }
 }

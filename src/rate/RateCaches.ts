@@ -2,11 +2,10 @@ import {JsonProperty, Serializable} from '../Serializable'
 
 export class RateCache extends Serializable<RateCaches> {
 
-    constructor(from: string, to: string, rate?: number, expiredAt?: number, createdAt?: number) {
+    constructor(from: string, to: string, rate?: number, createdAt?: number) {
         super()
         this.from = from
         this.to = to
-        this.expiredAt = expiredAt || 0
         this.createdAt = createdAt || 0
         this.rate = rate || 0
     }
@@ -16,9 +15,6 @@ export class RateCache extends Serializable<RateCaches> {
 
     @JsonProperty()
     to: string
-
-    @JsonProperty()
-    expiredAt: number
 
     @JsonProperty()
     createdAt: number

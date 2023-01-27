@@ -4,7 +4,8 @@ import {GM_deleteValue, GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugi
 import {CountyInfo} from '../county/CountyInfo'
 import {format} from '../LogUtil'
 import {RateCache, RateCaches} from './RateCaches'
-import {DEFAULT_RATE_CACHE_EXPIRED, STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
+import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
+import {SettingManager} from '../setting/SettingManager'
 
 export class RateManager implements IRateApi {
 
@@ -38,13 +39,13 @@ export class RateManager implements IRateApi {
         let cache = this.rateCaches.getCache(currCounty.code, targetCounty.code)
         // 过期需要重新获取
         const now = new Date().getTime()
-        if (cache === undefined || cache.expiredAt < now) {
+        const expired = SettingManager.instance.setting.rateCacheExpired
+        if (cache === undefined || now > cache.createdAt + expired) {
             // 两小时过期时间
             console.info(format(`本地缓存已过期`))
             cache = new RateCache(currCounty.code, targetCounty.code)
             cache.rate = await this.getRate4Remote(currCounty, targetCounty)
             cache.createdAt = new Date().getTime()
-            cache.expiredAt = cache.createdAt + DEFAULT_RATE_CACHE_EXPIRED
             this.rateCaches.setCache(cache)
             this.saveRateCache()
         }
