@@ -8,6 +8,8 @@
 
 脚本托管于 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
 
+由于脚本使用了某种比较特别的”东西“，Greasy Fork上的脚本不能直接导入steam++，需要使用 [releases](https://github.com/marioplus/steam-price-converter/releases) 中的额外构建的版本。
+
 ### 更换转换货币
 
 默认将价格转化为人名币，如果需要转换其他货币展示需要在控制台(F12)执行内置方法
