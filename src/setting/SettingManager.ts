@@ -1,7 +1,8 @@
 import {Setting} from './Setting'
 import {GM_getValue, GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {STORAGE_KEY_SETTING} from '../constant/Constant'
-import {CountyCode2County} from '../County'
+import {CountyCode2CountyInfo} from '../county/CountyInfo'
+import {format} from '../LogUtil'
 
 export class SettingManager {
     public static instance: SettingManager = new SettingManager()
@@ -11,12 +12,14 @@ export class SettingManager {
         this.setting = this.loadSetting()
         // @ts-ignore
         unsafeWindow.ScpSettingManager = this
+        // @ts-ignore
+        unsafeWindow.SpcSettingManager = this
     }
 
     private loadSetting(): Setting {
         const json = GM_getValue(STORAGE_KEY_SETTING, new Setting().toJsonString())
         const setting = new Setting().readJsonString(json)
-        console.log(`读取设置`, setting)
+        console.log(format('读取设置'), setting)
         return setting
     }
 
@@ -25,12 +28,12 @@ export class SettingManager {
      * @param setting  设置
      */
     public saveSetting(setting: Setting) {
-        console.log(`保存设置`, setting)
+        console.log(format('保存设置'), setting)
         GM_setValue(STORAGE_KEY_SETTING, setting.toJsonString())
     }
 
     public setCountyCode(countyCode: string) {
-        const county = CountyCode2County.get(countyCode)
+        const county = CountyCode2CountyInfo.get(countyCode)
         if (!county) {
             throw Error(`国家代码不存在：${countyCode}`)
         }
