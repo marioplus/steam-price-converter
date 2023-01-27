@@ -53,6 +53,9 @@ export class ElementConverter extends AbstractConverter {
             'tr.wallet_table_row > td.wht_wallet_balance.wallet_column',
             // dlc
             '.game_area_dlc_row > .game_area_dlc_price',
+            // 捆绑包
+            '.package_totals_row > .price:not(.bundle_discount)',
+            '#package_savings_bar > .savings.bundle_savings',
         ]
     }
 
