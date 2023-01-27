@@ -18,7 +18,7 @@
 
 ![](https://s3.bmp.ovh/imgs/2023/01/18/2c9b9545580babf6.png)
 
-#### 设置国家代码
+#### 设置国家代码，默认：CN
 
 可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/countyCurrencyCodes.json)查看代码(文中的 code)
 
@@ -26,25 +26,31 @@
 SpcManager.setCountyCode('CN')
 ```
 
-#### 设置货币符号
+#### 设置货币符号，默认：￥
 
 ```js
 SpcManager.setCurrencySymbol('￥')
 ```
 
-#### 设置货币符号是否在前
+#### 设置货币符号是否在前，默认：true
 
 ```js
-SpcManager.IsCurrencySymbolBeforeValue(true)
+SpcManager.setCurrencySymbolBeforeValue(true)
 ```
 
 - true :在前
 - false :在后
 
+#### 设置汇率有效期，默认: 1小时
+
+```js
+SpcManager.setRateCacheExpired(1000 * 60 * 60)
+```
+
 #### 重置设置
 
 ```js
-ScpSettingManager.reset()
+SpcManager.resetSetting()
 ```
 
 ## 开发

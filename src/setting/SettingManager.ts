@@ -42,7 +42,7 @@ export class SettingManager {
         this.saveSetting(this.setting)
     }
 
-    public isCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue: boolean) {
+    public setCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue: boolean) {
         this.setting.currencySymbolBeforeValue = isCurrencySymbolBeforeValue
         this.saveSetting(this.setting)
     }

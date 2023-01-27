@@ -17,8 +17,8 @@ export class SpcManager {
         SettingManager.instance.setCurrencySymbol(symbol)
     }
 
-    public isCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue: boolean) {
-        SettingManager.instance.isCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue)
+    public setCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue: boolean) {
+        SettingManager.instance.setCurrencySymbolBeforeValue(isCurrencySymbolBeforeValue)
     }
 
     public setRateCacheExpired(expired: number) {
