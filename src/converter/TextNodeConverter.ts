@@ -18,6 +18,8 @@ export class TextNodeConverter extends AbstractConverter {
         ['#header_wallet_balance', [el => el.firstChild]],
         // iframe
         ['.game_purchase_price.price', [el => el.firstChild]],
+        // 低于xxx 分类标题
+        ['.home_page_content_title',[el => el.firstChild]]
     ])
 
     getCssSelectors(): string[] {
