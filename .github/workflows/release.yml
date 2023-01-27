@@ -38,8 +38,8 @@ jobs:
           
           FILENAME="${{ github.repository }}"
           FILENAME="${FILENAME/${{ github.repository_owner }}\/}"
-          STEAM_FILENAME="$FILENAME.user.steam++.js"
-          FILENAME="${FILENAME.user.js-$VERSION"
+          STEAM_FILENAME="${FILENAME}.user.steam++.js"
+          FILENAME="${FILENAME}.user.js-$VERSION"
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
