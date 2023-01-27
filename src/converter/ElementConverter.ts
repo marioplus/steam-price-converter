@@ -57,7 +57,7 @@ export class ElementConverter extends AbstractConverter {
             '.package_totals_row > .price:not(.bundle_discount)',
             '#package_savings_bar > .savings.bundle_savings',
             // 低于xxx 分类标题
-            '.home_page_content_title a.btn_small_tall > span'
+            '.home_page_content_title a.btn_small_tall > span',
         ]
     }
 

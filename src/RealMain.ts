@@ -1,7 +1,7 @@
+import './style/style.css'
 import {ConverterManager} from './converter/ConverterManager'
 import {CountyCode2CountyInfo, CountyInfo} from './county/CountyInfo'
 import {RateManager} from './rate/RateManager'
-import './style/style.css'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {format} from './LogUtil'
 import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
@@ -42,21 +42,21 @@ async function convert(rate: number) {
     exchangerManager.convert(elements, rate)
 
     // 注册观察者
+    const selector = exchangerManager.getSelector()
     const priceObserver = new MutationObserver(mutations => {
-        mutations.forEach(async mutation => {
+
+        mutations.forEach(mutation => {
             const target = <HTMLElement>mutation.target
-            const selector = exchangerManager.getSelector()
             const priceEls = target.querySelectorAll(selector)
             if (!priceEls || priceEls.length === 0) {
                 return
             }
-            exchangerManager.convert(priceEls, <number>rate)
+            exchangerManager.convert(priceEls, rate)
         })
     })
-    priceObserver.observe(document, {
+    priceObserver.observe(document.body, {
         childList: true,
         subtree: true,
     })
-
 }
 

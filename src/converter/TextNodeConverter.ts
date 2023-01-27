@@ -7,19 +7,22 @@ type parseTextNodeFn = (element: Element) => ChildNode
 export class TextNodeConverter extends AbstractConverter {
 
     // @ts-ignore
+    parseFirstChildTextNodeFn: parseTextNodeFn = el => el.firstChild
+
+    // @ts-ignore
     targets: Map<string, parseTextNodeFn[]> = new Map<string, parseTextNodeFn[]>([
         ['.col.search_price.responsive_secondrow',
             [
                 // @ts-ignore
                 el => el.firstChild.nextSibling.nextSibling.nextSibling,
-                el => el.firstChild,
+                this.parseFirstChildTextNodeFn,
             ],
         ],
-        ['#header_wallet_balance', [el => el.firstChild]],
+        ['#header_wallet_balance', [this.parseFirstChildTextNodeFn]],
         // iframe
-        ['.game_purchase_price.price', [el => el.firstChild]],
+        ['.game_purchase_price.price', [this.parseFirstChildTextNodeFn]],
         // 低于xxx 分类标题
-        ['.home_page_content_title',[el => el.firstChild]]
+        ['.home_page_content_title', [this.parseFirstChildTextNodeFn]],
     ])
 
     getCssSelectors(): string[] {
@@ -56,6 +59,7 @@ export class TextNodeConverter extends AbstractConverter {
         for (let fn of fns) {
             try {
                 const node = fn(el)
+                console.log(node, fn)
                 if (node.nodeName === '#text' && node.nodeValue && node.nodeValue.length > 0) {
                     return node
                 }
