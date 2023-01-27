@@ -37,11 +37,12 @@ jobs:
           VERSION=$( grep -n '## \[' CHANGELOG.md | awk -F '[\\[\\]]' 'NR == 1  { print $2 }')
           
           FILENAME="${{ github.repository }}"
-          FILENAME=${FILENAME/${{ github.repository_owner }}\/}
-          FILENAME="$FILENAME.user.js-$VERSION"
+          FILENAME="${FILENAME/${{ github.repository_owner }}\/}.user.js-$VERSION"
+          STEAM_FILENAME="$FILENAME.user.steam++.js"
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+          echo "steamfilename=$STEAM_FILENAME" >> $GITHUB_OUTPUT
           
           sl=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 1  { print $1-1 }')
           el=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 2  { print $1 }')
@@ -58,6 +59,14 @@ jobs:
       # Run build
       - name: Run Build
         run: npm run build
+
+      # Run Steam++ build
+      - name: Run Steam++ build
+        shell: bash
+        run: |
+          cd /dist
+          sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' *.js  >  ${{ steps.properties.outputs.steamfilename }}-stream++
+          
 
       # Upload artifact
       - name: Upload Artifact
