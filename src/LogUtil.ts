@@ -1,4 +1,4 @@
-const title = '[steam-price-convertor] '
+const title = `[steam-price-convertor ${new Date().getMilliseconds()}] `
 
 export function format(format: string, ...args: any[]): string {
     args = args || []

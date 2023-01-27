@@ -59,7 +59,6 @@ export class TextNodeConverter extends AbstractConverter {
         for (let fn of fns) {
             try {
                 const node = fn(el)
-                console.log(node, fn)
                 if (node.nodeName === '#text' && node.nodeValue && node.nodeValue.length > 0) {
                     return node
                 }

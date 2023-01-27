@@ -1,8 +1,9 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
 import {CookieCountyInfoGetter} from './CookieCountyInfoGetter'
+import {RequestStorePageCountyCodeGetter} from './RequestStorePageCountyCodeGetter'
 import {StorePageCountyCodeGetter} from './StorePageCountyCodeGetter'
-import {CurrentPageCountyCodeGetter} from './CurrentPageCountyCodeGetter'
 import {format} from '../LogUtil'
+import {MarketPageCountyCodeGetter} from './MarketPageCountyCodeGetter'
 
 
 export class CountyCodeGetterManager implements ICountyInfoGetter {
@@ -12,8 +13,9 @@ export class CountyCodeGetterManager implements ICountyInfoGetter {
 
     private constructor() {
         this.getters = [
-            new CurrentPageCountyCodeGetter(),
             new StorePageCountyCodeGetter(),
+            new MarketPageCountyCodeGetter(),
+            new RequestStorePageCountyCodeGetter(),
             new CookieCountyInfoGetter(),
         ]
     }
@@ -27,7 +29,11 @@ export class CountyCodeGetterManager implements ICountyInfoGetter {
         let code: string | undefined
         for (let getter of this.getters) {
             if (getter.match()) {
-                await getter.getCountyCode().then(res => code = res)
+                try {
+                    code = await getter.getCountyCode()
+                } catch (e) {
+                    console.error(e)
+                }
             }
             if (code) {
                 return code
