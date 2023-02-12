@@ -22,7 +22,7 @@
 
 #### 设置国家代码，默认：CN
 
-可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/countyCurrencyCodes.json)查看代码(文中的 code)
+可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/county/countyCurrencyCodes.json)查看代码(文中的 code)
 
 ```js
 SpcManager.setCountyCode('CN')
