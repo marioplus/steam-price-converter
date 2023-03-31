@@ -8,7 +8,7 @@
 
 脚本托管于 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/452504-steam%E4%BB%B7%E6%A0%BC%E8%BD%AC%E6%8D%A2)
 
-由于脚本使用了某种比较特别的”东西“，Greasy Fork上的脚本不能直接导入steam++，需要使用 [releases](https://github.com/marioplus/steam-price-converter/releases) 中额外构建的版本。
+由于脚本使用了某种[特别的东西](https://github.com/BeyondDimension/SteamTools/issues/2497)，Greasy Fork上的脚本不能直接导入steam++，需要使用 [releases](https://github.com/marioplus/steam-price-converter/releases) 中额外构建的版本。
 
 ### 更换转换货币
 
@@ -22,7 +22,7 @@
 
 #### 设置国家代码，默认：CN
 
-可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/countyCurrencyCodes.json)查看代码(文中的 code)
+可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/county/countyCurrencyCodes.json)查看代码(文中的 code)
 
 ```js
 SpcManager.setCountyCode('CN')
