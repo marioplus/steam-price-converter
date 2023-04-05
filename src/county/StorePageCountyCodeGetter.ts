@@ -14,9 +14,10 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
         console.info(format('通过 商店页面 获取区域代码...'))
         return new Promise<string>(resolve => {
             document.querySelectorAll('script').forEach(scriptEl => {
-                if (scriptEl.innerText.includes('$J( InitMiniprofileHovers );')) {
+                const scriptInnerText = scriptEl.innerText
+                if (scriptInnerText.includes('$J( InitMiniprofileHovers );') || scriptInnerText.includes(`$J( InitMiniprofileHovers( 'https%3A%2F%2Fstore.steampowered.com%2F' ) );`)) {
                     const matcher = /(?<=')[A-Z]{2}(?!=')/g
-                    const match = scriptEl.innerText.match(matcher)
+                    const match = scriptInnerText.match(matcher)
                     if (match) {
                         const countyCode = match.toString()
                         console.info(format('通过 商店页面 获取区域代码成功：' + countyCode))
