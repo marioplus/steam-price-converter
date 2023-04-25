@@ -14,7 +14,7 @@ export default defineConfig({
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
                 homepage: 'https://github.com/marioplus',
-                license: 'AGPL-3.0-or-later',
+                license: 'GPL-3.0-or-later',
                 match: [
                     'https://store.steampowered.com/*',
                     'https://steamcommunity.com/*'
