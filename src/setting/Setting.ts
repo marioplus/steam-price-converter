@@ -21,4 +21,16 @@ export class Setting extends Serializable<Setting> {
 
     @JsonProperty()
     rateCacheExpired: number = 1000 * 60 * 60
+
+    /**
+     * 使用自定义汇率
+     */
+    @JsonProperty()
+    useCustomRate: boolean = false
+
+    /**
+     * 自定义汇率
+     */
+    @JsonProperty()
+    customRate: number = 1
 }

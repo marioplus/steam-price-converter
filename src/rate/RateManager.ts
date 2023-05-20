@@ -24,19 +24,29 @@ export class RateManager implements IRateApi {
         console.log(format('远程获取汇率...'))
         let rate: number | undefined
         for (let rateApi of this.rateApis) {
-            rate = await rateApi.getRate(currCounty, targetCounty)
+            try {
+                rate = await rateApi.getRate(currCounty, targetCounty)
+            } catch (e) {
+                console.error(`使用实现(${typeof rateApi})获取汇率失败`)
+            }
             if (rate) {
                 return rate
             }
         }
-        throw Error('远程获取汇率失败')
+        throw Error('所有汇率获取实现获取汇率均失败')
     }
 
     public async getRate(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
+        const setting = SettingManager.instance.setting
+        if (setting.useCustomRate) {
+            console.log('使用自定义汇率')
+            return setting.customRate
+        }
+
         let cache = this.rateCaches.getCache(currCounty.code, targetCounty.code)
         // 过期需要重新获取
         const now = new Date().getTime()
-        const expired = SettingManager.instance.setting.rateCacheExpired
+        const expired = setting.rateCacheExpired
         if (cache === undefined || now > cache.createdAt + expired) {
             // 两小时过期时间
             console.info(format(`本地缓存已过期`))

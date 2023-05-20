@@ -55,4 +55,14 @@ export class SettingManager {
         this.setting.rateCacheExpired = rateCacheExpired
         this.saveSetting(this.setting)
     }
+
+    public setUseCustomRate(isUseCustomRate: boolean) {
+        this.setting.useCustomRate = isUseCustomRate
+        this.saveSetting(this.setting)
+    }
+
+    public setCustomRate(customRate: number) {
+        this.setting.customRate = customRate
+        this.saveSetting(this.setting)
+    }
 }

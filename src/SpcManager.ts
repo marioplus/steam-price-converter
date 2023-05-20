@@ -32,4 +32,12 @@ export class SpcManager {
     public clearCache() {
         RateManager.instance.clear()
     }
+
+    public setUseCustomRate(isUseCustomRate: boolean) {
+        SettingManager.instance.setUseCustomRate(isUseCustomRate)
+    }
+
+    public setCustomRate(customRate: number) {
+        SettingManager.instance.setCustomRate(customRate)
+    }
 }
