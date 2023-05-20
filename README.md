@@ -62,7 +62,7 @@ SpcManager.setUseCustomRate(true)
 #### 设置自定义汇率，默认：1
 
 ```js
-SpcManager.setUseCustomRate(true)
+SpcManager.setUseCustomRate(1)
 ```
 
 #### 设置汇率有效期，默认: 1小时
