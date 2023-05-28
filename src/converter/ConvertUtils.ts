@@ -11,7 +11,7 @@ import {format} from '../LogUtil'
  * @param content 包含货币和价格的字符串
  */
 function parsePrice(content: string) {
-    const matches = content.match(/(?<=^\D*)\d+[\d,.]*?(?=\D*$)/)
+    const matches = content.match(/(?<=^\D*)\d+[\d,.\s]*?(?=\D*$)/)
     if (!matches) {
         throw Error('提取价格失败：content:' + content)
     }
