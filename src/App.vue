@@ -9,7 +9,9 @@
             <li class="mdui-list-item mdui-ripple">
               <i class="mdui-list-item-icon mdui-icon material-icons">&#xe7f1;</i>
               <div class="mdui-list-item-content">目标区域</div>
-              <select class="mdui-select" :style="countySelectStyle" @change="changeCounty($event.target.value)">
+              <select class="mdui-select" :style="countySelectStyle" @change="
+              // @ts-ignore
+              changeCounty($event.target.value)">
                 <option v-for="countyInfo in countyInfos"
                         :value="countyInfo.code"
                         :selected="countyInfo.code===setting.countyCode">{{ countyInfo.name }}
@@ -29,7 +31,10 @@
               <i class="mdui-list-item-icon mdui-icon material-icons">&#xe236;</i>
               <div class="mdui-list-item-content">货币符号是否在价格之前</div>
               <label class="mdui-switch">
-                <input type="checkbox" v-model="setting.currencySymbolBeforeValue" @change="setting.currencySymbolBeforeValue=$event.target.checked"/>
+                <!-- @ts-ignore-->
+                <input type="checkbox" v-model="setting.currencySymbolBeforeValue" @change="
+                // @ts-ignore
+                setting.currencySymbolBeforeValue=$event!.target!.checked!"/>
                 <i class="mdui-switch-icon"></i>
               </label>
             </li>
@@ -78,15 +83,15 @@ import {SettingManager} from './setting/SettingManager'
 import countyCurrencyCodes from './county/countyCurrencyCodes.json'
 import {CountyCode2CountyInfo} from './county/CountyInfo'
 
-let menu = null
 onMounted(() => {
-  menu = menu || new mdui.Dialog('#spc-dialog-menu')
+  const menu = new mdui.Dialog('#spc-dialog-menu')
+  // @ts-ignore
   GM_addValueChangeListener(IM_KEY_MENU_STATUS, (name, oldValue, newValue) => {
     if (IM_KEY_OPEN_MENU !== newValue) {
       return
     }
     GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_CLOSE_MENU)
-    menu.open()
+    menu!.open()
   })
 })
 const settingManager = SettingManager.instance
@@ -112,25 +117,26 @@ watch(setting, newSetting => {
 function initCountySelectStyle() {
   const countyInfo = CountyCode2CountyInfo.get(settingManager.setting.countyCode)
   return {
-    width: `${countyInfo.name.length * 16 + 25}px`
+    width: `${countyInfo!.name.length * 16 + 25}px`
   }
 }
 
-function changeCounty(code) {
+function changeCounty(code: string) {
   const countyInfo = CountyCode2CountyInfo.get(code)
+  // @ts-ignore
   countySelectStyle.width = `${countyInfo.name.length * 16 + 25}px`
-  setting.countyCode = countyInfo.code
+  setting.countyCode = countyInfo!.code
 }
 
-function resetSetting() {
-  settingManager.reset()
-  setting.countyCode = settingManager.setting.countyCode
-  setting.currencySymbol = settingManager.setting.currencySymbol
-  setting.currencySymbolBeforeValue = settingManager.setting.currencySymbolBeforeValue
-  setting.rateCacheExpired = settingManager.setting.rateCacheExpired / (60 * 60 * 1000)
-  setting.customRate = settingManager.setting.customRate
-  setting.useCustomRate = settingManager.setting.useCustomRate
-}
+// function resetSetting() {
+//   settingManager.reset()
+//   setting.countyCode = settingManager.setting.countyCode
+//   setting.currencySymbol = settingManager.setting.currencySymbol
+//   setting.currencySymbolBeforeValue = settingManager.setting.currencySymbolBeforeValue
+//   setting.rateCacheExpired = settingManager.setting.rateCacheExpired / (60 * 60 * 1000)
+//   setting.customRate = settingManager.setting.customRate
+//   setting.useCustomRate = settingManager.setting.useCustomRate
+// }
 
 </script>
 
