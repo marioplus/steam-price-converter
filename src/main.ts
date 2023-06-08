@@ -4,13 +4,17 @@ import {SettingManager} from './setting/SettingManager'
 import {addCdnCss} from './utils/ElementUtils'
 import mdui from 'mdui'
 import {createApp} from 'vue'
-import './style.less'
+import './style/style.less'
 // @ts-ignore
 import App from './App.vue'
+import {GM_registerMenuCommand} from '$'
+import {GM_setValue} from 'vite-plugin-monkey/dist/client'
+import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
 
 (async () => {
     initCdn()
     initApp()
+    initMenu()
     await doConvert()
 })()
 
@@ -42,4 +46,11 @@ async function doConvert() {
         throw Error('获取转换后的国家信息失败，国家代码：' + countyCode)
     }
     await main(county)
+}
+
+function initMenu() {
+    GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_CLOSE_MENU)
+    GM_registerMenuCommand('设置', () => {
+        GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU)
+    })
 }

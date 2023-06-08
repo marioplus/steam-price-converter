@@ -1,4 +1,3 @@
-import './style/style.css'
 import {ConverterManager} from './converter/ConverterManager'
 import {CountyCode2CountyInfo, CountyInfo} from './county/CountyInfo'
 import {RateManager} from './rate/RateManager'
@@ -6,7 +5,6 @@ import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {format} from './LogUtil'
 import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcManager} from './SpcManager'
-
 
 export async function main(targetCounty: CountyInfo) {
     // @ts-ignore
