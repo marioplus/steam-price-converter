@@ -1,9 +1,11 @@
 import {defineConfig} from 'vite'
-import monkey from 'vite-plugin-monkey'
+import vue from '@vitejs/plugin-vue'
+import monkey, {cdn, util} from 'vite-plugin-monkey'
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
+        vue(),
         monkey({
             entry: 'src/main.ts',
             userscript: {
@@ -26,14 +28,14 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    'reflect-metadata': [
-                        'Reflect',
-                        `data:application/javascript,${encodeURIComponent(
-                            ';var Reflect=window.Reflect;'
-                        )}`,
-                        (version) =>
-                            `https://cdn.jsdelivr.net/npm/reflect-metadata@${version}/Reflect.min.js`,
-                    ],
+                    vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
+                    mdui: cdn.jsdelivr('mdui', 'dist/js/mdui.min.js'),
+                    'reflect-metadata': cdn.jsdelivr('Reflect', 'Reflect.min.js').concat(
+                        await util.fn2dataUrl(() => {
+                            // @ts-ignore
+                            let Reflect = window.Reflect
+                        })
+                    )
                 },
             },
         }),
