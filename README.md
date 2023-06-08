@@ -10,72 +10,12 @@
 
 由于脚本使用了某种[特别的东西](https://github.com/BeyondDimension/SteamTools/issues/2497)，Greasy Fork上的脚本不能直接导入steam++，需要使用 [releases](https://github.com/marioplus/steam-price-converter/releases) 中额外构建的版本。
 
-### 更换转换货币
+### 设置
 
-默认将价格转化为人名币，如果需要转换其他货币展示需要在控制台(F12)执行内置方法
+默认将价格转化为人名币，如果需要转换其他货币展示可以在设置页面进行设置，所有设置都是实时生效的。
 
-![](https://s3.bmp.ovh/imgs/2023/05/20/645fe75b3aa370ed.png)
-![](https://s3.bmp.ovh/imgs/2023/05/20/659027a24f7f64e3.png)
-
-刷新页面就能看到结果
-
-![](https://s3.bmp.ovh/imgs/2023/05/20/81d3f652cdafcab8.png)
-
-#### 设置国家代码，默认：CN
-
-可在[此处](https://github.com/marioplus/steam-price-converter/blob/master/src/county/countyCurrencyCodes.json)查看代码(文中的 code)
-
-```js
-SpcManager.setCountyCode('CN')
-```
-
-设置的国家代码需要使用英文中的`'`符号包裹。
-
-#### 设置货币符号，默认：￥
-
-```js
-SpcManager.setCurrencySymbol('￥')
-```
-
-设置的货币符号需要使用英文中的`'`符号包裹。
-
-#### 设置货币符号是否在前，默认：true
-
-```js
-SpcManager.setCurrencySymbolBeforeValue(true)
-```
-
-某些特殊字符由于特殊排版可能导致此设置失效。比如：😀。
-
-- `true` : 在前
-- `false` : 在后
-
-#### 设置使用自定义汇率，默认：true
-
-```js
-SpcManager.setUseCustomRate(true)
-```
-
-- `true` : 使用
-- `false` : 不使用
-
-#### 设置自定义汇率，默认：1
-
-```js
-SpcManager.setUseCustomRate(1)
-```
-
-#### 设置汇率有效期，默认: 1小时
-
-```js
-SpcManager.setRateCacheExpired(1000 * 60 * 60)
-```
-
-#### 重置设置
-
-```js
-SpcManager.resetSetting()
-```
+![](https://s3.bmp.ovh/imgs/2023/06/09/de3f84f9f3c2c1f0.jpg)
+![](https://s3.bmp.ovh/imgs/2023/06/09/f500fb8f8517953d.jpg)
 
 ## 开发
 
