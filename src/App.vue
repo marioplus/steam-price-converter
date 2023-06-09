@@ -1,7 +1,7 @@
 <template>
   <div class="mdui-theme-primary-indigo mdui-theme-accent-indigo">
     <div class="mdui-container">
-      <button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-typo" mdui-dialog="{target: '#spc-dialog-menu'}">open</button>
+<!--      <button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-typo" mdui-dialog="{target: '#spc-dialog-menu'}">open</button>-->
       <div class="mdui-dialog" id="spc-dialog-menu">
         <div class="mdui-dialog-title">Setting</div>
         <div class="mdui-dialog-content">
