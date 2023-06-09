@@ -2,7 +2,6 @@ import {main} from './RealMain'
 import {CountyCode2CountyInfo} from './county/CountyInfo'
 import {SettingManager} from './setting/SettingManager'
 import {addCdnCss} from './utils/ElementUtils'
-import mdui from 'mdui'
 import {createApp} from 'vue'
 import './style/style.less'
 // @ts-ignore
@@ -10,11 +9,15 @@ import App from './App.vue'
 import {GM_registerMenuCommand} from '$'
 import {GM_setValue} from 'vite-plugin-monkey/dist/client'
 import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
+import mdui from 'mdui'
 
 (async () => {
-    initCdn()
-    initApp()
-    initMenu()
+    // 非市场有白屏的bug没有菜单
+    if (window.location.href.match('store.steampowered.com')) {
+        initCdn()
+        initApp()
+        initMenu()
+    }
     await doConvert()
 })()
 
