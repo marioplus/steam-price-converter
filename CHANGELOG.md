@@ -2,6 +2,10 @@
 
 # steam-price-converter Changelog
 
+## [2.3.0] -2023-07-05
+
+1. 使用AugmentedSteam提供的Api获取汇率
+
 ## [2.2.2] - 2023-06-09
 
 1. 处理市场白屏的情况
