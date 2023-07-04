@@ -1,11 +1,11 @@
 import {IRateApi} from './IRateApi'
-import {ExchangeRateApi} from './ExchangeRateApi'
 import {GM_deleteValue, GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {CountyInfo} from '../county/CountyInfo'
 import {format} from '../LogUtil'
 import {RateCache, RateCaches} from './RateCaches'
 import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
 import {SettingManager} from '../setting/SettingManager'
+import {AugmentedSteamRateApi} from './AugmentedSteamRateApi'
 
 export class RateManager implements IRateApi {
 
@@ -15,9 +15,13 @@ export class RateManager implements IRateApi {
 
     private constructor() {
         this.rateApis = [
-            new ExchangeRateApi()
+            new AugmentedSteamRateApi()
         ]
         this.rateCaches = this.loadRateCache()
+    }
+
+    getName(): string {
+        return 'RateManager'
     }
 
     private async getRate4Remote(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
@@ -27,7 +31,7 @@ export class RateManager implements IRateApi {
             try {
                 rate = await rateApi.getRate(currCounty, targetCounty)
             } catch (e) {
-                console.error(`使用实现(${typeof rateApi})获取汇率失败`)
+                console.error(`使用实现(${rateApi.getName()})获取汇率失败`)
             }
             if (rate) {
                 return rate
@@ -47,7 +51,7 @@ export class RateManager implements IRateApi {
         // 过期需要重新获取
         const now = new Date().getTime()
         const expired = setting.rateCacheExpired
-        if (cache === undefined || now > cache.createdAt + expired) {
+        if (!cache || !cache.rate || now > cache.createdAt + expired) {
             // 两小时过期时间
             console.info(format(`本地缓存已过期`))
             cache = new RateCache(currCounty.code, targetCounty.code)

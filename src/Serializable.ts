@@ -5,6 +5,7 @@ const metadataKey = 'Metadata:JsonProperty'
 type JsonProperty = {
     alias?: string,
     typeAs?: Function
+    mapValue?: boolean
 }
 
 export function JsonProperty(config: JsonProperty = {}) {
@@ -64,8 +65,18 @@ export class Serializable<T extends Serializable<T>> {
             if (!config || jsonNode === undefined) {
                 return
             }
+            // 仅仅处理的两成map嵌套
             if (config.typeAs || config.typeAs === Map) {
-                anyThis[propKey] = new Map(Object.entries(jsonNode))
+                let entries = Object.entries(jsonNode)
+                if (config.mapValue) {
+                    entries = entries.map(([k, v]) => {
+                        if (v instanceof Object) {
+                            return [k, new Map(Object.entries(v))]
+                        }
+                        return [k, v]
+                    })
+                }
+                anyThis[propKey] = new Map(entries)
                 return
             }
 

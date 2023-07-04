@@ -22,7 +22,7 @@ export default defineConfig({
                     'https://steamcommunity.com/*'
                 ],
                 connect: [
-                    'open.er-api.com',
+                    'api.augmentedsteam.com',
                     'store.steampowered.com'
                 ]
             },
