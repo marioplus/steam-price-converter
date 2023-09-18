@@ -6,7 +6,7 @@
     {"code":"AE","name":"阿联酋","nameEn":"United Arab Emirates","currencyCode":"AED"},
     {"code":"AW","name":"阿鲁巴","nameEn":"Aruba","currencyCode":"AWG"},
     {"code":"OM","name":"阿曼","nameEn":"Oman","currencyCode":"OMR"},
-    {"code":"AZ","name":"阿塞拜疆","nameEn":"Azerbaijan","currencyCode":"AZN"},
+    {"code":"AZ","name":"阿塞拜疆","nameEn":"Azerbaijan","currencyCode":"USD"},
     {"code":"EG","name":"埃及","nameEn":"Egypt","currencyCode":"EGP"},
     {"code":"ET","name":"埃塞俄比亚","nameEn":"Ethiopia","currencyCode":"ETB"},
     {"code":"IE","name":"爱尔兰","nameEn":"Ireland","currencyCode":"EUR"},
