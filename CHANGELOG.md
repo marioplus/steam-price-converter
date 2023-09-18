@@ -2,6 +2,11 @@
 
 # steam-price-converter Changelog
 
+## [2.3.1] -2023-09-18
+
+1. 根据GaCoY的反馈，阿塞拜疆的steam货币改为USD
+2. 不再兼容steam++
+
 ## [2.3.0] -2023-07-05
 
 1. 使用AugmentedSteam提供的Api获取汇率
