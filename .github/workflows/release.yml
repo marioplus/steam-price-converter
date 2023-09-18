@@ -64,10 +64,10 @@ jobs:
         run: npm run build
 
       # Run Steam++ build
-      - name: Run Steam++ build
-        shell: bash
-        run: |
-          sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' ./dist/*.js  >  ./dist/${{ steps.properties.outputs.steamfilename }}
+      # - name: Run Steam++ build
+      #   shell: bash
+      #   run: |
+      #     sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' ./dist/*.js  >  ./dist/${{ steps.properties.outputs.steamfilename }}
           
 
       # Upload artifact
