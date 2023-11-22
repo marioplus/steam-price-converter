@@ -64,8 +64,16 @@ export class RateManager implements IRateApi {
     }
 
     private loadRateCache(): RateCaches {
-        const jsonString = GM_getValue(STORAGE_KEY_RATE_CACHES, '{}')
         const caches = new RateCaches()
+
+        const setting = SettingManager.instance.setting
+        if (setting.oldVersion !== setting.currVersion) {
+            console.info(format(`脚本版本发生变化需要刷新汇率缓存`))
+            this.clear()
+            return caches.readJsonString('{}')
+        }
+
+        const jsonString = GM_getValue(STORAGE_KEY_RATE_CACHES, '{}')
         console.info(format(`读取汇率缓存`))
         return caches.readJsonString(jsonString)
     }

@@ -33,4 +33,16 @@ export class Setting extends Serializable<Setting> {
      */
     @JsonProperty()
     customRate: number = 1
+
+    /**
+     * 前一个版本
+     */
+    @JsonProperty()
+    oldVersion: string = '0.0.0'
+
+    /**
+     * 当前版本
+     */
+    @JsonProperty()
+    currVersion: string = '0.0.0'
 }

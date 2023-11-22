@@ -60,9 +60,12 @@ export class Serializable<T extends Serializable<T>> {
         const anyThis: any = <any>this
         Object.keys(this).forEach(propKey => {
             const config = Reflect.getMetadata(metadataKey, this, propKey)
+            if (!config) {
+                return
+            }
             const prop = anyThis[propKey]
             const jsonNode = json[config.alias]
-            if (!config || jsonNode === undefined) {
+            if (jsonNode === undefined) {
                 return
             }
             // 仅仅处理的两成map嵌套
