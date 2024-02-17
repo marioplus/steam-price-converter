@@ -11,18 +11,16 @@ import {format} from '../LogUtil'
  * @param content 包含货币和价格的字符串
  */
 function parsePrice(content: string) {
-    const matches = content.match(/(?<=^\D*)\d+[\d,.\s]*?(?=\D*$)/)
-    if (!matches) {
-        throw Error('提取价格失败：content:' + content)
-    }
     // 1.399,53
-    let priceStr = matches[0]
-        .replaceAll(/\D/g, '')
+    const priceStr = content
+        .replace(/^[^0-9]+/, '')
+        .replace(/[^0-9,.]+$/, '')
     // 139953
-    let price = Number.parseInt(priceStr)
+    const numberStr = priceStr.replace(/\D/g, '')
+    let price = Number.parseInt(numberStr)
     // 小数点 1399.53
-    if (matches[0].match(/\D\d\d$/)) {
-        price = price / 100
+    if (priceStr.match(/\D/)) {
+        price = price / 100.0
     }
     return price
 }

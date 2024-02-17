@@ -5,7 +5,19 @@ import {convertPriceContent} from './ConvertUtils'
 export class ElementConverter extends AbstractConverter {
 
     getCssSelectors(): string[] {
-        return [
+        // 商店 分类
+        const category = [
+            // 原价
+            '.Wh0L8EnwsPV_8VAu8TOYr',
+            // 折扣价
+            '._1EKGZBnKFWOr3RqVdnLMRN'
+        ]
+
+        const account=[
+            'div.accountData.price a'
+        ]
+
+        const selectors = [
             // 商店
             // 首页
             '.discount_original_price',
@@ -15,13 +27,14 @@ export class ElementConverter extends AbstractConverter {
             '#header_wallet_balance > span.tooltip',
             // 愿望单总价值
             '.esi-wishlist-stat > .num',
-            // // 新版卡片
+            // 新版卡片
             '.salepreviewwidgets_StoreOriginalPrice_1EKGZ',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8',
             // 分类查看游戏
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
+            //
 
             // 购物车
             '.cart_item_price.with_discount > .original_price',
@@ -59,6 +72,9 @@ export class ElementConverter extends AbstractConverter {
             // 低于xxx 分类标题
             '.home_page_content_title a.btn_small_tall > span',
         ]
+        selectors.push(...category)
+        selectors.push(...account)
+        return selectors
     }
 
     convert(elementSnap: ElementSnap, rate: number): boolean {
