@@ -2,6 +2,10 @@
 
 # steam-price-converter Changelog
 
+## [2.3.3] - 2023-11-22
+
+1. AugmentedSteam Api获取接口调整兼容
+
 ## [2.3.2] - 2023-11-22
 
 1. 阿根廷和土耳其的货币改为USD

@@ -20,18 +20,32 @@ export class Http {
         return this.request<T>(details, respType)
     }
 
-    private static parseResponse<T extends Serializable<T>>(response: any, respType: Function): T {
+    private static parseResponse<T>(response: any, respType?: Function): T {
         const data = JSON.parse(response.response)
+        if (!respType) {
+            return data
+        }
         // @ts-ignore
         const res = <T>new respType()
+        // @ts-ignore
         return res.readJson(data)
     }
 
-    private static request<T extends Serializable<T>>(details: XhrRequest, respType: Function): Promise<T> {
+    private static request<T>(details: XhrRequest, respType?: Function): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             details.onload = response => resolve(this.parseResponse<T>(response, respType))
             details.onerror = error => reject(error)
             GM_xmlhttpRequest(details)
         })
     }
+
+    static getAsJson(url: string, details?: XhrRequest): Promise<String> {
+        if (!details) {
+            details = {url}
+        }
+        details.method = 'GET'
+        return this.request<string>(details)
+    }
+
+
 }
