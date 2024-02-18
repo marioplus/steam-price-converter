@@ -2,7 +2,7 @@ import {ConverterManager} from './converter/ConverterManager'
 import {CountyCode2CountyInfo, CountyInfo} from './county/CountyInfo'
 import {RateManager} from './rate/RateManager'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
-import {format} from './LogUtil'
+import {format, Logs} from './LogUtil'
 import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcManager} from './SpcManager'
 
@@ -22,7 +22,7 @@ export async function main(targetCounty: CountyInfo) {
     if (!currCounty) {
         throw Error('获取货币代码失败')
     }
-    console.info(format('获取区域对应信息：'), currCounty)
+    Logs.info('获取区域对应信息：', currCounty)
 
     // 获取汇率
     const rate = await RateManager.instance.getRate(currCounty, targetCounty)
