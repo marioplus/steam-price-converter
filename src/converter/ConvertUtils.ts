@@ -13,6 +13,7 @@ import {format} from '../LogUtil'
 function parsePrice(content: string) {
     // 1.399,53
     const priceStr = content
+        .replace(/\s/g, '')
         .replace(/^[^0-9]+/, '')
         .replace(/[^0-9,.]+$/, '')
     // 139953
