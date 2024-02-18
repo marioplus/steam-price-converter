@@ -1,5 +1,5 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
-import {format} from '../LogUtil'
+import {Logger} from '../utils/LogUtils'
 
 /**
  * 当前页面获取区域代码
@@ -11,7 +11,7 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
     }
 
     getCountyCode(): Promise<string> {
-        console.info(format('通过 商店页面 获取区域代码...'))
+        Logger.info('通过 商店页面 获取区域代码...')
         return new Promise<string>(resolve => {
             document.querySelectorAll('script').forEach(scriptEl => {
                 const scriptInnerText = scriptEl.innerText
@@ -20,12 +20,12 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
                     const match = scriptInnerText.match(matcher)
                     if (match) {
                         const countyCode = match.toString()
-                        console.info(format('通过 商店页面 获取区域代码成功：' + countyCode))
+                        Logger.info(`通过 商店页面 获取区域代码成功：${countyCode}`)
                         resolve(countyCode)
                     }
                 }
             })
-            throw Error(format('通过 商店页面 获取区域代码失败。'))
+            throw Error('通过 商店页面 获取区域代码失败。')
         })
     }
 

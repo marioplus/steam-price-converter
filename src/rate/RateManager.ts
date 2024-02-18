@@ -1,11 +1,11 @@
 import {IRateApi} from './IRateApi'
 import {GM_deleteValue, GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {CountyInfo} from '../county/CountyInfo'
-import {format} from '../LogUtil'
 import {RateCache, RateCaches} from './RateCaches'
 import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
 import {SettingManager} from '../setting/SettingManager'
 import {AugmentedSteamRateApi} from './AugmentedSteamRateApi'
+import {Logger} from '../utils/LogUtils'
 
 export class RateManager implements IRateApi {
 
@@ -25,13 +25,13 @@ export class RateManager implements IRateApi {
     }
 
     private async getRate4Remote(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
-        console.log(format('远程获取汇率...'))
+        Logger.info('远程获取汇率...')
         let rate: number | undefined
         for (let rateApi of this.rateApis) {
             try {
                 rate = await rateApi.getRate(currCounty, targetCounty)
             } catch (e) {
-                console.error(`使用实现(${rateApi.getName()})获取汇率失败`)
+                Logger.error(`使用实现(${rateApi.getName()})获取汇率失败`)
             }
             if (rate) {
                 return rate
@@ -43,7 +43,7 @@ export class RateManager implements IRateApi {
     public async getRate(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
         const setting = SettingManager.instance.setting
         if (setting.useCustomRate) {
-            console.log('使用自定义汇率')
+            Logger.info('使用自定义汇率')
             return setting.customRate
         }
 
@@ -53,7 +53,7 @@ export class RateManager implements IRateApi {
         const expired = setting.rateCacheExpired
         if (!cache || !cache.rate || now > cache.createdAt + expired) {
             // 两小时过期时间
-            console.info(format(`本地缓存已过期`))
+            Logger.info(`本地缓存已过期`)
             cache = new RateCache(currCounty.code, targetCounty.code)
             cache.rate = await this.getRate4Remote(currCounty, targetCounty)
             cache.createdAt = new Date().getTime()
@@ -68,18 +68,18 @@ export class RateManager implements IRateApi {
 
         const setting = SettingManager.instance.setting
         if (setting.oldVersion !== setting.currVersion) {
-            console.info(format(`脚本版本发生变化需要刷新汇率缓存`))
+            Logger.info(`脚本版本发生变化需要刷新汇率缓存`)
             this.clear()
             return caches.readJsonString('{}')
         }
 
         const jsonString = GM_getValue(STORAGE_KEY_RATE_CACHES, '{}')
-        console.info(format(`读取汇率缓存`))
+        Logger.info(`读取汇率缓存`)
         return caches.readJsonString(jsonString)
     }
 
     private saveRateCache() {
-        console.info(format('保存汇率缓存'), this.rateCaches)
+        Logger.info('保存汇率缓存', this.rateCaches)
         GM_setValue(STORAGE_KEY_RATE_CACHES, this.rateCaches.toJsonString())
     }
 

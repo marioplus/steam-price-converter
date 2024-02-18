@@ -2,8 +2,9 @@ import {Setting} from './Setting'
 import {GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {STORAGE_KEY_SETTING} from '../constant/Constant'
 import {CountyCode2CountyInfo} from '../county/CountyInfo'
-import {format} from '../LogUtil'
 import {GM_info} from '$'
+import {Logger} from '../utils/LogUtils'
+import {Strings} from '../utils/Strings'
 
 export class SettingManager {
     public static instance: SettingManager = new SettingManager()
@@ -20,10 +21,10 @@ export class SettingManager {
         setting.currVersion = GM_info.script.version
 
         if (setting.oldVersion !== setting.currVersion) {
-            console.log(format(`版本更新：${setting.oldVersion} -> ${setting.currVersion}`))
+            Logger.debug(Strings.format(`版本更新：%s -> %s`, setting.oldVersion, setting.currVersion))
         }
 
-        console.log(format('读取设置'), setting)
+        Logger.debug('读取设置', setting)
 
         this.saveSetting(setting, false)
         return setting
@@ -36,7 +37,7 @@ export class SettingManager {
      */
     public saveSetting(setting: Setting, logger: boolean = true) {
         if (logger) {
-            console.log(format('保存设置'), setting)
+            Logger.info('保存设置', setting)
         }
         GM_setValue(STORAGE_KEY_SETTING, setting.toJsonString())
     }

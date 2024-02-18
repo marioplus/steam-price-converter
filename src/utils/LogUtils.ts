@@ -1,21 +1,5 @@
 const title = `steam-price-convertor ${new Date().getMilliseconds()}`
 
-export function format(format: string, ...args: any[]): string {
-    args = args || []
-    let message = format
-    for (let arg of args) {
-        message = message.replace('%s', arg)
-    }
-    return title + message
-}
-
-const Color = {
-    log: '#009688',
-    info: '#2196f3',
-    warn: '#ffc107',
-    error: '#e91e63'
-}
-
 function hintStyle(color: string): string {
     return `
         background: ${color};
@@ -25,6 +9,10 @@ function hintStyle(color: string): string {
     `
 }
 
+function hintContent() {
+    return `%c${title}`
+}
+
 type Level = {
     index: number
     color: string
@@ -32,12 +20,13 @@ type Level = {
     bindSource: Function
 }
 
-const Levels = {
-    log: <Level>{
+// 日志等级定义
+export const LogLevels = {
+    debug: <Level>{
         index: 0,
         color: '#009688',
-        name: 'log',
-        bindSource: console.log
+        name: 'debug',
+        bindSource: console.debug
     },
     info: <Level>{
         index: 1,
@@ -65,29 +54,31 @@ const Levels = {
     }
 }
 
-const Config = {
-    level: Levels.info
+const LogConfig = {
+    level: LogLevels.info
 }
 
-// @ts-ignore
+/**
+ * 日志级别不足时，使用这个空方法替代绑定
+ */
 function empLog() {
 }
 
 function unBind(level: Level) {
-    if (level.index < Config.level.index) {
+    if (level.index < LogConfig.level.index) {
         // @ts-ignore
-        Logs[level.name] = empLog.bind(this)
+        Logger[level.name] = empLog.bind(this)
     }
 }
 
-export const Logs = {
-    log: console.log.bind(console, `%c${title}`, hintStyle(Color.log)),
-    info: console.info.bind(console, `%c${title}`, hintStyle(Color.info)),
-    warn: console.warn.bind(console, `%c${title}`, hintStyle(Color.warn)),
-    error: console.error.bind(console, `%c${title}`, hintStyle(Color.error)),
+export const Logger = {
+    debug: console.log.bind(console, hintContent(), hintStyle(LogLevels.debug.color)),
+    info: console.info.bind(console, hintContent(), hintStyle(LogLevels.info.color)),
+    warn: console.warn.bind(console, hintContent(), hintStyle(LogLevels.warn.color)),
+    error: console.error.bind(console, hintContent(), hintStyle(LogLevels.error.color)),
 }
 
-unBind(Levels.log)
-unBind(Levels.info)
-unBind(Levels.warn)
-unBind(Levels.error)
+unBind(LogLevels.debug)
+unBind(LogLevels.info)
+unBind(LogLevels.warn)
+unBind(LogLevels.error)

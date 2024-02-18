@@ -2,8 +2,8 @@ import {ICountyInfoGetter} from './ICountyInfoGetter'
 import {CookieCountyInfoGetter} from './CookieCountyInfoGetter'
 import {RequestStorePageCountyCodeGetter} from './RequestStorePageCountyCodeGetter'
 import {StorePageCountyCodeGetter} from './StorePageCountyCodeGetter'
-import {format} from '../LogUtil'
 import {MarketPageCountyCodeGetter} from './MarketPageCountyCodeGetter'
+import {Logger} from '../utils/LogUtils'
 
 
 export class CountyCodeGetterManager implements ICountyInfoGetter {
@@ -25,7 +25,7 @@ export class CountyCodeGetterManager implements ICountyInfoGetter {
     }
 
     async getCountyCode(): Promise<string> {
-        console.info(format('获取区域代码...'))
+        Logger.info('获取区域代码...')
         let code: string | undefined
         for (let getter of this.getters) {
             if (getter.match()) {
@@ -39,7 +39,8 @@ export class CountyCodeGetterManager implements ICountyInfoGetter {
                 return code
             }
         }
-        throw new Error(format('获取区域代码失败。'))
+        Logger.error('获取区域代码...')
+        throw new Error('获取区域代码失败。')
     }
 
 }

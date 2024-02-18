@@ -1,6 +1,6 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
 import {GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
-import {format} from '../LogUtil'
+import {Logger} from '../utils/LogUtils'
 
 /**
  * 请求商店页面获取区域代码
@@ -12,7 +12,7 @@ export class RequestStorePageCountyCodeGetter implements ICountyInfoGetter {
     }
 
     async getCountyCode(): Promise<string> {
-        console.info(format('通过 请求商店页面 获取区域代码...'))
+        Logger.info('通过 请求商店页面 获取区域代码...')
         let countyCode: string | undefined = undefined
 
         await new Promise<string>(resolve => GM_xmlhttpRequest({
@@ -23,7 +23,7 @@ export class RequestStorePageCountyCodeGetter implements ICountyInfoGetter {
                 const match = res.match(/(?<=GDynamicStore.Init\(.+')[A-Z][A-Z](?=',)/)
                 if (match) {
                     countyCode = match[0]
-                    console.info(format('通过 请求商店页面 获取区域代码成功：' + countyCode))
+                    Logger.info('通过 请求商店页面 获取区域代码成功：'+ countyCode)
                 }
             })
         if (countyCode) {

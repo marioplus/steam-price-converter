@@ -1,5 +1,6 @@
 import {SettingManager} from '../setting/SettingManager'
-import {format} from '../LogUtil'
+import {Logger} from '../utils/LogUtils'
+import {Strings} from '../utils/Strings'
 
 /**
  * 提取获取价格
@@ -55,11 +56,11 @@ export function convertPriceContent(originalContent: string, rate: number): stri
     } else {
         finalContent = `${safeContent}(${convertedPrice}${setting.currencySymbol})`
     }
-
-    console.debug(format('转换前文本：%s; 提取到的价格：%s; 转换后的价格：%s; 转换后文本：%s',
+    const message = Strings.format('转换前文本：%s; 提取到的价格：%s; 转换后的价格：%s; 转换后文本：%s',
         safeContent,
         price,
         convertedPrice,
-        finalContent))
+        finalContent)
+    Logger.debug(message)
     return finalContent
 }

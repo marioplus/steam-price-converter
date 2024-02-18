@@ -2,9 +2,10 @@ import {ConverterManager} from './converter/ConverterManager'
 import {CountyCode2CountyInfo, CountyInfo} from './county/CountyInfo'
 import {RateManager} from './rate/RateManager'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
-import {format, Logs} from './LogUtil'
 import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcManager} from './SpcManager'
+import {Logger} from './utils/LogUtils'
+import {Strings} from './utils/Strings'
 
 export async function main(targetCounty: CountyInfo) {
     // @ts-ignore
@@ -13,7 +14,7 @@ export async function main(targetCounty: CountyInfo) {
     // 获取国家代码
     let countyCode: string = await CountyCodeGetterManager.instance.getCountyCode()
     if (targetCounty.code === countyCode) {
-        console.info(format(`${targetCounty.name}无需转换`))
+        Logger.info(`${targetCounty.name}无需转换`)
         return
     }
 
@@ -22,14 +23,14 @@ export async function main(targetCounty: CountyInfo) {
     if (!currCounty) {
         throw Error('获取货币代码失败')
     }
-    Logs.info('获取区域对应信息：', currCounty)
+    Logger.info('获取区域对应信息：', currCounty)
 
     // 获取汇率
     const rate = await RateManager.instance.getRate(currCounty, targetCounty)
     if (!rate) {
         throw Error('获取汇率失败')
     }
-    console.info(format(`汇率 ${currCounty.currencyCode} -> ${targetCounty.currencyCode}：${rate}`))
+    Logger.info(Strings.format(`汇率 %s -> %s：%s`, currCounty.currencyCode, targetCounty.currencyCode, rate))
     await convert(rate)
 }
 
