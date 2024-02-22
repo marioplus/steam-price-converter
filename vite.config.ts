@@ -13,6 +13,7 @@ export default defineConfig({
                 author: 'marioplus',
                 description: 'steam商店中的价格转换为人民币',
                 version: '2.3.6',
+                'run-at': 'document-start',
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
                 homepage: 'https://github.com/marioplus',

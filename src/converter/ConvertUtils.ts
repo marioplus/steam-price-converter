@@ -14,6 +14,8 @@ import {Strings} from '../utils/Strings'
 function parsePrice(content: string) {
     // 1.399,53
     const priceStr = content
+        // 俄罗斯货币
+        .replaceAll(/pуб\./g, '')
         .replace(/\s/g, '')
         .replace(/^[^0-9]+/, '')
         .replace(/[^0-9,.]+$/, '')

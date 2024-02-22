@@ -46,7 +46,7 @@ async function convert(rate: number) {
 
         mutations.forEach(mutation => {
             const target = <HTMLElement>mutation.target
-            const priceEls = target.querySelectorAll(selector)
+            let priceEls = target.querySelectorAll(selector)
             if (!priceEls || priceEls.length === 0) {
                 return
             }

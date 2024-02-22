@@ -19,6 +19,7 @@ import mdui from 'mdui'
         initMenu()
     }
     await doConvert()
+    // doHook()
 })()
 
 function initCdn() {
