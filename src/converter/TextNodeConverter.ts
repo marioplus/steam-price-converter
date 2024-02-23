@@ -23,6 +23,11 @@ export class TextNodeConverter extends AbstractConverter {
         ['.game_purchase_price.price', [this.parseFirstChildTextNodeFn]],
         // 低于xxx 分类标题
         ['.home_page_content_title', [this.parseFirstChildTextNodeFn]],
+        // dlc 中没有折扣
+        ['.game_area_dlc_row > .game_area_dlc_price', [
+            el => el,
+            this.parseFirstChildTextNodeFn
+        ]]
     ])
 
     getCssSelectors(): string[] {
