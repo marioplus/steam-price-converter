@@ -16,6 +16,8 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
             // @ts-ignore
             let countyCode = GStoreItemData.rgNavParams.__page_default_obj.countrycode
             if (countyCode) {
+                Logger.info(`通过 商店页面 获取区域代码成功：${countyCode}`)
+                resolve(countyCode)
                 return
             }
             document.querySelectorAll('script').forEach(scriptEl => {
@@ -27,6 +29,7 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
                         const countyCode = match.toString()
                         Logger.info(`通过 商店页面 获取区域代码成功：${countyCode}`)
                         resolve(countyCode)
+                        return
                     }
                 }
             })
