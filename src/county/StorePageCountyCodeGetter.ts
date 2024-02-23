@@ -13,6 +13,11 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
     getCountyCode(): Promise<string> {
         Logger.info('通过 商店页面 获取区域代码...')
         return new Promise<string>(resolve => {
+            // @ts-ignore
+            let countyCode = GStoreItemData.rgNavParams.__page_default_obj.countrycode
+            if (countyCode) {
+                return
+            }
             document.querySelectorAll('script').forEach(scriptEl => {
                 const scriptInnerText = scriptEl.innerText
                 if (scriptInnerText.includes('$J( InitMiniprofileHovers );') || scriptInnerText.includes(`$J( InitMiniprofileHovers( 'https%3A%2F%2Fstore.steampowered.com%2F' ) );`)) {
