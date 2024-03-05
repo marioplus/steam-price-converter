@@ -14,7 +14,7 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
         Logger.info('通过 商店页面 获取区域代码...')
         return new Promise<string>(resolve => {
             // @ts-ignore
-            let countyCode = GStoreItemData.rgNavParams.__page_default_obj.countrycode
+            let countyCode = GStoreItemData?.rgNavParams?.__page_default_obj?.countrycode
             if (countyCode) {
                 Logger.info(`通过 商店页面 获取区域代码成功：${countyCode}`)
                 resolve(countyCode)
