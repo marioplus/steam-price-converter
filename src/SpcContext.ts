@@ -1,5 +1,6 @@
 import {CountyInfo} from './county/CountyInfo'
 import {Setting} from './setting/Setting'
+import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 
 export class SpcContext {
 
@@ -15,7 +16,7 @@ export class SpcContext {
 
     public static getContext(): SpcContext {
         // @ts-ignore
-        return window.spcContext
+        return unsafeWindow.spcContext
     }
 
 
