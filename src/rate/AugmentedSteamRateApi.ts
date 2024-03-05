@@ -1,8 +1,8 @@
 import {IRateApi} from './IRateApi'
-import {CountyInfo} from '../county/CountyInfo'
 import {Http} from './Http'
 import {Logger} from '../utils/LogUtils'
 import {Strings} from '../utils/Strings'
+import {SpcContext} from '../SpcContext'
 
 export class AugmentedSteamRateApi implements IRateApi {
 
@@ -10,20 +10,21 @@ export class AugmentedSteamRateApi implements IRateApi {
         return 'AugmentedSteamRateApi'
     }
 
-    async getRate(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
+    async getRate(): Promise<number> {
+        const context = SpcContext.getContext()
         Logger.info(Strings.format('通过 AugmentedSteam 获取汇率 %s(%s) -> %s(%s)...',
-            currCounty.currencyCode,
-            currCounty.name,
-            targetCounty.currencyCode,
-            targetCounty.name))
-        const url = `https://api.augmentedsteam.com/rates/v1?to=${currCounty.currencyCode}`
+            context.currentCountyInfo.currencyCode,
+            context.currentCountyInfo.name,
+            context.targetCountyInfo.currencyCode,
+            context.targetCountyInfo.name))
+        const url = `https://api.augmentedsteam.com/rates/v1?to=${context.currentCountyInfo.currencyCode}`
         let rate: number | void | null = await Http.getAsJson(url)
             .then(res => {
                 if (!res) {
                     return null
                 }
                 // @ts-ignore
-                return res[targetCounty.currencyCode][currCounty.currencyCode]
+                return res[context.targetCountyInfo.currencyCode][context.currentCountyInfo.currencyCode]
             })
             .catch(err => Logger.debug(Strings.format('通过 AugmentedSteam 获取汇率失败：%s', err)))
         if (rate) {

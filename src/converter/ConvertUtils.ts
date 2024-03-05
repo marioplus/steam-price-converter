@@ -1,6 +1,7 @@
 import {SettingManager} from '../setting/SettingManager'
 import {Logger} from '../utils/LogUtils'
 import {Strings} from '../utils/Strings'
+import {SpcContext} from '../SpcContext'
 
 /**
  * 提取获取价格
@@ -13,12 +14,17 @@ import {Strings} from '../utils/Strings'
  */
 function parsePrice(content: string) {
     // 1.399,53
-    const priceStr = content
+    let priceStr = content
         // 俄罗斯货币
         .replaceAll(/pуб\./g, '')
         .replace(/\s/g, '')
         .replace(/^[^0-9]+/, '')
         .replace(/[^0-9,.]+$/, '')
+    const currencyCode = SpcContext.getContext().currentCountyInfo.currencyCode
+    // 印尼区需要去掉逗号
+    if (currencyCode === 'INR') {
+        priceStr = priceStr.replaceAll(/,/g, '')
+    }
     // 139953
     const numberStr = priceStr.replace(/\D/g, '')
     let price = Number.parseInt(numberStr)

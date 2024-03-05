@@ -1,36 +1,23 @@
 import {ConverterManager} from './converter/ConverterManager'
-import {CountyCode2CountyInfo, CountyInfo} from './county/CountyInfo'
 import {RateManager} from './rate/RateManager'
-import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
-import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
-import {SpcManager} from './SpcManager'
 import {Logger} from './utils/LogUtils'
 import {Strings} from './utils/Strings'
+import {SpcContext} from './SpcContext'
 
-export async function main(targetCounty: CountyInfo) {
-    // @ts-ignore
-    unsafeWindow.SpcManager = SpcManager.instance
+export async function main() {
+    const context = SpcContext.getContext()
 
-    // 获取国家代码
-    let countyCode: string = await CountyCodeGetterManager.instance.getCountyCode()
-    if (targetCounty.code === countyCode) {
-        Logger.info(`${targetCounty.name}无需转换`)
+    if (context.currentCountyInfo.code === context.targetCountyInfo.code) {
+        Logger.info(`${context.currentCountyInfo.name}无需转换`)
         return
     }
 
-    // 获取货币代码
-    const currCounty = CountyCode2CountyInfo.get(countyCode)
-    if (!currCounty) {
-        throw Error('获取货币代码失败')
-    }
-    Logger.info('获取区域对应信息：', currCounty)
-
     // 获取汇率
-    const rate = await RateManager.instance.getRate(currCounty, targetCounty)
+    const rate = await RateManager.instance.getRate()
     if (!rate) {
         throw Error('获取汇率失败')
     }
-    Logger.info(Strings.format(`汇率 %s -> %s：%s`, currCounty.currencyCode, targetCounty.currencyCode, rate))
+    Logger.info(Strings.format(`汇率 %s -> %s：%s`, context.currentCountyInfo.currencyCode, context.targetCountyInfo.currencyCode, rate))
     await convert(rate)
 }
 

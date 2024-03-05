@@ -1,35 +1,33 @@
 import {IRateApi} from './IRateApi'
 import {GM_deleteValue, GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
-import {CountyInfo} from '../county/CountyInfo'
 import {RateCache, RateCaches} from './RateCaches'
 import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
-import {SettingManager} from '../setting/SettingManager'
 import {AugmentedSteamRateApi} from './AugmentedSteamRateApi'
 import {Logger} from '../utils/LogUtils'
+import {SpcContext} from '../SpcContext'
 
 export class RateManager implements IRateApi {
 
     public static instance: RateManager = new RateManager()
     private readonly rateApis: IRateApi[]
-    private readonly rateCaches: RateCaches
+    private rateCaches: RateCaches = new RateCaches()
 
     private constructor() {
         this.rateApis = [
             new AugmentedSteamRateApi()
         ]
-        this.rateCaches = this.loadRateCache()
     }
 
     getName(): string {
         return 'RateManager'
     }
 
-    private async getRate4Remote(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
+    private async getRate4Remote(): Promise<number> {
         Logger.info('远程获取汇率...')
         let rate: number | undefined
         for (let rateApi of this.rateApis) {
             try {
-                rate = await rateApi.getRate(currCounty, targetCounty)
+                rate = await rateApi.getRate()
             } catch (e) {
                 Logger.error(`使用实现(${rateApi.getName()})获取汇率失败`)
             }
@@ -40,22 +38,23 @@ export class RateManager implements IRateApi {
         throw Error('所有汇率获取实现获取汇率均失败')
     }
 
-    public async getRate(currCounty: CountyInfo, targetCounty: CountyInfo): Promise<number> {
-        const setting = SettingManager.instance.setting
-        if (setting.useCustomRate) {
+    public async getRate(): Promise<number> {
+        const context = SpcContext.getContext()
+        if (context.setting.useCustomRate) {
             Logger.info('使用自定义汇率')
-            return setting.customRate
+            return context.setting.customRate
         }
 
-        let cache = this.rateCaches.getCache(currCounty.code, targetCounty.code)
+        this.loadRateCache()
+        let cache = this.rateCaches.getCache(context.currentCountyInfo.code, context.targetCountyInfo.code)
         // 过期需要重新获取
         const now = new Date().getTime()
-        const expired = setting.rateCacheExpired
+        const expired = context.setting.rateCacheExpired
         if (!cache || !cache.rate || now > cache.createdAt + expired) {
             // 两小时过期时间
             Logger.info(`本地缓存已过期`)
-            cache = new RateCache(currCounty.code, targetCounty.code)
-            cache.rate = await this.getRate4Remote(currCounty, targetCounty)
+            cache = new RateCache(context.currentCountyInfo.code, context.targetCountyInfo.code)
+            cache.rate = await this.getRate4Remote()
             cache.createdAt = new Date().getTime()
             this.rateCaches.setCache(cache)
             this.saveRateCache()
@@ -66,7 +65,7 @@ export class RateManager implements IRateApi {
     private loadRateCache(): RateCaches {
         const caches = new RateCaches()
 
-        const setting = SettingManager.instance.setting
+        const setting = SpcContext.getContext().setting
         if (setting.oldVersion !== setting.currVersion) {
             Logger.info(`脚本版本发生变化需要刷新汇率缓存`)
             this.clear()
