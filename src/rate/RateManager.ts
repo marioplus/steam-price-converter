@@ -45,7 +45,7 @@ export class RateManager implements IRateApi {
             return context.setting.customRate
         }
 
-        this.loadRateCache()
+        this.rateCaches = this.loadRateCache()
         let cache = this.rateCaches.getCache(context.currentCountyInfo.code, context.targetCountyInfo.code)
         // 过期需要重新获取
         const now = new Date().getTime()
