@@ -2,6 +2,10 @@
 
 # steam-price-converter Changelog
 
+## [2.3.10] - 2024-04-03
+
+1. fix: 巴林货币改为USD
+
 ## [2.3.9] - 2024-03-05
 
 1. fix: 印尼区价格转换不正确
