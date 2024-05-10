@@ -1,10 +1,10 @@
 import {IRateApi} from './IRateApi'
-import {GM_deleteValue, GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {RateCache, RateCaches} from './RateCaches'
 import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
 import {AugmentedSteamRateApi} from './AugmentedSteamRateApi'
 import {Logger} from '../utils/LogUtils'
 import {SpcContext} from '../SpcContext'
+import {GmUtils} from '../utils/GmUtils'
 
 export class RateManager implements IRateApi {
 
@@ -63,27 +63,24 @@ export class RateManager implements IRateApi {
     }
 
     private loadRateCache(): RateCaches {
-        const caches = new RateCaches()
-
         const setting = SpcContext.getContext().setting
         if (setting.oldVersion !== setting.currVersion) {
             Logger.info(`脚本版本发生变化需要刷新汇率缓存`)
             this.clear()
-            return caches.readJsonString('{}')
+            return new RateCaches()
         }
 
-        const jsonString = GM_getValue(STORAGE_KEY_RATE_CACHES, '{}')
         Logger.info(`读取汇率缓存`)
-        return caches.readJsonString(jsonString)
+        return GmUtils.getValue(RateCaches, STORAGE_KEY_RATE_CACHES, new RateCaches())
     }
 
     private saveRateCache() {
         Logger.info('保存汇率缓存', this.rateCaches)
-        GM_setValue(STORAGE_KEY_RATE_CACHES, this.rateCaches.toJsonString())
+        GmUtils.setValue(STORAGE_KEY_RATE_CACHES, this.rateCaches)
     }
 
     public clear() {
-        GM_deleteValue(STORAGE_KEY_RATE_CACHES)
+        GmUtils.deleteValue(STORAGE_KEY_RATE_CACHES)
     }
 
 }

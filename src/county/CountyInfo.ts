@@ -1,13 +1,23 @@
 // https://zh.wikipedia.org/wiki/ISO_4217
 // https://zh.wikipedia.org/wiki/ISO_3166-1%E4%BA%8C%E4%BD%8D%E5%AD%97%E6%AF%8D%E4%BB%A3%E7%A0%81#%E6%AD%A3%E5%BC%8F%E5%88%86%E9%85%8D%E4%BB%A3%E7%A0%81
-import countyCurrencyCodes from './countyCurrencyCodes.json'
+import {Http} from '../utils/Http'
+import {GM_info} from '$'
 
-export type CountyInfo = {
-    code: string,
-    name: string,
-    nameEn: string,
+export class CountyInfo {
+    code: string
+    name: string
+    nameEn: string
     currencyCode: string
+
+    constructor(code: string, name: string, nameEn: string, currencyCode: string) {
+        this.code = code
+        this.name = name
+        this.nameEn = nameEn
+        this.currencyCode = currencyCode
+    }
 }
 
-export const CountyCode2CountyInfo = new Map<string, CountyInfo>(countyCurrencyCodes.map(v => [v.code, v]))
-export const CurrencyCode2CountyInfo = new Map<string, CountyInfo>(countyCurrencyCodes.map(v => [v.currencyCode, v]))
+const url = `https://cdn.jsdelivr.net/gh/marioplus/steam-price-converter@v${GM_info.script.version}/src/county/countyCurrencyCodes.json`
+export const infos = await Http.get(Array<CountyInfo>, url)
+
+export const countyCode2Info = new Map<string, CountyInfo>(infos.map(v => [v.code, v]))

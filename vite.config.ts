@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import monkey, {cdn} from 'vite-plugin-monkey'
+import monkey, {cdn, util} from 'vite-plugin-monkey'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,22 +23,16 @@ export default defineConfig({
                 ],
                 connect: [
                     'api.augmentedsteam.com',
-                    'store.steampowered.com'
+                    'store.steampowered.com',
+                    'cdn.jsdelivr.net'
                 ]
             },
             build: {
                 externalGlobals: {
                     vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
                     mdui: cdn.jsdelivr('mdui', 'dist/js/mdui.min.js'),
-                    'reflect-metadata': [
-                        'Reflect',
-                        `data:application/javascript,${encodeURIComponent(
-                            ';var Reflect=window.Reflect;'
-                        )}`,
-                        (version) =>
-                            `https://cdn.jsdelivr.net/npm/reflect-metadata@${version}/Reflect.min.js`,
-                    ],
-                },
+                    'reflect-metadata': cdn.jsdelivr('Reflect', 'Reflect.min.js').concat(util.dataUrl(`var Reflect=window.Reflect;`)),
+                }
             },
         }),
     ]

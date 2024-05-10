@@ -1,31 +1,26 @@
-import {JsonProperty, Serializable} from '../Serializable'
+import {Type} from 'class-transformer'
 
-export class RateCache extends Serializable<RateCaches> {
+export class RateCache {
 
     constructor(from: string, to: string, rate?: number, createdAt?: number) {
-        super()
         this.from = from
         this.to = to
         this.createdAt = createdAt || 0
         this.rate = rate || 0
     }
 
-    @JsonProperty()
     from: string
 
-    @JsonProperty()
     to: string
 
-    @JsonProperty()
     createdAt: number
 
-    @JsonProperty()
     rate: number
 }
 
-export class RateCaches extends Serializable<RateCaches> {
+export class RateCaches {
 
-    @JsonProperty({typeAs: Map})
+    @Type(() => Map<string, RateCache>)
     caches: Map<string, RateCache> = new Map<string, RateCache>()
 
     getCache(from: string, to: string): RateCache | undefined {

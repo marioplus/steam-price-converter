@@ -1,7 +1,7 @@
 <template>
   <div class="mdui-theme-primary-indigo mdui-theme-accent-indigo">
     <div class="mdui-container">
-<!--      <button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-typo" mdui-dialog="{target: '#spc-dialog-menu'}">open</button>-->
+      <!--      <button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-typo" mdui-dialog="{target: '#spc-dialog-menu'}">open</button>-->
       <div class="mdui-dialog" id="spc-dialog-menu">
         <div class="mdui-dialog-title">Setting</div>
         <div class="mdui-dialog-content">
@@ -12,7 +12,7 @@
               <select class="mdui-select" :style="countySelectStyle" @change="
               // @ts-ignore
               changeCounty($event.target.value)">
-                <option v-for="countyInfo in countyInfos"
+                <option v-for="countyInfo in infos"
                         :value="countyInfo.code"
                         :selected="countyInfo.code===setting.countyCode">{{ countyInfo.name }}
                 </option>
@@ -80,8 +80,7 @@ import {GM_addValueChangeListener, GM_setValue} from 'vite-plugin-monkey/dist/cl
 import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
 import {onMounted, reactive, watch} from 'vue'
 import {SettingManager} from './setting/SettingManager'
-import countyCurrencyCodes from './county/countyCurrencyCodes.json'
-import {CountyCode2CountyInfo} from './county/CountyInfo'
+import {countyCode2Info, infos} from './county/CountyInfo'
 
 onMounted(() => {
   const menu = new mdui.Dialog('#spc-dialog-menu')
@@ -95,7 +94,7 @@ onMounted(() => {
   })
 })
 const settingManager = SettingManager.instance
-const countyInfos = reactive(countyCurrencyCodes)
+// const countyInfos = reactive(infos)
 const countySelectStyle = reactive(initCountySelectStyle())
 const setting = reactive({
   countyCode: settingManager.setting.countyCode,
@@ -109,20 +108,19 @@ const setting = reactive({
 
 
 watch(setting, newSetting => {
-  settingManager.setting.readJson(newSetting)
-  settingManager.setting.rateCacheExpired *= (60 * 60 * 1000)
+  newSetting.rateCacheExpired *= (60 * 60 * 1000)
   settingManager.saveSetting(settingManager.setting)
 })
 
 function initCountySelectStyle() {
-  const countyInfo = CountyCode2CountyInfo.get(settingManager.setting.countyCode)
+  const countyInfo = countyCode2Info.get(settingManager.setting.countyCode)
   return {
     width: `${countyInfo!.name.length * 16 + 25}px`
   }
 }
 
 function changeCounty(code: string) {
-  const countyInfo = CountyCode2CountyInfo.get(code)
+  const countyInfo = countyCode2Info.get(code)
   // @ts-ignore
   countySelectStyle.width = `${countyInfo.name.length * 16 + 25}px`
   setting.countyCode = countyInfo!.code

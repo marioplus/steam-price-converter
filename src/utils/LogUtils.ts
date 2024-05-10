@@ -1,4 +1,18 @@
-const title = `steam-price-convertor ${new Date().getMilliseconds()}`
+const title = initTitle()
+
+function initTitle(): string {
+    // if (window.frameElement && window.frameElement.tagName === 'IFRAME') {
+    //     return `steam-price-convertor iframe(${new Date().getMilliseconds()})`
+    // } else {
+    //     return 'steam-price-convertor'
+    // }
+
+    if (window.parent != window || window.frames.length > 0) {
+        return `steam-price-convertor iframe(${new Date().getMilliseconds()})`
+    } else {
+        return 'steam-price-convertor'
+    }
+}
 
 function hintStyle(color: string): string {
     return `

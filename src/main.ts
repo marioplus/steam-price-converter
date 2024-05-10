@@ -1,9 +1,11 @@
+import 'reflect-metadata'
+import './style/style.less'
+
 import {main} from './RealMain'
-import {CountyCode2CountyInfo} from './county/CountyInfo'
+import {countyCode2Info} from './county/CountyInfo'
 import {SettingManager} from './setting/SettingManager'
 import {addCdnCss} from './utils/ElementUtils'
 import {createApp} from 'vue'
-import './style/style.less'
 // @ts-ignore
 import App from './App.vue'
 import {GM_registerMenuCommand} from '$'
@@ -56,16 +58,15 @@ function initMenu() {
 
 async function initContext() {
     const setting = SettingManager.instance.setting
-    Logger.info('设置：', setting)
 
-    const targetCountyInfo = CountyCode2CountyInfo.get(setting.countyCode)
+    const targetCountyInfo = countyCode2Info.get(setting.countyCode)
     if (!targetCountyInfo) {
         throw Error('获取转换后的国家信息失败，国家代码：' + setting.countyCode)
     }
     Logger.info('目标区域：', targetCountyInfo)
 
     const currCountyCode = await CountyCodeGetterManager.instance.getCountyCode()
-    const currCountInfo = CountyCode2CountyInfo.get(currCountyCode)
+    const currCountInfo = countyCode2Info.get(currCountyCode)
     if (!currCountyCode) {
         throw Error('缺少当前国家的信息映射：county: ' + currCountyCode)
     }

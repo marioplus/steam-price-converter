@@ -1,35 +1,32 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
-import {GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
 import {Logger} from '../utils/LogUtils'
+import {Http} from '../utils/Http'
 
 /**
  * 请求商店页面获取区域代码
  */
 export class RequestStorePageCountyCodeGetter implements ICountyInfoGetter {
+    name(): string {
+        return '请求商店页面'
+    }
+
 
     match(): boolean {
         return !window.location.href.includes('store.steampowered.com')
     }
 
     async getCountyCode(): Promise<string> {
-        Logger.info('通过 请求商店页面 获取区域代码...')
-        let countyCode: string | undefined = undefined
-
-        await new Promise<string>(resolve => GM_xmlhttpRequest({
-            url: 'https://store.steampowered.com/',
-            onload: response => resolve(response.responseText)
-        }))
-            .then(res => {
-                const match = res.match(/(?<=GDynamicStore.Init\(.+')[A-Z][A-Z](?=',)/)
+        return new Promise<string>(async resolve => {
+            try {
+                const storeHtml = await Http.get(String, 'https://store.steampowered.com/')
+                const match = storeHtml.match(/(?<=GDynamicStore.Init\(.+')[A-Z][A-Z](?=',)/)
                 if (match) {
-                    countyCode = match[0]
-                    Logger.info('通过 请求商店页面 获取区域代码成功：'+ countyCode)
+                    resolve(match[0])
                 }
-            })
-        if (countyCode) {
-            return countyCode
-        }
-        throw Error('通过 请求商店页面 获取区域代码失败。')
+            } catch (err: any) {
+                Logger.error(err)
+            }
+        })
     }
 
 }

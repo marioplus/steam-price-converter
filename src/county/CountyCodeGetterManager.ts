@@ -6,12 +6,14 @@ import {MarketPageCountyCodeGetter} from './MarketPageCountyCodeGetter'
 import {Logger} from '../utils/LogUtils'
 
 
-export class CountyCodeGetterManager implements ICountyInfoGetter {
+export class CountyCodeGetterManager {
+
     static readonly instance: CountyCodeGetterManager = new CountyCodeGetterManager()
 
     private readonly getters: ICountyInfoGetter[]
 
     private constructor() {
+
         this.getters = [
             new StorePageCountyCodeGetter(),
             new MarketPageCountyCodeGetter(),
@@ -25,22 +27,23 @@ export class CountyCodeGetterManager implements ICountyInfoGetter {
     }
 
     async getCountyCode(): Promise<string> {
-        Logger.info('获取区域代码...')
-        let code: string | undefined
+        Logger.info('尝试获取区域代码')
+
         for (let getter of this.getters) {
-            if (getter.match()) {
-                try {
-                    code = await getter.getCountyCode()
-                } catch (e) {
-                    console.error(e)
-                }
+            if (!getter.match()) {
+                continue
             }
-            if (code) {
-                return code
+
+            Logger.debug(`尝试通过[${getter.name()}]获取区域代码`)
+            try {
+                const countyCode = await getter.getCountyCode()
+                Logger.info(`通过[${getter.name()}]获取区域代码成功`)
+                return countyCode
+            } catch (e) {
+                Logger.error(`通过[${getter.name()}]获取区域代码失败`)
             }
         }
-        Logger.error('获取区域代码...')
-        throw new Error('获取区域代码失败。')
+        throw new Error('所有获取区域代码策略都获取失败')
     }
 
 }

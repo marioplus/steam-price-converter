@@ -1,10 +1,10 @@
 import {Setting} from './Setting'
-import {GM_getValue, GM_setValue,} from 'vite-plugin-monkey/dist/client'
 import {STORAGE_KEY_SETTING} from '../constant/Constant'
-import {CountyCode2CountyInfo} from '../county/CountyInfo'
+import {countyCode2Info} from '../county/CountyInfo'
 import {GM_info} from '$'
 import {Logger} from '../utils/LogUtils'
 import {Strings} from '../utils/Strings'
+import {GmUtils} from '../utils/GmUtils'
 
 export class SettingManager {
     public static instance: SettingManager = new SettingManager()
@@ -15,35 +15,32 @@ export class SettingManager {
     }
 
     private loadSetting(): Setting {
-        const json = GM_getValue(STORAGE_KEY_SETTING, new Setting().toJsonString())
-        const setting = new Setting().readJsonString(json)
+        const setting = GmUtils.getValue(Setting, STORAGE_KEY_SETTING, new Setting())
         setting.oldVersion = setting.currVersion
         setting.currVersion = GM_info.script.version
 
-        if (setting.oldVersion !== setting.currVersion) {
-            Logger.debug(Strings.format(`版本更新：%s -> %s`, setting.oldVersion, setting.currVersion))
+        if (setting.oldVersion === setting.currVersion) {
+            Logger.info('读取设置', setting)
+        } else {
+            Logger.debug(Strings.format(`版本更新重置设置：%s -> %s`, setting.oldVersion, setting.currVersion))
+            this.saveSetting(setting)
         }
 
-        Logger.debug('读取设置', setting)
-
-        this.saveSetting(setting, false)
         return setting
     }
 
     /**
      * 保存设置
      * @param setting  设置
-     * @param logger   是否打印日志
      */
-    public saveSetting(setting: Setting, logger: boolean = true) {
-        if (logger) {
-            Logger.info('保存设置', setting)
-        }
-        GM_setValue(STORAGE_KEY_SETTING, setting.toJsonString())
+    public saveSetting(setting: Setting) {
+        Logger.info('保存设置', setting)
+        this.setting = setting
+        GmUtils.setValue(STORAGE_KEY_SETTING, setting)
     }
 
     public setCountyCode(countyCode: string) {
-        const county = CountyCode2CountyInfo.get(countyCode)
+        const county = countyCode2Info.get(countyCode)
         if (!county) {
             throw Error(`国家代码不存在：${countyCode}`)
         }
