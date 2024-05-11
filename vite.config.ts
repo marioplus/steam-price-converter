@@ -5,7 +5,14 @@ import monkey, {cdn, util} from 'vite-plugin-monkey'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        vue(),
+        vue({
+            template: {
+                compilerOptions: {
+                    // 所有以 mdui- 开头的标签名都是 mdui 组件
+                    isCustomElement: (tag) => /^mdui-/.test(tag)
+                }
+            }
+        }),
         monkey({
             entry: 'src/main.ts',
             userscript: {
@@ -29,9 +36,12 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
+                    'reflect-metadata': cdn.jsdelivr('Reflect', 'Reflect.min.js').concat(util.dataUrl(`;var Reflect=window.Reflect;`)),
+                    mdui: cdn.jsdelivr('mdui', 'mdui.global.min.js'),
                     vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
-                    mdui: cdn.jsdelivr('mdui', 'dist/js/mdui.min.js'),
-                    'reflect-metadata': cdn.jsdelivr('Reflect', 'Reflect.min.js').concat(util.dataUrl(`var Reflect=window.Reflect;`)),
+                },
+                externalResource: {
+                    'mdui/mdui.css': cdn.jsdelivr(),
                 }
             },
         }),

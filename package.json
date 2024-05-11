@@ -9,15 +9,15 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "ionicons": "4.6.4-1",
         "less": "^4.1.3",
-        "mdui": "^1.0.2",
         "vue": "^3.2.47",
+        "mdui": "^2.1.1",
+        "reflect-metadata": "^0.1.13",
         "class-transformer": "^0.5.1"
     },
     "devDependencies": {
-        "reflect-metadata": "^0.1.13",
         "@vitejs/plugin-vue": "^4.1.0",
+        "ionicons": "4.6.4-1",
         "typescript": "^5.0.2",
         "vite": "^4.2.1",
         "vite-plugin-monkey": "^3.1.1",

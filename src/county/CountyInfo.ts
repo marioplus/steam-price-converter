@@ -18,6 +18,5 @@ export class CountyInfo {
 }
 
 const url = `https://cdn.jsdelivr.net/gh/marioplus/steam-price-converter@v${GM_info.script.version}/src/county/countyCurrencyCodes.json`
-export const infos = await Http.get(Array<CountyInfo>, url)
-
-export const countyCode2Info = new Map<string, CountyInfo>(infos.map(v => [v.code, v]))
+export const countyInfos = await Http.get(Array<CountyInfo>, url)
+export const countyCode2Info = new Map<string, CountyInfo>(countyInfos.map(v => [v.code, v]))

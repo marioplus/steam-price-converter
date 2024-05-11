@@ -1,41 +1,31 @@
 import 'reflect-metadata'
 import './style/style.less'
 
+// mdui
+import 'mdui/mdui.css'
+import 'mdui'
+
 import {main} from './RealMain'
 import {countyCode2Info} from './county/CountyInfo'
 import {SettingManager} from './setting/SettingManager'
-import {addCdnCss} from './utils/ElementUtils'
 import {createApp} from 'vue'
 // @ts-ignore
 import App from './App.vue'
 import {GM_registerMenuCommand} from '$'
 import {GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
-import mdui from 'mdui'
 import {SpcContext} from './SpcContext'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {SpcManager} from './SpcManager'
 import {Logger} from './utils/LogUtils'
 
+
 (async () => {
     await initContext()
-    // 非市场有白屏的bug没有菜单
-    if (window.location.href.match('store.steampowered.com')) {
-        initCdn()
-        initApp()
-        initMenu()
-    }
+    initApp()
+    initMenu()
     await main()
-    // doHook()
 })()
-
-function initCdn() {
-    addCdnCss([
-        'https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css',
-        'https://cdn.jsdelivr.net/npm/ionicons@4.6.4-1/dist/css/ionicons.min.css',
-    ])
-    // addCdnScript(['https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js'], 'module')
-}
 
 function initApp() {
     createApp(App).mount(
@@ -46,7 +36,6 @@ function initApp() {
             return app
         })(),
     )
-    mdui.mutation()
 }
 
 function initMenu() {
