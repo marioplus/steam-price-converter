@@ -1,7 +1,5 @@
 import {SettingManager} from '../setting/SettingManager'
 import {Logger} from '../utils/Logger'
-import {Strings} from '../utils/Strings'
-import {SpcContext} from '../SpcContext'
 
 /**
  * 提取获取价格
@@ -16,18 +14,17 @@ function parsePrice(content: string) {
     // 1.399,53
     let priceStr = content
         // 俄罗斯货币
-        .replaceAll(/pуб\./g, '')
+        .replace(/pуб\./g, '')
+        // 去掉空白符
         .replace(/\s/g, '')
+        // 去掉货币符号
         .replace(/^[^0-9]+/, '')
         .replace(/[^0-9,.]+$/, '')
-    const currencyCode = SpcContext.getContext().currentCountyInfo.currencyCode
-    // 印尼区需要去掉逗号
-    if (currencyCode === 'INR') {
-        priceStr = priceStr.replaceAll(/,/g, '')
-    }
+        // 去掉千分位
+        .replace(/,(?=\d\d\d)/g, '')
     // 139953
     const numberStr = priceStr.replace(/\D/g, '')
-    let price = Number.parseInt(numberStr)
+    let price = Number.parseInt(numberStr) ?? 0
     // 小数点 1399.53
     if (priceStr.match(/\D/)) {
         price = price / 100.0
@@ -58,17 +55,13 @@ export function convertPriceContent(originalContent: string, rate: number): stri
     const price = parsePrice(safeContent)
     const convertedPrice = convertPrice(price, rate)
     const setting = SettingManager.instance.setting
-    let finalContent
-    if (setting.currencySymbolBeforeValue) {
-        finalContent = `${safeContent}(${setting.currencySymbol}${convertedPrice})`
-    } else {
-        finalContent = `${safeContent}(${convertedPrice}${setting.currencySymbol})`
-    }
-    const message = Strings.format('转换前文本：%s; 提取到的价格：%s; 转换后的价格：%s; 转换后文本：%s',
-        safeContent,
-        price,
-        convertedPrice,
-        finalContent)
+
+    let finalContent = setting.currencySymbolBeforeValue
+        ? `${safeContent}(${setting.currencySymbol}${convertedPrice})`
+        : `${safeContent}(${convertedPrice}${setting.currencySymbol})`
+
+    const message = `转换前文本：${safeContent}; 提取到的价格：${price}; 转换后的价格：${convertedPrice}; 转换后文本：${finalContent}`
     Logger.debug(message)
+
     return finalContent
 }
