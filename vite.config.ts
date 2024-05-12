@@ -19,7 +19,7 @@ export default defineConfig({
                 name: 'steam价格转换',
                 author: 'marioplus',
                 description: 'steam商店中的价格转换为人民币',
-                version: '2.3.10',
+                version: '2.4.0',
                 icon: 'https://vitejs.dev/logo.svg',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
                 homepage: 'https://github.com/marioplus',
