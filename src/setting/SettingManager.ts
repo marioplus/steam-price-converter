@@ -2,7 +2,7 @@ import {Setting} from './Setting'
 import {STORAGE_KEY_SETTING} from '../constant/Constant'
 import {countyCode2Info} from '../county/CountyInfo'
 import {GM_info} from '$'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 import {Strings} from '../utils/Strings'
 import {GmUtils} from '../utils/GmUtils'
 

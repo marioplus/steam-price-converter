@@ -1,5 +1,5 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 
 /**
  * 市场页面获取区域代码

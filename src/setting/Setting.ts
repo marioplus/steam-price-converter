@@ -1,3 +1,6 @@
+import {Type} from 'class-transformer'
+import {LogLabel} from '../utils/Logger'
+
 export class Setting {
     /**
      * 目标国家代码，默认CN
@@ -12,7 +15,6 @@ export class Setting {
     /**
      * 符号位置在首
      */
-
     currencySymbolBeforeValue: boolean = true
 
     /**
@@ -39,4 +41,10 @@ export class Setting {
      * 当前版本
      */
     currVersion: string = '0.0.0'
+
+    /**
+     * 日志级别
+     */
+    @Type(() => String)
+    logLevel: LogLabel = 'info'
 }

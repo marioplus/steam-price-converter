@@ -13,7 +13,7 @@ import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcContext} from './SpcContext'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {SpcManager} from './SpcManager'
-import {Logger} from './utils/LogUtils'
+import {Logger, setLogLevel} from './utils/Logger'
 import {GmUtils} from './utils/GmUtils'
 import {IM_MENU_SETTING} from './constant/Constant'
 
@@ -37,13 +37,11 @@ function initApp() {
 
 function registerMenu() {
     GmUtils.registerMenuCommand(IM_MENU_SETTING)
-    GmUtils.registerMenuCommand('设置1')
-    GmUtils.registerMenuCommand('设置2')
-    GmUtils.registerMenuCommand('设置3')
 }
 
 async function initContext() {
     const setting = SettingManager.instance.setting
+    setLogLevel(setting.logLevel)
 
     const targetCountyInfo = countyCode2Info.get(setting.countyCode)
     if (!targetCountyInfo) {

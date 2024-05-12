@@ -2,7 +2,7 @@ import {IRateApi} from './IRateApi'
 import {RateCache, RateCaches} from './RateCaches'
 import {STORAGE_KEY_RATE_CACHES} from '../constant/Constant'
 import {AugmentedSteamRateApi} from './AugmentedSteamRateApi'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 import {SpcContext} from '../SpcContext'
 import {GmUtils} from '../utils/GmUtils'
 

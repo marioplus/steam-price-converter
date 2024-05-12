@@ -1,5 +1,5 @@
 import {SettingManager} from '../setting/SettingManager'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 import {Strings} from '../utils/Strings'
 import {SpcContext} from '../SpcContext'
 

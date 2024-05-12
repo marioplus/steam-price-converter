@@ -2,7 +2,7 @@ import {ClassConstructor} from 'class-transformer'
 import {JsonUtils} from './JsonUtils'
 import {GM_deleteValue, GM_getValue, GM_registerMenuCommand, GM_setValue} from '$'
 import {GM_addValueChangeListener} from 'vite-plugin-monkey/dist/client'
-import {Logger} from './LogUtils'
+import {Logger} from './Logger'
 
 export class GmUtils {
     public static getValue<T>(cls: ClassConstructor<T>, key: string, defaultValue: T): T {

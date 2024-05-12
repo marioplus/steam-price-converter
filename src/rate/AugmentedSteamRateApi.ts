@@ -1,6 +1,6 @@
 import {IRateApi} from './IRateApi'
 import {Http} from '../utils/Http'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 import {Strings} from '../utils/Strings'
 import {SpcContext} from '../SpcContext'
 

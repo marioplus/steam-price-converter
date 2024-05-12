@@ -1,5 +1,5 @@
 import {ICountyInfoGetter} from './ICountyInfoGetter'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 import {Http} from '../utils/Http'
 
 /**

@@ -3,7 +3,7 @@ import {CookieCountyInfoGetter} from './CookieCountyInfoGetter'
 import {RequestStorePageCountyCodeGetter} from './RequestStorePageCountyCodeGetter'
 import {StorePageCountyCodeGetter} from './StorePageCountyCodeGetter'
 import {MarketPageCountyCodeGetter} from './MarketPageCountyCodeGetter'
-import {Logger} from '../utils/LogUtils'
+import {Logger} from '../utils/Logger'
 
 
 export class CountyCodeGetterManager {

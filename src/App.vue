@@ -6,6 +6,7 @@ import {Dialog} from 'mdui'
 import {Setting} from './setting/Setting'
 import {SettingManager} from './setting/SettingManager'
 import {GmUtils} from './utils/GmUtils'
+import {LogDefinitions, LogLabel} from './utils/Logger'
 
 const vueCountyInfos = countyInfos
 const setting: Setting = Object.assign({}, SettingManager.instance.setting)
@@ -124,6 +125,23 @@ function getSelected(target: any): string {
       <div class="setting-item-content">
         <mdui-text-field type="number" :value="setting.customRate"
                          @change="setting.customRate = $event.target.value"/>
+      </div>
+    </div>
+
+    <!-- 日志等级 -->
+    <div class="setting-item">
+      <div class="setting-item-title">
+        <label>日志等级</label>
+        <mdui-tooltip content="日志等级 debug > info > warn > error > off" placement="right">
+          <mdui-icon name="error" class="setting-region-title-icon"/>
+        </mdui-tooltip>
+      </div>
+
+      <div class="setting-item-content">
+        <mdui-select :value="setting.logLevel"
+                     @change="setting.logLevel = getSelected($event.target) as LogLabel">
+          <mdui-menu-item v-for="def in LogDefinitions" :value="def.label">{{ def.label }}</mdui-menu-item>
+        </mdui-select>
       </div>
     </div>
 
