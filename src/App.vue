@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {GM_addValueChangeListener, GM_setValue} from 'vite-plugin-monkey/dist/client'
-import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
+import {IM_MENU_SETTING} from './constant/Constant'
 import {onMounted} from 'vue'
 import {countyInfos} from './county/CountyInfo'
 import {Dialog} from 'mdui'
 import {Setting} from './setting/Setting'
 import {SettingManager} from './setting/SettingManager'
+import {GmUtils} from './utils/GmUtils'
 
 const vueCountyInfos = countyInfos
 const setting: Setting = Object.assign({}, SettingManager.instance.setting)
@@ -19,15 +19,7 @@ onMounted(() => {
     dialog.open = false
   })
 
-  // @ts-ignore
-  GM_addValueChangeListener(IM_KEY_MENU_STATUS, (name, oldValue, newValue) => {
-    if (IM_KEY_OPEN_MENU !== newValue) {
-      return
-    }
-    GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_CLOSE_MENU)
-    // menu!.open()
-    dialog.open = true
-  })
+  GmUtils.addMenuClickEventListener(IM_MENU_SETTING, () => dialog.open = true)
 })
 
 function getSelected(target: any): string {

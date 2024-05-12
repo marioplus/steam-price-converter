@@ -9,19 +9,18 @@ import {SettingManager} from './setting/SettingManager'
 import {createApp} from 'vue'
 // @ts-ignore
 import App from './App.vue'
-import {GM_registerMenuCommand} from '$'
-import {GM_setValue, unsafeWindow} from 'vite-plugin-monkey/dist/client'
-import {IM_KEY_CLOSE_MENU, IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU} from './constant/Constant'
+import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcContext} from './SpcContext'
 import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {SpcManager} from './SpcManager'
 import {Logger} from './utils/LogUtils'
-
+import {GmUtils} from './utils/GmUtils'
+import {IM_MENU_SETTING} from './constant/Constant'
 
 (async () => {
     await initContext()
     initApp()
-    initMenu()
+    registerMenu()
     await main()
 })()
 
@@ -36,11 +35,11 @@ function initApp() {
     )
 }
 
-function initMenu() {
-    GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_CLOSE_MENU)
-    GM_registerMenuCommand('设置', () => {
-        GM_setValue(IM_KEY_MENU_STATUS, IM_KEY_OPEN_MENU)
-    })
+function registerMenu() {
+    GmUtils.registerMenuCommand(IM_MENU_SETTING)
+    GmUtils.registerMenuCommand('设置1')
+    GmUtils.registerMenuCommand('设置2')
+    GmUtils.registerMenuCommand('设置3')
 }
 
 async function initContext() {
