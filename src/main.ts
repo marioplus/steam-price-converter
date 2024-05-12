@@ -1,6 +1,4 @@
 import 'reflect-metadata'
-import './style/style.less'
-
 // mdui
 import 'mdui/mdui.css'
 import 'mdui'
