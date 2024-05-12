@@ -1,10 +1,9 @@
-import {GM_xmlhttpRequest} from 'vite-plugin-monkey/dist/client'
-import {XhrRequest} from '$'
+import {GM_xmlhttpRequest, GmXhrRequest} from '$'
 import {ClassConstructor, plainToInstance} from 'class-transformer'
 
 export class Http {
 
-    static get<T>(cls: ClassConstructor<T>, url: string, details?: XhrRequest): Promise<T> {
+    static get<T>(cls: ClassConstructor<T>, url: string, details?: GmXhrRequest<string, 'text'>): Promise<T> {
         if (!details) {
             details = {url}
         }
@@ -12,7 +11,7 @@ export class Http {
         return this.request<T>(cls, details)
     }
 
-    static post<T>(url: string, cls: ClassConstructor<T>, details?: XhrRequest): Promise<T> {
+    static post<T>(url: string, cls: ClassConstructor<T>, details?: GmXhrRequest<string, 'text'>): Promise<T> {
         if (!details) {
             details = {url}
         }
@@ -20,11 +19,15 @@ export class Http {
         return this.request<T>(cls, details)
     }
 
-    private static request<T>(cls: ClassConstructor<T>, details: XhrRequest): Promise<T> {
+    private static request<T>(cls: ClassConstructor<T>, details: GmXhrRequest<string, 'text'>): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             details.onload = response => {
-                const json = JSON.parse(response.response)
-                resolve(plainToInstance(cls, json))
+                if (cls.name === String.name) {
+                    resolve(response.response as T)
+                } else {
+                    const json = JSON.parse(response.response)
+                    resolve(plainToInstance(cls, json))
+                }
             }
             details.onerror = error => reject(error)
             GM_xmlhttpRequest(details)
