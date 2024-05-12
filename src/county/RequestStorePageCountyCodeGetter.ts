@@ -16,16 +16,17 @@ export class RequestStorePageCountyCodeGetter implements ICountyInfoGetter {
     }
 
     async getCountyCode(): Promise<string> {
-        return new Promise<string>(async resolve => {
+        return new Promise<string>(async (resolve, reject) => {
             try {
                 const storeHtml = await Http.get(String, 'https://store.steampowered.com/')
                 const match = storeHtml.match(/(?<=GDynamicStore.Init\(.+')[A-Z][A-Z](?=',)/)
                 if (match) {
-                    resolve(match[0])
+                    return resolve(match[0])
                 }
             } catch (err: any) {
                 Logger.error(err)
             }
+            reject()
         })
     }
 

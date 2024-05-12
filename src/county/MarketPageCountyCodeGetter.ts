@@ -15,14 +15,15 @@ export class MarketPageCountyCodeGetter implements ICountyInfoGetter {
     }
 
     getCountyCode(): Promise<string> {
-        return new Promise<string>(resolve => {
+        return new Promise<string>((resolve, reject) => {
             try {
                 // @ts-ignore
                 const code: string | undefined = g_strCountryCode
-                if (code) resolve(code)
+                if (code) return resolve(code)
             } catch (err: any) {
                 Logger.error(err)
             }
+            reject()
         })
     }
 

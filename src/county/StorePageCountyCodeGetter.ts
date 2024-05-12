@@ -23,7 +23,7 @@ export class StorePageCountyCodeGetter implements ICountyInfoGetter {
                     resolve(countyCode)
                 }
             } catch (e: any) {
-                Logger.warn(e.message)
+                Logger.warn('读取商店页面区域代码变量失败： ' + e.message)
             }
 
             document.querySelectorAll('script').forEach(scriptEl => {
