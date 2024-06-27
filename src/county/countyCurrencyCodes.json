@@ -179,7 +179,7 @@
     {"code":"SM","name":"圣马力诺","nameEn":"San Marino","currencyCode":"EUR"},
     {"code":"PM","name":"圣皮埃尔和密克隆","nameEn":"Saint Pierre and Miquelon","currencyCode":"EUR"},
     {"code":"VC","name":"圣文森特和格林纳丁斯","nameEn":"Saint Vincent and the Grenadines","currencyCode":"XCD"},
-    {"code":"LK","name":"斯里兰卡","nameEn":"Sri Lanka","currencyCode":"LKR"},
+    {"code":"LK","name":"斯里兰卡","nameEn":"Sri Lanka","currencyCode":"USD"},
     {"code":"SK","name":"斯洛伐克","nameEn":"Slovakia","currencyCode":"EUR"},
     {"code":"SI","name":"斯洛文尼亚","nameEn":"Slovenia","currencyCode":"EUR"},
     {"code":"SJ","name":"斯瓦尔巴和扬马延","nameEn":"Svalbard and Jan Mayen","currencyCode":"NOK"},
