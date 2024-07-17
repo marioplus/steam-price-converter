@@ -104,7 +104,7 @@ function getSelected(target: any): string {
     <div class="setting-item">
       <div class="setting-item-title">
         <label>使用自定义汇率</label>
-        <mdui-tooltip content="使用自定义汇率进行价格转换，不再回去区域，不再根据区域获取汇率" placement="right">
+        <mdui-tooltip content="使用自定义汇率进行价格转换，不再获取区域，不再根据区域获取汇率" placement="right">
           <mdui-icon name="error" class="setting-region-title-icon"/>
         </mdui-tooltip>
       </div>
@@ -153,8 +153,8 @@ function getSelected(target: any): string {
 <style scoped lang="less">
 .setting-item {
   color: rgb(var(--mdui-color-on-surface));
-  padding: 8px 0;
-  min-width: 40em;
+  padding: 1em .75em;
+  min-width: 33em;
 }
 
 .setting-item-title {
