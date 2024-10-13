@@ -13,7 +13,8 @@ import {Logger} from '../utils/Logger'
 function parsePrice(content: string) {
     // 1.399,53
     let priceStr = content
-        // 俄罗斯货币
+        // 俄罗斯货币 两行的p 不一样 \u440 和 \u70
+        .replace(/руб\./g, '')
         .replace(/pуб\./g, '')
         // 去掉空白符
         .replace(/\s/g, '')
