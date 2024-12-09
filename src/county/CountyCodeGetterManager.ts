@@ -4,6 +4,7 @@ import {RequestStorePageCountyCodeGetter} from './RequestStorePageCountyCodeGett
 import {StorePageCountyCodeGetter} from './StorePageCountyCodeGetter'
 import {MarketPageCountyCodeGetter} from './MarketPageCountyCodeGetter'
 import {Logger} from '../utils/Logger'
+import {UserConfigCountyInfoGetter} from "./UserConfigCountyInfoGetter";
 
 
 export class CountyCodeGetterManager {
@@ -15,6 +16,7 @@ export class CountyCodeGetterManager {
     private constructor() {
 
         this.getters = [
+            new UserConfigCountyInfoGetter(),
             new StorePageCountyCodeGetter(),
             new MarketPageCountyCodeGetter(),
             new RequestStorePageCountyCodeGetter(),

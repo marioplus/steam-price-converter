@@ -13,8 +13,17 @@ export class ElementConverter extends AbstractConverter {
             '._1EKGZBnKFWOr3RqVdnLMRN'
         ]
 
-        const account=[
+        const account = [
             'div.accountData.price a'
+        ]
+
+        const wishlist = [
+            // 右上角钱包
+            'div.Hxi-pnf9Xlw- > div._79DIT7RUQ5g-',
+            // 当前价格
+            'div.ME2eMO7C1Tk- > div.DOnsaVcV0Is-',
+            // 原价
+            'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-'
         ]
 
         const selectors = [
@@ -72,6 +81,7 @@ export class ElementConverter extends AbstractConverter {
         ]
         selectors.push(...category)
         selectors.push(...account)
+        selectors.push(...wishlist)
         return selectors
     }
 
