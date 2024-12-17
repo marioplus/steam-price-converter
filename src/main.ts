@@ -16,12 +16,24 @@ import {SpcManager} from './SpcManager'
 import {Logger, setLogLevel} from './utils/Logger'
 import {GmUtils} from './utils/GmUtils'
 import {IM_MENU_SETTING} from './constant/Constant'
+import {ReactUtils} from './utils/ReactUtils'
 
 (async () => {
-    await initContext()
-    initApp()
-    registerMenu()
-    await main()
+    if (ReactUtils.useReact()) {
+        await ReactUtils.waitForReactInit(async (root, reactProp) => {
+            console.log('React is ready!', {root, reactProp})
+            await initContext()
+            initApp()
+            registerMenu()
+            await main()
+        })
+    } else {
+        console.log('React is not detected!')
+        await initContext()
+        initApp()
+        registerMenu()
+        await main()
+    }
 })()
 
 function initApp() {

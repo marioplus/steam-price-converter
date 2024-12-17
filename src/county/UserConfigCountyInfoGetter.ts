@@ -1,39 +1,41 @@
-import {ICountyInfoGetter} from "./ICountyInfoGetter";
-import {Logger} from "../utils/Logger";
+import {ICountyInfoGetter} from './ICountyInfoGetter'
+import {Http} from '../utils/Http'
+import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 
 export class UserConfigCountyInfoGetter implements ICountyInfoGetter {
 
     async getCountyCode(): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
-            try {
-                // @ts-ignore
-                const code = window.UserConfig?.country_code
-                if (code) {
-                    resolve(code)
-                }
-            } catch (e: any) {
-                Logger.warn('读取window.UserConfig变量失败： ' + e.message)
-            }
+        return new Promise<string>(async (resolve, reject) => {
 
-            // window.UserConfig={"logged_in":true,"steamid":"76561199160716481","accountid":1200450753,"is_support":false,"is_limited":false,"is_partner_member":false,"country_code":"CN"};
-            document.querySelectorAll('script').forEach(scriptEl => {
-                const scriptInnerText = scriptEl.innerText
-                const regex: RegExp = /,"country_code":"([A-Z]{2})"/
-                const match = regex.exec(scriptInnerText)
-                if (match) {
-                    resolve(match[1])
-                }
-            })
-            reject()
-        });
+            // @ts-ignore
+            const code = unsafeWindow.userConfig
+                // @ts-ignore
+                ? unsafeWindow.userConfig?.country_code
+                : await this.getCountyCodeForDev()
+            if (code) {
+                resolve(code)
+            } else {
+                reject()
+            }
+        })
     }
 
     match(): boolean {
-        return true;
+        return true
     }
 
     name(): string {
-        return "window.UserConfig";
+        return 'window.UserConfig'
+    }
+
+    async getCountyCodeForDev() {
+        // @ts-ignore
+        const html = await Http.get(String, window.location.href)
+        const match = html.match(/,"country_code":"([A-Z]{2})"/)
+        if (match) {
+            return match[1]
+        }
+        return undefined
     }
 
 }
