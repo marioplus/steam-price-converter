@@ -9,8 +9,10 @@ export class ElementConverter extends AbstractConverter {
         const category = [
             // 原价
             '.Wh0L8EnwsPV_8VAu8TOYr',
+            '._3j4dI1yA7cRfCvK8h406OB',
             // 折扣价
-            '._1EKGZBnKFWOr3RqVdnLMRN'
+            '._1EKGZBnKFWOr3RqVdnLMRN',
+            '._3fFFsvII7Y2KXNLDk_krOW'
         ]
 
         const account = [
@@ -24,6 +26,10 @@ export class ElementConverter extends AbstractConverter {
             'div.ME2eMO7C1Tk- > div.DOnsaVcV0Is-',
             // 原价
             'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-'
+        ]
+
+        const inventory=[
+            '#iteminfo1_item_market_actions  div[id^="market_item_action_buyback_at_price_"]'
         ]
 
         const selectors = [
@@ -43,7 +49,6 @@ export class ElementConverter extends AbstractConverter {
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
-            //
 
             // 购物车
             '.cart_item_price.with_discount > .original_price',
@@ -82,6 +87,7 @@ export class ElementConverter extends AbstractConverter {
         selectors.push(...category)
         selectors.push(...account)
         selectors.push(...wishlist)
+        selectors.push(...inventory)
         return selectors
     }
 
