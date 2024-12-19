@@ -1,4 +1,5 @@
 import {ElementSnap} from './ConverterManager'
+import {Attrs} from '../constant/Constant'
 
 export abstract class AbstractConverter {
 
@@ -43,6 +44,12 @@ export abstract class AbstractConverter {
                 return true
             }
         }
+        // 防止重复转换
+        const status = elementSnap.element.getAttribute(Attrs.STATUS_KEY)
+        const converted = Attrs.STATUS_CONVERTED === status
+        if (!converted) {
+            return false
+        }
         return false
     }
 
@@ -60,5 +67,7 @@ export abstract class AbstractConverter {
      */
     // @ts-ignore
     afterConvert(elementSnap: ElementSnap): void {
+        // 标记被转换
+        elementSnap.element.setAttribute(Attrs.STATUS_KEY, Attrs.STATUS_CONVERTED)
     }
 }
