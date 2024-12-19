@@ -2,6 +2,9 @@ import 'reflect-metadata'
 // mdui
 import 'mdui/mdui.css'
 import 'mdui'
+import './style/home.less'
+import './style/search.less'
+import './style/market.less'
 
 import {main} from './RealMain'
 import {countyCode2Info} from './county/CountyInfo'

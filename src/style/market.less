@@ -1,0 +1,19 @@
+#popularItemsTable {
+  @price-width: 90px;
+  @adapter-price-width: 40px;
+  @adjusted-price-width: @price-width+@adapter-price-width;
+
+  // 标题
+  .market_listing_table_header {
+    .market_listing_their_price {
+      width: @adjusted-price-width;
+    }
+  }
+
+  // 价格值
+  .market_listing_row_link > .market_listing_row {
+    .market_listing_right_cell.market_listing_their_price {
+      width: @adjusted-price-width;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.search_result_row {
+  // 配置项
+  @adapter-released-width: 20px;
+  @adapter-price-width: 15px;
+  @adapter-name-width: 0px;
+  // 原始值
+  @released-width: 85px;
+  @name-width: 275px;
+  @price-width: 150px;
+  // 调整后
+  @adjusted-released-width: @released-width + @adapter-released-width;
+  @adjusted-price-width: @price-width + @adapter-price-width;
+  @adjusted-name-width: (@name-width + @released-width + @price-width) - (@adjusted-released-width + @adjusted-price-width);
+
+  // 列表游戏名称
+  & .col.search_name {
+    width: @adjusted-name-width;
+  }
+
+  // 列表发售日期
+  & .col.search_released {
+    width: @adjusted-released-width;
+  }
+
+  // 列表价格
+  & .col.search_discount_and_price .discount_block {
+    width: @adjusted-price-width;
+  }
+}
