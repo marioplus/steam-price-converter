@@ -17,6 +17,13 @@ export abstract class AbstractConverter {
             return false
         }
 
+        // 防止重复转换
+        const status = elementSnap.element.getAttribute(Attrs.STATUS_KEY)
+        const converted = Attrs.STATUS_CONVERTED === status
+        if (converted) {
+            return false
+        }
+
         const content = elementSnap.textContext
         if (!content) {
             return false
@@ -43,12 +50,6 @@ export abstract class AbstractConverter {
                 elementSnap.selector = selector
                 return true
             }
-        }
-        // 防止重复转换
-        const status = elementSnap.element.getAttribute(Attrs.STATUS_KEY)
-        const converted = Attrs.STATUS_CONVERTED === status
-        if (!converted) {
-            return false
         }
         return false
     }
