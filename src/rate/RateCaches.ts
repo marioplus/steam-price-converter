@@ -1,5 +1,3 @@
-import {Type} from 'class-transformer'
-
 export class RateCache {
 
     constructor(from: string, to: string, rate?: number, createdAt?: number) {
@@ -20,7 +18,6 @@ export class RateCache {
 
 export class RateCaches {
 
-    @Type(() => Map<string, RateCache>)
     caches: Map<string, RateCache> = new Map<string, RateCache>()
 
     getCache(from: string, to: string): RateCache | undefined {

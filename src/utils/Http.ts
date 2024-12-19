@@ -1,5 +1,5 @@
 import {GM_xmlhttpRequest, GmXhrRequest} from '$'
-import {ClassConstructor, plainToInstance} from 'class-transformer'
+import {ClassConstructor, Jsons} from './Jsons'
 
 export class Http {
 
@@ -26,7 +26,8 @@ export class Http {
                     resolve(response.response as T)
                 } else {
                     const json = JSON.parse(response.response)
-                    resolve(plainToInstance(cls, json))
+                    // @ts-ignore
+                    resolve(Jsons.readJson(json, cls))
                 }
             }
             details.onerror = error => reject(error)

@@ -1,17 +1,16 @@
-import {ClassConstructor} from 'class-transformer'
-import {JsonUtils} from './JsonUtils'
 import {GM_deleteValue, GM_getValue, GM_registerMenuCommand, GM_setValue} from '$'
 import {GM_addValueChangeListener} from 'vite-plugin-monkey/dist/client'
 import {Logger} from './Logger'
+import {ClassConstructor, Jsons} from './Jsons'
 
 export class GmUtils {
-    public static getValue<T>(cls: ClassConstructor<T>, key: string, defaultValue: T): T {
+    public static getValue<T extends object>(cls: ClassConstructor<T>, key: string, defaultValue: T): T {
         const value = GM_getValue(key)
-        return value ? JsonUtils.readJsonString(value as string, cls) : defaultValue
+        return value ? Jsons.readString<T>(value as string, cls) : defaultValue
     }
 
     public static setValue(key: string, value: any): void {
-        GM_setValue(key, JsonUtils.toJsonString(value))
+        GM_setValue(key, Jsons.toString(value))
     }
 
     public static deleteValue(key: string) {

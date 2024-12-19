@@ -36,7 +36,6 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    'reflect-metadata': cdn.jsdelivr('Reflect', 'Reflect.min.js').concat(util.dataUrl(`;var Reflect=window.Reflect;`)),
                     mdui: cdn.jsdelivr('mdui', 'mdui.global.min.js'),
                     vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
                 },

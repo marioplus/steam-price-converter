@@ -4,6 +4,7 @@ import {Logger} from '../utils/Logger'
 import {Strings} from '../utils/Strings'
 import {SpcContext} from '../SpcContext'
 
+
 export class AugmentedSteamRateApi implements IRateApi {
 
     getName(): string {

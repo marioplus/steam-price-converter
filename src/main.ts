@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 // mdui
 import 'mdui/mdui.css'
 import 'mdui'

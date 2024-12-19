@@ -1,4 +1,3 @@
-import {Type} from 'class-transformer'
 import {LogLabel} from '../utils/Logger'
 
 export class Setting {
@@ -45,6 +44,5 @@ export class Setting {
     /**
      * 日志级别
      */
-    @Type(() => String)
     logLevel: LogLabel = 'info'
 }
