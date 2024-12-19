@@ -58,8 +58,8 @@ export function convertPriceContent(originalContent: string, rate: number): stri
     const setting = SettingManager.instance.setting
 
     let finalContent = setting.currencySymbolBeforeValue
-        ? `${safeContent}/${setting.currencySymbol}${convertedPrice}`
-        : `${safeContent}/${convertedPrice}${setting.currencySymbol}`
+        ? `${safeContent}(${setting.currencySymbol}${convertedPrice})`
+        : `${safeContent}(${convertedPrice}${setting.currencySymbol})`
 
     const message = `转换前文本：${safeContent}; 提取到的价格：${price}; 转换后的价格：${convertedPrice}; 转换后文本：${finalContent}`
     Logger.debug(message)
