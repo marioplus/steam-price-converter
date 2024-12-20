@@ -57,9 +57,10 @@ async function initContext() {
     const setting = SettingManager.instance.setting
     setLogLevel(setting.logLevel)
 
-    const targetCountyInfo = countyCode2Info.get(setting.countyCode)
+    let targetCountyInfo = countyCode2Info.get(setting.countyCode)
     if (!targetCountyInfo) {
-        throw Error('获取转换后的国家信息失败，国家代码：' + setting.countyCode)
+        Logger.warn(`获取转换后的国家(${setting.countyCode})信息失败，默认为美国：` + setting.countyCode)
+        targetCountyInfo = countyCode2Info.get('US')
     }
     Logger.info('目标区域：', targetCountyInfo)
 
