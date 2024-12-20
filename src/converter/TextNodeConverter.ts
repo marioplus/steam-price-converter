@@ -6,8 +6,16 @@ type parseTextNodeFn = (element: Element) => ChildNode
 
 export class TextNodeConverter extends AbstractConverter {
 
+
     // @ts-ignore
     parseFirstChildTextNodeFn: parseTextNodeFn = el => el.firstChild
+
+    // 购物车
+    cart = new Map<string, parseTextNodeFn[]>([
+        // 卡牌获取进度
+        ['.Panel.Focusable ._18eO4-XadW5jmTpgdATkSz', [el => el.childNodes[1]],
+        ]
+    ])
 
     // @ts-ignore
     targets: Map<string, parseTextNodeFn[]> = new Map<string, parseTextNodeFn[]>([
@@ -27,7 +35,8 @@ export class TextNodeConverter extends AbstractConverter {
         ['.game_area_dlc_row > .game_area_dlc_price', [
             el => el,
             this.parseFirstChildTextNodeFn
-        ]]
+        ]],
+        ...this.cart
     ])
 
     getCssSelectors(): string[] {
@@ -41,7 +50,7 @@ export class TextNodeConverter extends AbstractConverter {
         this.targets.get(selector)
 
         // 拿到对应的 textNode
-        const parseNodeFns: parseTextNodeFn[] | undefined = this.targets.get(selector)
+        const parseNodeFns: parseTextNodeFn[] = this.targets.get(selector) || []
         if (!parseNodeFns) {
             return false
         }

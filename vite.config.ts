@@ -26,7 +26,8 @@ export default defineConfig({
                 license: 'GPL-3.0-or-later',
                 match: [
                     'https://store.steampowered.com/*',
-                    'https://steamcommunity.com/*'
+                    'https://steamcommunity.com/*',
+                    'https://checkout.steampowered.com/checkout/*',
                 ],
                 connect: [
                     'api.augmentedsteam.com',

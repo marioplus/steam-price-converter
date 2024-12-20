@@ -5,6 +5,11 @@ import {convertPriceContent} from './ConvertUtils'
 export class ElementConverter extends AbstractConverter {
 
     getCssSelectors(): string[] {
+        const home = [
+            // 大图
+            '.discount_prices > .discount_final_price'
+        ]
+
         // 商店 分类
         const category = [
             // 原价
@@ -28,8 +33,27 @@ export class ElementConverter extends AbstractConverter {
             'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-'
         ]
 
-        const inventory=[
+        const inventory = [
             '#iteminfo1_item_market_actions  div[id^="market_item_action_buyback_at_price_"]'
+        ]
+
+        // 购物车
+        const cart = [
+            // 原价
+            '.Panel.Focusable ._3-o3G9jt3lqcvbRXt8epsn.StoreOriginalPrice',
+            // 折扣价
+            '.Panel.Focusable .pk-LoKoNmmPK4GBiC9DR8',
+            // 总额
+            '._2WLaY5TxjBGVyuWe_6KS3N',
+        ]
+        //  购物车复核
+        const cartCheckout = [
+            // 列表
+            '#checkout_review_cart_area .checkout_review_item_price > .price',
+            // 小计
+            '#review_subtotal_value.price',
+            // 合计
+            '#review_total_value.price',
         ]
 
         const selectors = [
@@ -49,16 +73,6 @@ export class ElementConverter extends AbstractConverter {
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
-
-            // 购物车
-            '.cart_item_price.with_discount > .original_price',
-            '.cart_item_price.with_discount > div.price:not(.original_price)',
-            '#cart_estimated_total',
-            // 购物车 复核
-            '.checkout_review_item_price > .price',
-            '#review_subtotal_value.price',
-            '#review_total_value.price',
-            '.cart_item_price > .price',
 
             // 市场
             // 总余额
@@ -84,10 +98,13 @@ export class ElementConverter extends AbstractConverter {
             // 低于xxx 分类标题
             '.home_page_content_title a.btn_small_tall > span',
         ]
+        selectors.push(...home)
         selectors.push(...category)
         selectors.push(...account)
         selectors.push(...wishlist)
         selectors.push(...inventory)
+        selectors.push(...cart)
+        selectors.push(...cartCheckout)
         return selectors
     }
 
