@@ -1,76 +1,60 @@
 name: Deploy to GitHub Releases
-
 on:
   push:
     branches: [ master ]
-    pull_request:
-
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.9.0]
+        node-version: [ 20 ]
     outputs:
       version: ${{ steps.properties.outputs.version }}
       changelog: ${{ steps.properties.outputs.changelog }}
     steps:
-
-      # Check out current repository
+      # Check out
       - name: Fetch Sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
 
-      # Setup node environment
+      # node
       - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Set environment variables
+      # 环境变量
       - name: Set Environment Variables
         id: properties
         shell: bash
         run: |
-          VERSION=$( grep -n '## \[' CHANGELOG.md | awk -F '[\\[\\]]' 'NR == 1  { print $2 }')
-          
-          FILENAME="${{ github.repository }}"
-          FILENAME="${FILENAME/${{ github.repository_owner }}\/}"
-          STEAM_FILENAME="${FILENAME}.user.steam++.js"
-          FILENAME="${FILENAME}.user.js-$VERSION"
+          # 获取版本号
+          VERSION=$(grep -n '## \[' CHANGELOG.md | awk -F '[\\[\\]]' 'NR == 1 { print $2 }')
+          FILENAME=$(basename "${{ github.repository }}").user.js-$VERSION
           
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "filename=$FILENAME" >> $GITHUB_OUTPUT
-          echo "steamfilename=$STEAM_FILENAME" >> $GITHUB_OUTPUT
           
-          sl=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 1  { print $1-1 }')
-          el=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 2  { print $1 }')
-          el=${el:=$(awk 'END{print NR}' $file)}
+          # 提取更新日志
+          start_line=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 1 { print $1+1 }')
+          end_line=$(grep -n '## \[' CHANGELOG.md | awk -F ':' 'NR == 2 { print $1-1 }')
+          end_line=${end_line:-$(wc -l < CHANGELOG.md)}
           
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          awk "NR > $sl && NR < $el" CHANGELOG.md | while IFS=$'\r\n' read -r line; do
-            echo "$line" >> $GITHUB_OUTPUT
-          done
+          sed -n "${start_line},${end_line}p" CHANGELOG.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # Install dependencies
+      # 安装依赖
       - name: Install Dependencies
         run: npm ci
 
-      # Run build
+      # 构建
       - name: Run Build
         run: npm run build
 
-      # Run Steam++ build
-      # - name: Run Steam++ build
-      #   shell: bash
-      #   run: |
-      #     sed 's/"use strict";/"use strict";\r;var Reflect=window.Reflect;/' ./dist/*.js  >  ./dist/${{ steps.properties.outputs.steamfilename }}
-          
-
-      # Upload artifact
+      # 上传附件
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -87,29 +71,33 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      # 检出代码
+      - name: Check Out Code
+        uses: actions/checkout@v4
 
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v3
-
-      # Remove old release drafts by using the curl request for the available releases with draft flag
+      # 移除之前发布草稿
       - name: Remove Old Release Drafts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api repos/{owner}/{repo}/releases \
+          gh api repos/${{ github.repository }}/releases \
             --jq '.[] | select(.draft == true) | .id' \
             | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
 
-      # Create new release draft - which is not publicly visible and requires manual acceptance
+      # 创建新草稿并附加构建产物
       - name: Create Release Draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # 确保 dist 目录下的构建产物存在
+          ls dist/* || exit 1
+          
+          # 组装更新日志内容
+          CHANGELOG="${{ needs.build.outputs.changelog }}"
+          
+          # 创建发布草稿并上传附件
           gh release create v${{ needs.build.outputs.version }} \
             --draft \
             --title "v${{ needs.build.outputs.version }}" \
-            --notes "$(cat << 'EOM'
-          ${{ needs.build.outputs.changelog }}
-          EOM
-          )"
+            --notes "${CHANGELOG}" \
+            dist/*
