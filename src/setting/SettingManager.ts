@@ -15,7 +15,7 @@ export class SettingManager {
     }
 
     private loadSetting(): Setting {
-        const setting = GmUtils.getValue(Setting, STORAGE_KEY_SETTING, new Setting())
+        const setting = GmUtils.getObjValue(Setting, STORAGE_KEY_SETTING, new Setting())
         setting.oldVersion = setting.currVersion
         setting.currVersion = GM_info.script.version
 
@@ -36,7 +36,7 @@ export class SettingManager {
     public saveSetting(setting: Setting) {
         Logger.info('保存设置', setting)
         this.setting = setting
-        GmUtils.setValue(STORAGE_KEY_SETTING, setting)
+        GmUtils.setObjValue(STORAGE_KEY_SETTING, setting)
     }
 
     public setCountyCode(countyCode: string) {

@@ -71,12 +71,12 @@ export class RateManager implements IRateApi {
         }
 
         Logger.info(`读取汇率缓存`)
-        return GmUtils.getValue(RateCaches, STORAGE_KEY_RATE_CACHES, new RateCaches())
+        return GmUtils.getObjValue(RateCaches, STORAGE_KEY_RATE_CACHES, new RateCaches())
     }
 
     private saveRateCache() {
         Logger.info('保存汇率缓存', this.rateCaches)
-        GmUtils.setValue(STORAGE_KEY_RATE_CACHES, this.rateCaches)
+        GmUtils.setObjValue(STORAGE_KEY_RATE_CACHES, this.rateCaches)
     }
 
     public clear() {

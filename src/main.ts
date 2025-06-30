@@ -17,25 +17,14 @@ import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
 import {SpcManager} from './SpcManager'
 import {Logger, setLogLevel} from './utils/Logger'
 import {GmUtils} from './utils/GmUtils'
-import {IM_MENU_SETTING} from './constant/Constant'
-import {ReactUtils} from './utils/ReactUtils'
+import {IM_MENU_ISSUES, IM_MENU_SETTING} from './constant/Constant'
 
 (async () => {
-    if (ReactUtils.useReact()) {
-        await ReactUtils.waitForReactInit(async (root, reactProp) => {
-            console.log('React is ready!', {root, reactProp})
-            await initContext()
-            initApp()
-            registerMenu()
-            await main()
-        })
-    } else {
-        console.log('React is not detected!')
-        await initContext()
-        initApp()
-        registerMenu()
-        await main()
-    }
+    console.log('Body is ready!')
+    await initContext()
+    initApp()
+    registerMenu()
+    await main()
 })()
 
 function initApp() {
@@ -51,6 +40,7 @@ function initApp() {
 
 function registerMenu() {
     GmUtils.registerMenuCommand(IM_MENU_SETTING)
+    GmUtils.registerMenuCommand(IM_MENU_ISSUES, () => GmUtils.openInTab('https://github.com/marioplus/steam-price-converter'))
 }
 
 async function initContext() {

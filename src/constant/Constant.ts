@@ -13,6 +13,7 @@ export const STORAGE_KEY_SETTING = STORAGE_KEY_PREFIX + 'Setting'
  * 设置
  */
 export const IM_MENU_SETTING = '设置'
+export const IM_MENU_ISSUES = '反馈'
 
 export class Attrs {
     static readonly STATUS_KEY: string = 'data-spc-status'
