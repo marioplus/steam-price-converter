@@ -13,7 +13,7 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
 import {SpcContext} from './SpcContext'
-import {CountyCodeGetterManager} from './county/CountyCodeGetterManager'
+import {CountyCodeProviderManager} from './county/CountyCodeProviderManager'
 import {SpcManager} from './SpcManager'
 import {Logger, setLogLevel} from './utils/Logger'
 import {GmUtils} from './utils/GmUtils'
@@ -54,7 +54,7 @@ async function initContext() {
     }
     Logger.info('目标区域：', targetCountyInfo)
 
-    const currCountyCode = await CountyCodeGetterManager.instance.getCountyCode()
+    const currCountyCode = await CountyCodeProviderManager.instance.getCountyCode()
     const currCountInfo = countyCode2Info.get(currCountyCode)
     if (!currCountyCode) {
         throw Error('缺少当前国家的信息映射：county: ' + currCountyCode)

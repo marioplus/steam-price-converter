@@ -1,10 +1,10 @@
-import {ICountyInfoGetter} from './ICountyInfoGetter'
+import {ICountyInfoProvider} from './ICountyInfoProvider'
 import {Logger} from '../utils/Logger'
 
 /**
  * 市场页面获取区域代码
  */
-export class MarketPageCountyCodeGetter implements ICountyInfoGetter {
+export class MarketPageCountyCodeProvider implements ICountyInfoProvider {
     name(): string {
         return '市场页面'
     }

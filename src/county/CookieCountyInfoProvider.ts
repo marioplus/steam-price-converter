@@ -1,10 +1,10 @@
-import {ICountyInfoGetter} from './ICountyInfoGetter'
+import {ICountyInfoProvider} from './ICountyInfoProvider'
 import {GM_cookie} from '$'
 
 /**
  * 从 cookie 中获取区域代码
  */
-export class CookieCountyInfoGetter implements ICountyInfoGetter {
+export class CookieCountyInfoProvider implements ICountyInfoProvider {
     name(): string {
         return 'cookie'
     }

@@ -1,4 +1,4 @@
-export interface ICountyInfoGetter {
+export interface ICountyInfoProvider {
 
     /**
      * 是否匹配
