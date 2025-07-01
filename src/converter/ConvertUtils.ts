@@ -13,6 +13,12 @@ import {Logger} from '../utils/Logger'
 function parsePrice(content: string) {
     // 1.399,53
     let priceStr = content
+        // 订阅包
+        // 《上古卷轴OL》 - 1500王冠组合包 - ¥ 62.99
+        // 4000 (+ 1000 Bonus) Atoms - ¥ 165.00
+        .replaceAll(/([^-]+\s-)+/g,'')
+        // 订阅月份
+        .replaceAll(/\/ \d{0,2} 个 个月/g, '')
         // 俄罗斯货币 两行的p 不一样 \u440 和 \u70
         .replace(/руб\./g, '')
         .replace(/pуб\./g, '')
@@ -51,8 +57,6 @@ function convertPrice(price: number, rate: number) {
  */
 export function convertPriceContent(originalContent: string, rate: number): string {
     const safeContent = originalContent.trim()
-        .replaceAll(/\(.+$/g, '')
-        .trim()
     const price = parsePrice(safeContent)
     const convertedPrice = convertPrice(price, rate)
     const setting = SettingManager.instance.setting

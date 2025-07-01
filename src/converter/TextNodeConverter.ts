@@ -2,7 +2,7 @@ import {AbstractConverter} from './AbstractConverter'
 import {ElementSnap} from './ConverterManager'
 import {convertPriceContent} from './ConvertUtils'
 
-type parseTextNodeFn = (element: Element) => ChildNode
+type parseTextNodeFn = (element: Element) => ChildNode | undefined | null
 
 export class TextNodeConverter extends AbstractConverter {
 
@@ -13,8 +13,13 @@ export class TextNodeConverter extends AbstractConverter {
     // 购物车
     cart = new Map<string, parseTextNodeFn[]>([
         // 卡牌获取进度
-        ['.Panel.Focusable ._18eO4-XadW5jmTpgdATkSz', [el => el.childNodes[1]],
-        ]
+        ['.Panel.Focusable ._18eO4-XadW5jmTpgdATkSz', [el => el.childNodes[1]]]
+    ])
+
+    // 愿望单
+    wishlist = new Map<string, parseTextNodeFn[]>([
+        // 统计
+        ['div.stat.svelte-1epviyc', [this.parseFirstChildTextNodeFn]]
     ])
 
     // @ts-ignore
@@ -36,7 +41,8 @@ export class TextNodeConverter extends AbstractConverter {
             el => el,
             this.parseFirstChildTextNodeFn
         ]],
-        ...this.cart
+        ...this.cart,
+        ...this.wishlist,
     ])
 
     getCssSelectors(): string[] {
@@ -73,7 +79,7 @@ export class TextNodeConverter extends AbstractConverter {
         for (let fn of fns) {
             try {
                 const node = fn(el)
-                if (node.nodeName === '#text' && node.nodeValue && node.nodeValue.length > 0) {
+                if (node && node.nodeName === '#text' && node.nodeValue && node.nodeValue.length > 0) {
                     return node
                 }
             } catch (e) {

@@ -7,7 +7,11 @@ export class ElementConverter extends AbstractConverter {
     getCssSelectors(): string[] {
         const home = [
             // 大图
-            '.discount_prices > .discount_final_price'
+            '.discount_prices > .discount_final_price',
+            // 头像下拉
+            '.Hxi-pnf9Xlw- span.HOrB6lehQpg-',
+            // 低于 xx
+            '.btnv6_white_transparent > span',
         ]
 
         // 商店 分类
@@ -21,7 +25,12 @@ export class ElementConverter extends AbstractConverter {
         ]
 
         const account = [
-            'div.accountData.price a'
+            // 钱包余额
+            'div.accountData.price',
+            // 充值
+            '.addfunds_area_purchase_game.game_area_purchase_game > h1',
+            // 自定义充值
+            '.addfunds_area_purchase_game.game_area_purchase_game.es_custom_money > p'
         ]
 
         const wishlist = [
@@ -30,7 +39,11 @@ export class ElementConverter extends AbstractConverter {
             // 当前价格
             'div.ME2eMO7C1Tk- > div.DOnsaVcV0Is-',
             // 原价
-            'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-'
+            'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-',
+            // 筛选
+            'label.idELaaXmvTo-',
+            // 筛选后的标签
+            'button.Wh-OfiQaHSM-',
         ]
 
         const inventory = [
@@ -54,6 +67,25 @@ export class ElementConverter extends AbstractConverter {
             '#review_subtotal_value.price',
             // 合计
             '#review_total_value.price',
+        ]
+
+        const market = [
+            // 头像下拉菜单
+            '#account_dropdown .account_name',
+            // 市场统计
+            '#es_summary .es_market_summary_item'
+        ]
+
+        const notify = [
+            // 通知列表
+            '.QFW0BtI4l77AFmv1xLAkx._1B1XTNsfuwOaDPAkkr8M42 ._3hEeummFKRey8l5VXxZwxz > span'
+        ]
+
+        const app = [
+            // 订阅
+            '.game_area_purchase_game_dropdown_selection > span',
+            // 订阅下拉
+            '.game_area_purchase_game_dropdown_menu_items_container_background.game_area_purchase_game_dropdown_menu_items_container  td.game_area_purchase_game_dropdown_menu_item_text'
         ]
 
         const selectors = [
@@ -105,6 +137,9 @@ export class ElementConverter extends AbstractConverter {
         selectors.push(...inventory)
         selectors.push(...cart)
         selectors.push(...cartCheckout)
+        selectors.push(...market)
+        selectors.push(...notify)
+        selectors.push(...app)
         return selectors
     }
 
