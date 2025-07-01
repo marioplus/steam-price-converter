@@ -10,5 +10,5 @@ export interface CountyInfo {
     currencyCode: string
 }
 
-export const countyInfos = Jsons.readJson(countyObjs, Array<CountyInfo>)
+export const countyInfos = Jsons.readJson(countyObjs, Array<CountyInfo>).sort((a, b) => a.name.localeCompare(b.name))
 export const countyCode2Info = new Map<string, CountyInfo>(countyInfos.map(v => [v.code, v]))

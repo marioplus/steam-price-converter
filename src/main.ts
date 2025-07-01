@@ -20,7 +20,6 @@ import {GmUtils} from './utils/GmUtils'
 import {IM_MENU_ISSUES, IM_MENU_SETTING} from './constant/Constant'
 
 (async () => {
-    console.log('Body is ready!')
     await initContext()
     initApp()
     registerMenu()
@@ -32,6 +31,7 @@ function initApp() {
         (() => {
             const app = document.createElement('div')
             app.setAttribute('id', 'spc-menu')
+            app.setAttribute('class', 'mdui-theme-dark')
             document.body.append(app)
             return app
         })(),

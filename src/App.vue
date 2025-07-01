@@ -1,36 +1,39 @@
 <script lang="ts" setup>
 import {IM_MENU_SETTING} from './constant/Constant'
-import {onMounted} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import {countyInfos} from './county/CountyInfo'
-import {Dialog} from 'mdui'
+import {setColorScheme} from 'mdui'
 import {Setting} from './setting/Setting'
 import {SettingManager} from './setting/SettingManager'
 import {GmUtils} from './utils/GmUtils'
 import {LogDefinitions, LogLabel} from './utils/Logger'
 
+setColorScheme('#171D25')
+
 const vueCountyInfos = countyInfos
-const setting: Setting = Object.assign({}, SettingManager.instance.setting)
+const dialogOpen = ref(false)
+const setting: Setting = reactive(new Setting())
 
-onMounted(() => {
-  const dialog = document.querySelector('.setting') as Dialog
+GmUtils.addMenuClickEventListener(IM_MENU_SETTING, () => dialogOpen.value = true)
 
-  dialog.querySelector('.setting-btn-canal')?.addEventListener('click', () => dialog.open = false)
-  dialog.querySelector('.setting-btn-save')?.addEventListener('click', () => {
-    SettingManager.instance.saveSetting(setting)
-    dialog.open = false
-  })
+onMounted(() => Object.assign(setting, SettingManager.instance.setting))
 
-  GmUtils.addMenuClickEventListener(IM_MENU_SETTING, () => dialog.open = true)
-})
-
-function getSelected(target: any): string {
-  return target.querySelector('*[selected]')?.value
+const getSelected = (target: any) => target.querySelector('*[selected]')?.value
+const resetSetting = () => {
+  const defaultSetting = new Setting()
+  Object.assign(setting, defaultSetting)
+  SettingManager.instance.saveSetting(setting)
+  dialogOpen.value = false
+}
+const handleSave = () => {
+  SettingManager.instance.saveSetting(setting)
+  dialogOpen.value = false
 }
 
 </script>
 <template>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <mdui-dialog close-on-overlay-click class="setting">
+  <mdui-dialog close-on-esc close-on-overlay-click class="setting" :open="dialogOpen">
     <span slot="headline">设置</span>
     <span slot="description">随心所欲设置 steam-price-converter</span>
 
@@ -44,7 +47,9 @@ function getSelected(target: any): string {
       </div>
 
       <div class="setting-item-content">
-        <mdui-select :value="setting.countyCode" placement="bottom"
+        <mdui-select :value="setting.countyCode"
+                     icon="location_city"
+                     placement="bottom"
                      @change="setting.countyCode = getSelected($event.target)">
           <mdui-menu-item v-for="countyInfo in vueCountyInfos" :value="countyInfo.code">
             {{ countyInfo.name }} ({{ countyInfo.code }})
@@ -63,7 +68,7 @@ function getSelected(target: any): string {
       </div>
 
       <div class="setting-item-content">
-        <mdui-text-field :value="setting.currencySymbol"
+        <mdui-text-field icon="currency_yen" :value="setting.currencySymbol"
                          @change="setting.currencySymbol = $event.target.value"/>
       </div>
     </div>
@@ -78,7 +83,7 @@ function getSelected(target: any): string {
       </div>
 
       <div class="setting-item-content">
-        <mdui-select :value="setting.currencySymbolBeforeValue.toString()" placement="bottom"
+        <mdui-select icon="location_on" :value="setting.currencySymbolBeforeValue.toString()" placement="bottom"
                      @change="setting.currencySymbolBeforeValue = getSelected($event.target)==='true'">
           <mdui-menu-item value="true">价格之前</mdui-menu-item>
           <mdui-menu-item value="false">价格之后</mdui-menu-item>
@@ -95,7 +100,7 @@ function getSelected(target: any): string {
         </mdui-tooltip>
       </div>
       <div class="setting-item-content">
-        <mdui-text-field type="number" :value="setting.rateCacheExpired / (60 * 60 * 1000)" suffix="h"
+        <mdui-text-field icon="update" type="number" :value="setting.rateCacheExpired / (60 * 60 * 1000)" suffix="h"
                          @change="setting.rateCacheExpired = $event.target.value * (60 * 60 * 1000)"/>
       </div>
     </div>
@@ -109,7 +114,7 @@ function getSelected(target: any): string {
         </mdui-tooltip>
       </div>
       <div class="setting-item-content">
-        <mdui-switch slot="end-icon" :value="setting.useCustomRate"
+        <mdui-switch checked-icon="auto_awesome" unchecked-icon="auto_awesome" slot="end-icon" :value="setting.useCustomRate"
                      @change="setting.useCustomRate = $event.target.checked"/>
       </div>
     </div>
@@ -123,7 +128,7 @@ function getSelected(target: any): string {
         </mdui-tooltip>
       </div>
       <div class="setting-item-content">
-        <mdui-text-field type="number" :value="setting.customRate"
+        <mdui-text-field icon="auto_awesome" type="number" :value="setting.customRate"
                          @change="setting.customRate = $event.target.value"/>
       </div>
     </div>
@@ -136,21 +141,25 @@ function getSelected(target: any): string {
           <mdui-icon name="error" class="setting-region-title-icon"/>
         </mdui-tooltip>
       </div>
-
       <div class="setting-item-content">
-        <mdui-select :value="setting.logLevel"
+        <mdui-select icon="article" :value="setting.logLevel"
                      @change="setting.logLevel = getSelected($event.target) as LogLabel">
           <mdui-menu-item v-for="def in LogDefinitions" :value="def.label">{{ def.label }}</mdui-menu-item>
         </mdui-select>
       </div>
     </div>
 
-    <mdui-button class="setting-btn-canal" slot="action" variant="text">取消</mdui-button>
-    <mdui-button class="setting-btn-save" slot="action" variant="tonal">保存</mdui-button>
+    <mdui-button class="setting-btn-reset" slot="action" variant="text" @click="resetSetting">重置</mdui-button>
+    <mdui-button class="setting-btn-canal" slot="action" variant="text" @click="dialogOpen=false">取消</mdui-button>
+    <mdui-button class="setting-btn-save" slot="action" variant="filled" @click="handleSave">保存</mdui-button>
   </mdui-dialog>
 </template>
 
 <style scoped lang="less">
+mdui-dialog::part(panel) {
+  max-height: 50em;
+}
+
 .setting-item {
   color: rgb(var(--mdui-color-on-surface));
   padding: 1em .75em;
@@ -182,7 +191,4 @@ mdui-select::part(menu) {
   overflow: auto;
 }
 
-mdui-text-field::part(suffix) {
-  color: blue;
-}
 </style>
