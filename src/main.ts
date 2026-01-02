@@ -55,9 +55,13 @@ async function initContext() {
     Logger.info('目标区域：', targetCountyInfo)
 
     const currCountyCode = await CountyCodeProviderManager.instance.getCountyCode()
-    const currCountInfo = countyCode2Info.get(currCountyCode)
-    if (!currCountyCode) {
-        throw Error('缺少当前国家的信息映射：county: ' + currCountyCode)
+    if (currCountyCode) {
+        Logger.info('区域代码：', currCountyCode)
+    }
+    let currCountInfo = countyCode2Info.get(currCountyCode)
+    if (!currCountInfo) {
+        Logger.warn('缺少当前国家的信息映射：county: ' + currCountyCode + ', 默认为美国')
+        currCountInfo = countyCode2Info.get("US")
     }
     Logger.info('当前区域：', currCountInfo)
 
