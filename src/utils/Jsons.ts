@@ -5,7 +5,7 @@ export class Jsons {
      * 将对象转换为普通 JSON 对象
      */
     public static toJson<T>(obj: T): Record<string, any> {
-        return {...obj} as Record<string, any>
+        return { ...obj } as Record<string, any>
     }
 
     /**
@@ -87,7 +87,7 @@ export class Jsons {
                 const existingValue = mapInstance.get(key)
                 if (this.isObject(mapValue) && existingValue) {
                     // 递归处理 Map 中的值
-                    map.set(key, this.readJson(mapValue, existingValue.constructor as any))
+                    map.set(key, (this as any).readJson(mapValue, existingValue.constructor as any))
                 } else {
                     map.set(key, mapValue)
                 }

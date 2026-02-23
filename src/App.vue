@@ -1,194 +1,228 @@
+<template>
+  <div id="spc-app">
+    <SteamDialog :open="dialogOpen" title="价格转换" @close="dialogOpen = false">
+      <div class="steam-settings-container">
+        <!-- 目标区域 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">目标区域</div>
+            <div class="desc">将价格转换为此区域的货币</div>
+          </div>
+          <div class="control">
+            <SteamSelect v-model="setting.countyCode" :options="vueCountyInfos" />
+          </div>
+        </div>
+
+        <!-- 货币符号 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">货币符号</div>
+            <div class="desc">转换后的价格的货币符号</div>
+          </div>
+          <div class="control">
+            <input type="text" class="steam-input" v-model="setting.currencySymbol" />
+          </div>
+        </div>
+
+        <!-- 货币符号展示位置 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">货币符号展示位置</div>
+            <div class="desc">控制转换后的价格货币符号的位置</div>
+          </div>
+          <div class="control">
+            <SteamSelect v-model="setting.currencySymbolBeforeValue" :options="currencyPositionOptions" />
+          </div>
+        </div>
+
+        <!-- 汇率缓存有效期 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">汇率缓存有效期 (小时)</div>
+            <div class="desc">在此时间内将使用缓存汇率</div>
+          </div>
+          <div class="control">
+            <input type="number" class="steam-input" :value="setting.rateCacheExpired / (60 * 60 * 1000)"
+              @input="setting.rateCacheExpired = (Number(($event.target as HTMLInputElement).value) * (60 * 60 * 1000))" />
+          </div>
+        </div>
+
+        <!-- 使用自定义汇率 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">使用自定义汇率</div>
+            <div class="desc">手动指定转换比率，不再自动获取</div>
+          </div>
+          <div class="control">
+            <SteamSwitch v-model="setting.useCustomRate" />
+          </div>
+        </div>
+
+        <!-- 自定义汇率 -->
+        <div class="setting-row" v-if="setting.useCustomRate">
+          <div class="info">
+            <div class="label">自定义汇率</div>
+            <div class="desc">开启“使用自定义汇率”后生效</div>
+          </div>
+          <div class="control">
+            <input type="number" class="steam-input" v-model="setting.customRate" />
+          </div>
+        </div>
+
+        <!-- 日志等级 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">日志等级</div>
+            <div class="desc">用于调试插件运行问题</div>
+          </div>
+          <div class="control">
+            <SteamSelect v-model="setting.logLevel" :options="logLevels" />
+          </div>
+        </div>
+      </div>
+
+      <template #action>
+        <button class="steam-btn gray" @click="resetSetting">重置</button>
+        <button class="steam-btn gray" @click="dialogOpen = false">取消</button>
+        <button class="steam-btn blue" @click="handleSave">保存设置</button>
+      </template>
+    </SteamDialog>
+  </div>
+</template>
 <script lang="ts" setup>
-import {IM_MENU_SETTING} from './constant/Constant'
-import {onMounted, reactive, ref} from 'vue'
-import {countyInfos} from './county/CountyInfo'
-import {setColorScheme} from 'mdui'
-import {Setting} from './setting/Setting'
-import {SettingManager} from './setting/SettingManager'
-import {GmUtils} from './utils/GmUtils'
-import {LogDefinitions, LogLabel} from './utils/Logger'
+import { onMounted, reactive, ref } from 'vue'
+import { IM_MENU_SETTING } from './constant/Constant'
+import { countyInfos } from './county/CountyInfo'
+import { Setting } from './setting/Setting'
+import { SettingManager } from './setting/SettingManager'
+import SteamDialog from './ui/SteamDialog.vue'
+import SteamSelect from './ui/SteamSelect.vue'
+import SteamSwitch from './ui/SteamSwitch.vue'
+import { GmUtils } from './utils/GmUtils'
+import { LogDefinitions } from './utils/Logger'
 
-setColorScheme('#171D25')
-
-const vueCountyInfos = countyInfos
-const dialogOpen = ref(false)
+const vueCountyInfos = countyInfos.map(c => ({ label: `${c.name} (${c.code})`, value: c.code }))
+const dialogOpen = ref(true)
 const setting: Setting = reactive(new Setting())
 
 GmUtils.addMenuClickEventListener(IM_MENU_SETTING, () => dialogOpen.value = true)
 
 onMounted(() => Object.assign(setting, SettingManager.instance.setting))
 
-const getSelected = (target: any) => target.querySelector('*[selected]')?.value
 const resetSetting = () => {
   const defaultSetting = new Setting()
   Object.assign(setting, defaultSetting)
   SettingManager.instance.saveSetting(setting)
   dialogOpen.value = false
 }
+
 const handleSave = () => {
   SettingManager.instance.saveSetting(setting)
   dialogOpen.value = false
 }
 
+const logLevels = Object.values(LogDefinitions).map(d => ({ label: d.label, value: d.label }))
+const currencyPositionOptions = [
+  { label: '价格之前', value: true },
+  { label: '价格之后', value: false }
+]
+
 </script>
-<template>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <mdui-dialog close-on-esc close-on-overlay-click class="setting" :open="dialogOpen">
-    <span slot="headline">设置</span>
-    <span slot="description">随心所欲设置 steam-price-converter</span>
 
-    <!-- 目标区域 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>目标区域</label>
-        <mdui-tooltip content="将价格转换为此区域的货币" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
+<style scoped lang="scss">
+@use "./style/SteamStyle.scss" as *;
 
-      <div class="setting-item-content">
-        <mdui-select :value="setting.countyCode"
-                     icon="location_city"
-                     placement="bottom"
-                     @change="setting.countyCode = getSelected($event.target)">
-          <mdui-menu-item v-for="countyInfo in vueCountyInfos" :value="countyInfo.code">
-            {{ countyInfo.name }} ({{ countyInfo.code }})
-          </mdui-menu-item>
-        </mdui-select>
-      </div>
-    </div>
-
-    <!-- 货币符号 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>货币符号</label>
-        <mdui-tooltip content="转换后的价格的货币符号" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-
-      <div class="setting-item-content">
-        <mdui-text-field icon="currency_yen" :value="setting.currencySymbol"
-                         @change="setting.currencySymbol = $event.target.value"/>
-      </div>
-    </div>
-
-    <!-- 货币符号展示位置 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>货币符号展示位置</label>
-        <mdui-tooltip content="控制转换后的价格货币符号的位置" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-
-      <div class="setting-item-content">
-        <mdui-select icon="location_on" :value="setting.currencySymbolBeforeValue.toString()" placement="bottom"
-                     @change="setting.currencySymbolBeforeValue = getSelected($event.target)==='true'">
-          <mdui-menu-item value="true">价格之前</mdui-menu-item>
-          <mdui-menu-item value="false">价格之后</mdui-menu-item>
-        </mdui-select>
-      </div>
-    </div>
-
-    <!-- 汇率缓存有效期 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>汇率缓存有效期</label>
-        <mdui-tooltip content="获取汇率后进行缓存，在此时间内将使用缓存汇率" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-      <div class="setting-item-content">
-        <mdui-text-field icon="update" type="number" :value="setting.rateCacheExpired / (60 * 60 * 1000)" suffix="h"
-                         @change="setting.rateCacheExpired = $event.target.value * (60 * 60 * 1000)"/>
-      </div>
-    </div>
-
-    <!-- 使用自定义汇率 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>使用自定义汇率</label>
-        <mdui-tooltip content="使用自定义汇率进行价格转换，不再获取区域，不再根据区域获取汇率" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-      <div class="setting-item-content">
-        <mdui-switch checked-icon="auto_awesome" unchecked-icon="auto_awesome" slot="end-icon" :value="setting.useCustomRate"
-                     @change="setting.useCustomRate = $event.target.checked"/>
-      </div>
-    </div>
-
-    <!-- 自定义汇率 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>自定义汇率</label>
-        <mdui-tooltip content="开启“使用自定义汇率”后使用此汇率进行转换" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-      <div class="setting-item-content">
-        <mdui-text-field icon="auto_awesome" type="number" :value="setting.customRate"
-                         @change="setting.customRate = $event.target.value"/>
-      </div>
-    </div>
-
-    <!-- 日志等级 -->
-    <div class="setting-item">
-      <div class="setting-item-title">
-        <label>日志等级</label>
-        <mdui-tooltip content="日志等级 debug > info > warn > error > off" placement="right">
-          <mdui-icon name="error" class="setting-region-title-icon"/>
-        </mdui-tooltip>
-      </div>
-      <div class="setting-item-content">
-        <mdui-select icon="article" :value="setting.logLevel"
-                     @change="setting.logLevel = getSelected($event.target) as LogLabel">
-          <mdui-menu-item v-for="def in LogDefinitions" :value="def.label">{{ def.label }}</mdui-menu-item>
-        </mdui-select>
-      </div>
-    </div>
-
-    <mdui-button class="setting-btn-reset" slot="action" variant="text" @click="resetSetting">重置</mdui-button>
-    <mdui-button class="setting-btn-canal" slot="action" variant="text" @click="dialogOpen=false">取消</mdui-button>
-    <mdui-button class="setting-btn-save" slot="action" variant="filled" @click="handleSave">保存</mdui-button>
-  </mdui-dialog>
-</template>
-
-<style scoped lang="less">
-mdui-dialog::part(panel) {
-  max-height: 50em;
-}
-
-.setting-item {
-  color: rgb(var(--mdui-color-on-surface));
-  padding: 1em .75em;
-  min-width: 33em;
-}
-
-.setting-item-title {
+.steam-settings-container {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-  label {
-    display: inline-block;
-    padding-right: 0.4em;
-    font-size: var(--mdui-typescale-body-large-size);
-    font-weight: var(--mdui-typescale-body-medium-weight);
-    letter-spacing: var(--mdui-typescale-body-medium-tracking);
-    line-height: var(--mdui-typescale-body-medium-line-height);
+  .info {
+    flex: 1;
+    min-width: 0;
+
+    .label {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .desc {
+      font-size: 12px;
+      color: $steam-color-label;
+    }
   }
 
-  .setting-region-title-icon {
-    font-size: var(--mdui-typescale-body-large-size);
+  .control {
+    min-width: 40px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.steam-input {
+  width: 30px;
+  background-color: #292e36;
+  border: 0px solid #000;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 2px;
+  font-family: inherit;
+  outline: none;
+
+  &:hover {
+    background-color: #313841;
   }
 
+  &:focus {
+    background-color: #23262e;
+    box-shadow: inset 0px 1px 6px rgba(0, 0, 0, 0.7);
+  }
+
+  // 隐藏 Chrome, Safari, Edge, Opera 的原生数字箭头
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  // 隐藏 Firefox 的原生数字箭头及解决兼容性告警
+  &[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 }
 
-mdui-select::part(menu) {
-  max-height: 256px;
-  overflow: auto;
-}
+.steam-btn {
+  padding: 0 24px;
+  height: 32px;
+  font-size: 14px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.2s;
 
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  &.blue {
+    background: linear-gradient(to right, #3a9bed, #245ecf);
+    color: #fff;
+  }
+
+  &.gray {
+    background-color: $steam-btn-bg;
+    color: #fff;
+  }
+}
 </style>

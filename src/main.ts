@@ -1,23 +1,20 @@
-// mdui
-import 'mdui/mdui.css'
-import 'mdui'
-import './style/home.less'
-import './style/search.less'
-import './style/market.less'
+import './style/home.scss'
+import './style/search.scss'
+import './style/market.scss'
 
-import {main} from './RealMain'
-import {countyCode2Info} from './county/CountyInfo'
-import {SettingManager} from './setting/SettingManager'
-import {createApp} from 'vue'
+import { main } from './RealMain'
+import { countyCode2Info } from './county/CountyInfo'
+import { SettingManager } from './setting/SettingManager'
+import { createApp } from 'vue'
 // @ts-ignore
 import App from './App.vue'
-import {unsafeWindow} from 'vite-plugin-monkey/dist/client'
-import {SpcContext} from './SpcContext'
-import {CountyCodeProviderManager} from './county/CountyCodeProviderManager'
-import {SpcManager} from './SpcManager'
-import {Logger, setLogLevel} from './utils/Logger'
-import {GmUtils} from './utils/GmUtils'
-import {IM_MENU_ISSUES, IM_MENU_SETTING} from './constant/Constant'
+import { unsafeWindow } from 'vite-plugin-monkey/dist/client'
+import { SpcContext } from './SpcContext'
+import { CountyCodeProviderManager } from './county/CountyCodeProviderManager'
+import { SpcManager } from './SpcManager'
+import { Logger, setLogLevel } from './utils/Logger'
+import { GmUtils } from './utils/GmUtils'
+import { IM_MENU_ISSUES, IM_MENU_SETTING } from './constant/Constant'
 
 (async () => {
     await initContext()

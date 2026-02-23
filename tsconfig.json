@@ -6,9 +6,10 @@
         "module": "ESNext",
         "lib": [
             "ESNext",
-            "DOM"
+            "DOM",
+            "DOM.Iterable"
         ],
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "strict": true,
         "sourceMap": true,
         "resolveJsonModule": true,
@@ -18,7 +19,10 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": [
+            "vite-plugin-monkey/client"
+        ]
     },
     "include": [
         "src/**/*.ts",
@@ -26,9 +30,7 @@
         "src/**/*.tsx",
         "src/**/*.vue"
     ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
+    "exclude": [
+        "node_modules"
     ]
 }

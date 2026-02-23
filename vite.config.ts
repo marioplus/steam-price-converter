@@ -1,18 +1,13 @@
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import monkey, {cdn, util} from 'vite-plugin-monkey'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue';
+import monkey, { cdn } from 'vite-plugin-monkey';
+import svgLoader from 'vite-svg-loader';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        vue({
-            template: {
-                compilerOptions: {
-                    // 所有以 mdui- 开头的标签名都是 mdui 组件
-                    isCustomElement: (tag) => /^mdui-/.test(tag)
-                }
-            }
-        }),
+        vue(),
+        svgLoader(),
         monkey({
             entry: 'src/main.ts',
             userscript: {
@@ -37,13 +32,12 @@ export default defineConfig({
             },
             build: {
                 externalGlobals: {
-                    mdui: cdn.jsdelivr('mdui', 'mdui.global.min.js'),
                     vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
                 },
-                externalResource: {
-                    'mdui/mdui.css': cdn.jsdelivr(),
-                }
             },
         }),
-    ]
+    ],
+    build: {
+        assetsInlineLimit: 0,
+    }
 })

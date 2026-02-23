@@ -1,0 +1,37 @@
+// Steam 风格配色变量 (SCSS)
+$steam-bg-dialog: #1b2838;
+$steam-bg-sidebar: #171d25;
+$steam-color-text: #dcdedf;
+$steam-color-label: #8f98a0;
+$steam-blue-primary: #1a9fff;
+$steam-blue-hover: #66c0f4;
+$steam-btn-bg: #3d4450;
+$steam-border: #2a475e;
+$steam-input-bg: #101822;
+
+// 交互态颜色
+$steam-toggle-on: #1a9fff;
+$steam-toggle-off: #3d4450;
+$steam-select-bg: #2a3f5a;
+
+// 字体
+$steam-font-family: "Motiva Sans", Sans-serif;
+
+@mixin steam-scroll {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #3d4450;
+        border-radius: 4px;
+
+        &:hover {
+            background: #4e5663;
+        }
+    }
+}
