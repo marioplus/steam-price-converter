@@ -17,8 +17,9 @@ export default defineConfig({
                 version: '2.6.1',
                 icon: 'https://www.google.com/s2/favicons?sz=64&domain=store.steampowered.com',
                 namespace: 'https://github.com/marioplus/steam-price-converter',
-                homepage: 'https://github.com/marioplus',
-                license: 'GPL-3.0-or-later',
+                homepage: 'https://github.com/marioplus/steam-price-converter',
+                homepageURL: 'https://github.com/marioplus/steam-price-converter',
+                license: 'MIT',
                 match: [
                     'https://store.steampowered.com/*',
                     'https://steamcommunity.com/*',
