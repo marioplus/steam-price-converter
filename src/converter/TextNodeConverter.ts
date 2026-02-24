@@ -1,6 +1,6 @@
-import {AbstractConverter} from './AbstractConverter'
-import {ElementSnap} from './ConverterManager'
-import {convertPriceContent} from './ConvertUtils'
+import { AbstractConverter } from './AbstractConverter'
+import { ElementSnap } from './ConverterManager'
+import { PriceProcessor } from './PriceProcessor'
 
 type parseTextNodeFn = (element: Element) => ChildNode | undefined | null
 
@@ -49,7 +49,7 @@ export class TextNodeConverter extends AbstractConverter {
         return [...this.targets.keys()]
     }
 
-    convert(elementSnap: ElementSnap, rate: number): boolean {
+    async convert(elementSnap: ElementSnap): Promise<boolean> {
         // 找到对应的元素
         // @ts-ignore
         const selector: string = elementSnap.selector
@@ -71,7 +71,7 @@ export class TextNodeConverter extends AbstractConverter {
         if (!content || content.trim().length === 0) {
             return false
         }
-        textNode.nodeValue = convertPriceContent(content, rate)
+        textNode.nodeValue = await PriceProcessor.convertContent(content)
         return true
     }
 

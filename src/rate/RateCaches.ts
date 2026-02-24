@@ -21,7 +21,8 @@ export class RateCaches {
     caches: Map<string, RateCache> = new Map<string, RateCache>()
 
     getCache(from: string, to: string): RateCache | undefined {
-        return this.caches.get(this.buildCacheKey(from, to))
+        const key = this.buildCacheKey(from, to)
+        return this.caches.get(key)
     }
 
     setCache(cache: RateCache) {

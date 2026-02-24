@@ -1,5 +1,5 @@
-import {ElementSnap} from './ConverterManager'
-import {Attrs} from '../constant/Constant'
+import { ElementSnap } from './ConverterManager'
+import { Attrs } from '../constant/Constant'
 
 export abstract class AbstractConverter {
 
@@ -57,10 +57,9 @@ export abstract class AbstractConverter {
     /**
      * 具体操作
      * @param elementSnap 选择器选择到的元素快照
-     * @param rate 汇率
      * @return 处理结果
      */
-    abstract convert(elementSnap: ElementSnap, rate: number): boolean
+    abstract convert(elementSnap: ElementSnap): Promise<boolean>
 
     /**
      * 替换之后的操作

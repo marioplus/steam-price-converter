@@ -1,5 +1,28 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PriceProcessor, GLOBAL_CURRENCIES, CurrencyDef } from './PriceProcessor';
+import { SettingManager } from '../setting/SettingManager';
+import { RateManager } from '../rate/RateManager';
+
+// Mock Managers
+vi.mock('../setting/SettingManager', () => ({
+    SettingManager: {
+        instance: {
+            setting: {
+                countyCode: 'US',
+                currencySymbol: '$',
+                currencySymbolBeforeValue: true
+            }
+        }
+    }
+}));
+
+vi.mock('../rate/RateManager', () => ({
+    RateManager: {
+        instance: {
+            getRate: vi.fn()
+        }
+    }
+}));
 
 /**
  * 高级规格生产器：确保生成的数据 100% 符合币种的 DNA
@@ -34,30 +57,35 @@ function formatSpecPrice(value: number, def: CurrencyDef): string {
 }
 
 describe('PriceProcessor 规格对齐自动化回归', () => {
-    const rate = 1.0;
+    const defaultRate = 1.0;
     const targetSymbol = '¥';
 
-    it('【规格回验集】验证全量区域在真实 DNA 下的解析准确度', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        // 设置默认配置
+        SettingManager.instance.setting.currencySymbol = targetSymbol;
+        SettingManager.instance.setting.currencySymbolBeforeValue = true;
+        // @ts-ignore
+        RateManager.instance.getRate.mockResolvedValue(defaultRate);
+    });
+
+    it('【规格回验集】验证全量区域在真实 DNA 下的解析准确度', async () => {
         let baseVal = 100;
 
-        const isBefore = true;
-        GLOBAL_CURRENCIES.forEach((def, index) => {
-            // 根据区域 DNA 决定数值形态
+        for (const [index, def] of GLOBAL_CURRENCIES.entries()) {
+            SettingManager.instance.setting.countyCode = def.cc;
+
             const v1 = baseVal + index;
             const rawV2 = (baseVal * 100) + index + 0.99;
 
-            // 严格对齐规则：如果规则规定是整数，则 ground truth 也必须是整数
             const val1 = def.fractionDigits === 0 ? v1 : v1 + 0.5;
             const val2 = def.fractionDigits === 0 ? Math.round(rawV2) : rawV2;
 
-            [val1, val2].forEach(val => {
+            for (const val of [val1, val2]) {
                 const text = formatSpecPrice(val, def);
-                const result = PriceProcessor.processText(text, rate, def.cc, targetSymbol, true);
+                const result = await PriceProcessor.convertContent(text);
 
-                // 逐一精准断言
-                const expected = isBefore
-                    ? `${text}(${targetSymbol}${val})`
-                    : `${text}(${val}${targetSymbol})`;
+                const expected = `${text}(${targetSymbol}${val})`;
                 try {
                     expect(result).toBe(expected);
                 } catch (e) {
@@ -67,12 +95,12 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
                     console.error(`Got:      "${result}"`);
                     throw e;
                 }
-            });
-        });
+            }
+        }
     });
 
-    it('【终极复合压力】全区域混合递增数据解构', () => {
-        // 构建全区域混合文本，使用递增 ID 以便区分
+    it('【终极复合压力】全区域混合递增数据解构', async () => {
+        // 构建全区域混合文本
         const specs = GLOBAL_CURRENCIES
             .flatMap((def, i) => {
                 const v1 = 5000 + i;
@@ -99,9 +127,8 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
                 });
             });
 
-        const isBefore = true;
         const megaText = specs.map(s => `[${s.def.code}] ${s.text}`).join(' | ');
-        const result = PriceProcessor.processText(megaText, rate, 'us', targetSymbol, isBefore);
+        const result = await PriceProcessor.convertContent(megaText);
 
         // 逐一验证每个节点
         specs.forEach(s => {
@@ -121,9 +148,9 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
     });
 
     describe('【鲁棒性】锚点强制与规格边界', () => {
-        it('拦截所有无锚点的纯数字 (即便符合 DNA)', () => {
+        it('拦截所有无锚点的纯数字 (即便符合 DNA)', async () => {
             const noise = 'Update 1.0.2 for App:76561198000. Version: 5.0. Count: 4000. Price: 62.99';
-            const result = PriceProcessor.processText(noise, rate, 'cn', targetSymbol, true);
+            const result = await PriceProcessor.convertContent(noise);
             expect(result).toBe(noise);
         });
     });

@@ -102,7 +102,7 @@ import { GmUtils } from './utils/GmUtils'
 import { LogDefinitions } from './utils/Logger'
 
 const vueCountyInfos = countyInfos.map(c => ({ label: `${c.name} (${c.code})`, value: c.code }))
-const dialogOpen = ref(true)
+const dialogOpen = ref(false)
 const setting: Setting = reactive(new Setting())
 
 GmUtils.addMenuClickEventListener(IM_MENU_SETTING, () => dialogOpen.value = true)

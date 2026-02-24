@@ -40,5 +40,9 @@ export default defineConfig({
     ],
     build: {
         assetsInlineLimit: 0,
+    },
+    // @ts-ignore
+    test: {
+        environment: 'jsdom',
     }
 })

@@ -14,8 +14,6 @@ import { SpcManager } from './SpcManager'
 import { Logger, setLogLevel } from './utils/Logger'
 import { GmUtils } from './utils/GmUtils'
 import { IM_MENU_ISSUES, IM_MENU_SETTING } from './constant/Constant'
-import { RateManager } from './rate/RateManager'
-import { Strings } from './utils/Strings'
 import { ConverterManager } from './converter/ConverterManager'
 
 (async () => {
@@ -33,34 +31,33 @@ async function start() {
         return
     }
 
-    // 获取汇率
-    const rate = await RateManager.instance.getRate()
-    if (!rate) {
-        throw Error('获取汇率失败')
-    }
-    Logger.info(Strings.format(`汇率 %s -> %s：%s`, context.currentCountyInfo.currencyCode, context.targetCountyInfo.currencyCode, rate))
-    await convert(rate)
+    Logger.info(`[SPC] 核心启动：由数据驱动的异步管道接管价格处理。目标：${context.targetCountyInfo.name}`)
+    await convert()
 }
 
-async function convert(rate: number) {
+async function convert() {
     const exchangerManager = ConverterManager.instance
-    // 手动触发一次
+    // 异步触发首次转换 (不再传递 rate，由处理器内聚处理)
     const elements = document.querySelectorAll(exchangerManager.getSelector())
-    exchangerManager.convert(elements, rate)
+    await exchangerManager.convert(elements)
 
     // 注册观察者
     const selector = exchangerManager.getSelector()
-    const priceObserver = new MutationObserver(mutations => {
+    const priceObserver = new MutationObserver(async (mutations) => {
+        const uniqueTargets = new Set<Element>();
 
         mutations.forEach(mutation => {
             const target = <HTMLElement>mutation.target
-            let priceEls = target.querySelectorAll(selector)
-            if (!priceEls || priceEls.length === 0) {
-                return
-            }
-            exchangerManager.convert(priceEls, rate)
+            const priceEls = target.querySelectorAll(selector)
+            priceEls.forEach(el => uniqueTargets.add(el));
         })
+
+        if (uniqueTargets.size > 0) {
+            // @ts-ignore
+            await exchangerManager.convert(uniqueTargets);
+        }
     })
+
     priceObserver.observe(document.body, {
         childList: true,
         subtree: true,

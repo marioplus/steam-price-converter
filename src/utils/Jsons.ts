@@ -2,10 +2,31 @@ export type ClassConstructor<T> = new () => T
 
 export class Jsons {
     /**
-     * 将对象转换为普通 JSON 对象
+     * 将对象转换为普通 JSON 对象，递归处理 Map
      */
-    public static toJson<T>(obj: T): Record<string, any> {
-        return { ...obj } as Record<string, any>
+    public static toJson(obj: any): any {
+        if (obj === null || typeof obj !== 'object') {
+            return obj
+        }
+
+        if (obj instanceof Map) {
+            const json: Record<string, any> = {}
+            for (const [key, value] of obj) {
+                json[key] = this.toJson(value)
+            }
+            return json
+        }
+
+        if (Array.isArray(obj)) {
+            return obj.map(v => this.toJson(v))
+        }
+
+        const json: Record<string, any> = {}
+        const keys = Object.keys(obj)
+        for (const key of keys) {
+            json[key] = this.toJson((obj as any)[key])
+        }
+        return json
     }
 
     /**
@@ -85,9 +106,14 @@ export class Jsons {
                 }
 
                 const existingValue = mapInstance.get(key)
-                if (this.isObject(mapValue) && existingValue) {
-                    // 递归处理 Map 中的值
-                    map.set(key, (this as any).readJson(mapValue, existingValue.constructor as any))
+                if (this.isObject(mapValue)) {
+                    // 如果能找到原有实例，使用原有实例的构造器进行反序列化
+                    if (existingValue) {
+                        map.set(key, (this as any).readJson(mapValue, existingValue.constructor as any) as V)
+                    } else {
+                        // 否则尝试作为普通对象处理
+                        map.set(key, mapValue as V)
+                    }
                 } else {
                     map.set(key, mapValue)
                 }

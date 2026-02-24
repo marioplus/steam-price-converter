@@ -1,6 +1,6 @@
-import {AbstractConverter} from './AbstractConverter'
-import {ElementConverter} from './ElementConverter'
-import {TextNodeConverter} from './TextNodeConverter'
+import { AbstractConverter } from './AbstractConverter'
+import { ElementConverter } from './ElementConverter'
+import { TextNodeConverter } from './TextNodeConverter'
 
 export type ElementSnap = {
     element: Element,
@@ -30,10 +30,13 @@ export class ConverterManager {
             .join(', ')
     }
 
-    convert(elements: NodeListOf<Element>, rate: number) {
+    async convert(elements: NodeListOf<Element>) {
         if (!elements) {
             return
         }
+
+        const tasks: Promise<void>[] = [];
+
         elements.forEach(element => {
             const elementSnap: ElementSnap = {
                 element,
@@ -45,23 +48,27 @@ export class ConverterManager {
             this.converters
                 .filter(converter => converter.match(elementSnap))
                 .forEach(converter => {
-                    try {
-                        const exchanged = converter.convert(elementSnap, rate)
-                        // 转换后续操作
-                        if (exchanged) {
-                            converter.afterConvert(elementSnap)
+                    const task = (async () => {
+                        try {
+                            const exchanged = await converter.convert(elementSnap)
+                            if (exchanged) {
+                                converter.afterConvert(elementSnap)
+                            }
+                        } catch (e) {
+                            console.group('转换失败')
+                            console.error(e)
+                            console.error('转换失败请将下列内容反馈给开发者，右键 > 复制(copy) > 复制元素(copy element)')
+                            console.error('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓')
+                            console.error(element)
+                            console.error('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑')
+                            console.groupEnd()
                         }
-                    } catch (e) {
-                        console.group('转换失败')
-                        console.error(e)
-                        console.error('转换失败请将下列内容反馈给开发者，右键 > 复制(copy) > 复制元素(copy element)')
-                        console.error('↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓')
-                        console.error(element)
-                        console.error('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑')
-                        console.groupEnd()
-                    }
+                    })();
+                    tasks.push(task);
                 })
         })
+
+        await Promise.all(tasks);
     }
 
 }
