@@ -1,6 +1,7 @@
 import './style/home.scss'
 import './style/search.scss'
 import './style/market.scss'
+import './style/style.scss'
 
 import { countyCode2Info } from './county/CountyInfo'
 import { SettingManager } from './setting/SettingManager'
