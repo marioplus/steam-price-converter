@@ -7,7 +7,11 @@
         "dev": "vite",
         "build": "vue-tsc && vite build",
         "preview": "vite preview",
-        "test": "vitest"
+        "test": "vitest",
+        "version:patch": "npm version patch && git push origin master --tags",
+        "version:minor": "npm version minor && git push origin master --tags",
+        "version:major": "npm version major && git push origin master --tags",
+        "version": "node scripts/update-changelog.js && git add CHANGELOG.md"
     },
     "dependencies": {
         "mdui": "^2.1.4",

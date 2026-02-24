@@ -2,6 +2,26 @@
 
 # steam-price-converter Changelog
 
+## [Unreleased]
+
+### Added
+- 
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+- 
+
 ## [2.6.1] - 2026-01-02
 
 1. 无法获取当前国家信息映射时，默认使用美国
