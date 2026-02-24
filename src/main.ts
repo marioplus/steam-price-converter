@@ -69,7 +69,6 @@ function initApp() {
         (() => {
             const app = document.createElement('div')
             app.setAttribute('id', 'spc-menu')
-            app.setAttribute('class', 'mdui-theme-dark')
             document.body.append(app)
             return app
         })(),

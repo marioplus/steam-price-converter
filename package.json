@@ -14,7 +14,6 @@
         "version": "node scripts/update-changelog.js && git add CHANGELOG.md"
     },
     "dependencies": {
-        "mdui": "^2.1.4",
         "vue": "^3.5.19"
     },
     "devDependencies": {
