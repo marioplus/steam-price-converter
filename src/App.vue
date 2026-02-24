@@ -69,6 +69,17 @@
           </div>
         </div>
 
+        <!-- 在市场页面禁用 -->
+        <div class="setting-row">
+          <div class="info">
+            <div class="label">在市场首页禁用</div>
+            <div class="desc">防止与其他市场插件冲突，开启后在市场首页不进行转换</div>
+          </div>
+          <div class="control">
+            <SteamSwitch v-model="setting.disableOnMarket" />
+          </div>
+        </div>
+
         <!-- 日志等级 -->
         <div class="setting-row">
           <div class="info">

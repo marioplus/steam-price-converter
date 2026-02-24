@@ -27,12 +27,18 @@ import { ConverterManager } from './converter/ConverterManager'
 async function start() {
     const context = SpcContext.getContext()
 
+    // 市场页面禁用逻辑
+    if (context.setting.disableOnMarket && window.location.href === 'https://steamcommunity.com/market/') {
+        Logger.info('已开启市场首页禁用，跳过转换')
+        return
+    }
+
     if (context.currentCountyInfo.code === context.targetCountyInfo.code) {
         Logger.info(`${context.currentCountyInfo.name}无需转换`)
         return
     }
 
-    Logger.info(`[SPC] 核心启动：由数据驱动的异步管道接管价格处理。目标：${context.targetCountyInfo.name}`)
+    Logger.info(` 核心启动：目标：${context.targetCountyInfo.name}`)
     await convert()
 }
 

@@ -1,4 +1,4 @@
-import {LogLabel} from '../utils/Logger'
+import { LogLabel } from '../utils/Logger'
 
 export class Setting {
     /**
@@ -45,4 +45,9 @@ export class Setting {
      * 日志级别
      */
     logLevel: LogLabel = 'info'
+
+    /**
+     * 市场页面禁用插件 (防止与其他插件冲突)
+     */
+    disableOnMarket: boolean = false
 }
