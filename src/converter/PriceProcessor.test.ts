@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { PriceProcessor, GLOBAL_CURRENCIES, CurrencyDef } from './PriceProcessor';
+import { PriceProcessor } from './PriceProcessor';
 import { SettingManager } from '../setting/SettingManager';
 import { RateManager } from '../rate/RateManager';
+import { CountyInfo, countyInfos } from '../county/CountyInfo';
 
 // Mock Managers
 vi.mock('../setting/SettingManager', () => ({
@@ -24,10 +25,20 @@ vi.mock('../rate/RateManager', () => ({
     }
 }));
 
+vi.mock('../SpcContext', () => ({
+    SpcContext: {
+        getContext: vi.fn(() => ({
+            targetCountyInfo: {
+                code: 'GBP'
+            }
+        }))
+    }
+}));
+
 /**
  * 高级规格生产器：确保生成的数据 100% 符合币种的 DNA
  */
-function formatSpecPrice(value: number, def: CurrencyDef): string {
+function formatSpecPrice(value: number, def: CountyInfo): string {
     let priceStr = '';
 
     if (def.fractionDigits === 0) {
@@ -72,8 +83,8 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
     it('【规格回验集】验证全量区域在真实 DNA 下的解析准确度', async () => {
         let baseVal = 100;
 
-        for (const [index, def] of GLOBAL_CURRENCIES.entries()) {
-            SettingManager.instance.setting.countyCode = def.cc;
+        for (const [index, def] of countyInfos.entries()) {
+            SettingManager.instance.setting.countyCode = def.code;
 
             const v1 = baseVal + index;
             const rawV2 = (baseVal * 100) + index + 0.99;
@@ -89,7 +100,7 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
                 try {
                     expect(result).toBe(expected);
                 } catch (e) {
-                    console.error(`[Assertion Failed] ${def.code} (${def.cc})`);
+                    console.error(`[Assertion Failed] ${def.code} (${def.code})`);
                     console.error(`Input:    "${text}"`);
                     console.error(`Expected: "${expected}"`);
                     console.error(`Got:      "${result}"`);
@@ -101,8 +112,8 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
 
     it('【终极复合压力】全区域混合递增数据解构', async () => {
         // 构建全区域混合文本
-        const specs = GLOBAL_CURRENCIES
-            .flatMap((def, i) => {
+        const specs = countyInfos
+            .flatMap((def: CountyInfo, i: number) => {
                 const v1 = 5000 + i;
                 let v2 = 0
                 if (def.fractionDigits === 0) {
@@ -127,11 +138,11 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
                 });
             });
 
-        const megaText = specs.map(s => `[${s.def.code}] ${s.text}`).join(' | ');
+        const megaText = specs.map((s: any) => `[${s.def.currencyCode}] ${s.text}`).join(' | ');
         const result = await PriceProcessor.convertContent(megaText);
 
         // 逐一验证每个节点
-        specs.forEach(s => {
+        specs.forEach((s: any) => {
             try {
                 expect(result).toContain(s.expected);
             } catch (e) {
@@ -144,7 +155,7 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
 
         // 验证总数
         const totalMatches = (result.match(/\(¥/g) || []).length;
-        expect(totalMatches).toBe(GLOBAL_CURRENCIES.length * 2);
+        expect(totalMatches).toBe(countyInfos.length * 2);
     });
 
     describe('【鲁棒性】锚点强制与规格边界', () => {
