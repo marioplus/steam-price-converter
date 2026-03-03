@@ -4,86 +4,176 @@ import { SettingManager } from '../setting/SettingManager';
 import { SpcContext } from '../SpcContext';
 import { Logger } from '../utils/Logger';
 
+// ─── 工具函数 ───────────────────────────────────────────
+
+/** 转义正则特殊字符 */
+function escapeRegex(str: string): string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ─── 模块级预计算（启动时执行一次） ──────────────────────
+
+/** 从所有 CountyInfo 收集分隔符，构建数字块正则 */
+const allSepChars = Array.from(new Set(
+    countyInfos.flatMap(c => [c.decimalSep, c.thousandsSep].filter(Boolean) as string[])
+)).map(s => s === ' ' ? '\\s' : escapeRegex(s)).join('');
+
+const NUMBER_BLOCK_REGEX = new RegExp(`\\d[\\d${allSepChars}]*\\d|\\d`, 'g');
+
+/** 预排序的规则模板（符号长度降序 → 有小数位优先 → currencyCode 字母序） */
+const SORTED_RULES_TEMPLATE = [...countyInfos]
+    .sort((a, b) => b.symbol.length - a.symbol.length
+        || Number(a.fractionDigits === 0) - Number(b.fractionDigits === 0)
+        || a.currencyCode.localeCompare(b.currencyCode));
+
+// ─── 符号匹配 ──────────────────────────────────────────
+
 /**
- * 静态正则构建 (启动编译一次)
+ * 检查数字块前后上下文是否匹配某条规则的符号
+ * symbolGap 是 DNA 的一部分，直接精确匹配
  */
-const buildRegex = () => {
-    const frontAnchors = Array.from(new Set([
-        ...countyInfos.filter(c => c.symbolPos === 'front').map(c => c.symbol.trim()),
-        ...countyInfos.map(c => c.currencyCode)
-    ])).filter(Boolean).sort((a, b) => b.length - a.length);
+function tryMatchSymbol(
+    text: string,
+    numStart: number,
+    numEnd: number,
+    info: CountyInfo
+): { matchStart: number; matchEnd: number } | null {
+    if (info.symbolPos === 'front') {
+        // 前置：数字左侧应为 symbol + symbolGap
+        const prefix = info.symbol + info.symbolGap;
+        const start = numStart - prefix.length;
+        if (start < 0) return null;
+        const slice = text.substring(start, numStart);
+        if (slice.toUpperCase() !== prefix.toUpperCase()) return null;
+        return { matchStart: start, matchEnd: numEnd };
+    } else {
+        // 后置：数字右侧应为 symbolGap + symbol
+        const suffix = info.symbolGap + info.symbol;
+        const end = numEnd + suffix.length;
+        if (end > text.length) return null;
+        const slice = text.substring(numEnd, end);
+        if (slice.toUpperCase() !== suffix.toUpperCase()) return null;
+        return { matchStart: numStart, matchEnd: end };
+    }
+}
 
-    const endAnchors = Array.from(new Set([
-        ...countyInfos.filter(c => c.symbolPos === 'end').map(c => c.symbol.trim()),
-        ...countyInfos.map(c => c.currencyCode)
-    ])).filter(Boolean).sort((a, b) => b.length - a.length);
+// ─── DNA 校验 ──────────────────────────────────────────
 
-    const frontPattern = frontAnchors.map(s => s.replace(/[$^*+?()|[\]\\]/g, '\\$&')).join('|');
-    const endPattern = endAnchors.map(s => s.replace(/[$^*+?()|[\]\\]/g, '\\$&')).join('|');
+/** 校验数字块的分隔符是否符合该币种的 DNA 规则 */
+function validateNumberDNA(numStr: string, info: CountyInfo): boolean {
+    const seps = new Set(
+        numStr.replace(/\d/g, '').split('').filter(Boolean).map(s => /\s/.test(s) ? ' ' : s)
+    );
 
-    const sepPattern = Array.from(new Set(
-        countyInfos.flatMap(c => [c.decimalSep, c.thousandsSep]).filter(Boolean)
-    )).map(s => s === ' ' ? '\\s' : s!.replace(/[$^*+?()|[\]\\]/g, '\\$&')).join('');
+    // 每个分隔符必须是该规则定义的千分位或小数分隔符
+    for (const sep of seps) {
+        if (sep !== info.thousandsSep && sep !== info.decimalSep) {
+            return false;
+        }
+    }
 
-    return new RegExp(`(?:(${frontPattern})\\s*)?(\\d[\\d${sepPattern}]*\\d|\\d)(?:\\s*(${endPattern}))?`, 'gi');
-};
+    // 无小数位的币种不应包含小数分隔符
+    if (info.fractionDigits === 0 && info.decimalSep && seps.has(info.decimalSep)) {
+        return false;
+    }
 
-const PRICE_REGEX = buildRegex();
+    return true;
+}
+
+// ─── 数字解析 ──────────────────────────────────────────
+
+/** 根据规则的分隔符配置直接解析数字文本 */
+function parseNumber(numStr: string, info: CountyInfo): number | null {
+    let clean = numStr;
+
+    // 去掉千分位分隔符
+    if (info.thousandsSep) {
+        clean = clean.split(info.thousandsSep).join('');
+    }
+
+    // 小数分隔符统一为 '.'
+    if (info.decimalSep && info.decimalSep !== '.') {
+        clean = clean.replace(info.decimalSep, '.');
+    }
+
+    const val = parseFloat(clean);
+    return isNaN(val) ? null : val;
+}
+
+// ─── 匹配结果类型 ──────────────────────────────────────
+
+interface PriceMatch {
+    index: number;
+    length: number;
+    value: number;
+    info: CountyInfo;
+    raw: string;
+}
+
+// ─── 核心处理器 ────────────────────────────────────────
 
 /**
- * 智能价格处理器
+ * 数据驱动的价格处理器
+ *
+ * 单次扫描找数字块 + 上下文符号匹配，当前区域优先。
+ * 流程：预检 → 数字块扫描 → 符号匹配 + DNA 校验 → 汇率转换 → 反向替换
  */
 export class PriceProcessor {
 
     /**
-     * 统一转换入口 (合并了 ConvertUtils 逻辑)
+     * 统一转换入口
      */
     public static async convertContent(text: string): Promise<string> {
         const setting = SettingManager.instance.setting;
+        const targetCode = SpcContext.getContext().targetCountyInfo.code;
         return await this.processTextAsync(
             text,
             setting.countyCode,
             setting.currencySymbol,
-            setting.currencySymbolBeforeValue
+            setting.currencySymbolBeforeValue,
+            targetCode
         );
     }
 
     /**
-     * 异步管道处理：扫描 -> 预热汇率 -> 反向按序替换
+     * 异步管道处理：预检 → 数字块扫描 → 符号匹配 → 预热汇率 → 反向替换
      */
     private static async processTextAsync(
         text: string,
         countryCode: string,
         targetSymbol: string,
-        isBefore: boolean
+        isBefore: boolean,
+        targetCode: string
     ): Promise<string> {
-        const currentCC = countryCode.toLowerCase();
-        const matches: {
-            index: number;
-            length: number;
-            value: number;
-            config: CountyInfo;
-            whole: string;
-        }[] = [];
+        // 快速预检：无数字直接返回
+        if (!/\d/.test(text)) return text;
 
-        // 扫描
-        const iterator = text.matchAll(PRICE_REGEX);
-        const targetCode = SpcContext.getContext().targetCountyInfo.code.toLowerCase();
-        for (const match of iterator) {
-            const [whole, prefix, digits, suffix] = match;
-            const info = this.matchConfig(prefix || "", digits, suffix || "", currentCC);
-            if (info) {
-                // 如果国家相同则不转换
-                if (info.code.toLowerCase() === targetCode) continue;
-                const val = this.parseWithConfig(digits, info);
-                if (val !== null && !isNaN(val)) {
-                    matches.push({
-                        index: match.index!,
-                        length: whole.length,
-                        value: val,
-                        config: info,
-                        whole
-                    });
+        // 当前区域规则（优先匹配）
+        const currentRule = countyInfos.find(c => c.code === targetCode);
+        // 其他规则（按符号长度降序，排除当前区域和目标区域）
+        const otherRules = SORTED_RULES_TEMPLATE.filter(c => {
+            return c.code !== countryCode && c.code !== targetCode;
+        });
+
+        const matches: PriceMatch[] = [];
+
+        // 单次扫描：找所有数字块
+        for (const numMatch of text.matchAll(NUMBER_BLOCK_REGEX)) {
+            const numStr = numMatch[0];
+            const numStart = numMatch.index!;
+            const numEnd = numStart + numStr.length;
+
+            let matched = false;
+
+            // 优先尝试当前区域
+            if (currentRule && currentRule.code !== targetCode) {
+                matched = this.tryRule(text, numStr, numStart, numEnd, currentRule, matches);
+            }
+
+            // 未命中则按符号长度降序尝试其他区域
+            if (!matched) {
+                for (const rule of otherRules) {
+                    if (this.tryRule(text, numStr, numStart, numEnd, rule, matches)) break;
                 }
             }
         }
@@ -91,7 +181,7 @@ export class PriceProcessor {
         if (matches.length === 0) return text;
 
         // 预热汇率
-        const uniqueCurrencies = Array.from(new Set(matches.map(m => m.config.currencyCode)));
+        const uniqueCurrencies = [...new Set(matches.map(m => m.info.currencyCode))];
         const rateMap = new Map<string, number>();
 
         await Promise.all(uniqueCurrencies.map(async (code) => {
@@ -103,11 +193,11 @@ export class PriceProcessor {
             }
         }));
 
-        // 替换
+        // 反向替换（按 index 降序，避免索引偏移）
         let result = text;
-        for (let i = matches.length - 1; i >= 0; i--) {
-            const m = matches[i];
-            const rate = rateMap.get(m.config.currencyCode);
+        matches.sort((a, b) => b.index - a.index);
+        for (const m of matches) {
+            const rate = rateMap.get(m.info.currencyCode);
             if (!rate) continue;
 
             const converted = Number.parseFloat((m.value / rate).toFixed(2));
@@ -115,95 +205,37 @@ export class PriceProcessor {
                 ? `(${targetSymbol}${converted})`
                 : `(${converted}${targetSymbol})`;
 
-            result = result.substring(0, m.index) + m.whole + formatted + result.substring(m.index + m.length);
+            result = result.substring(0, m.index) + m.raw + formatted + result.substring(m.index + m.length);
         }
 
         Logger.debug(`[PriceProcessor] 转换成功，命中 ${matches.length} 处价格`);
         return result;
     }
 
-    /**
-     * 规格契合度匹配算法
-     */
-    private static matchConfig(prefix: string, digits: string, suffix: string, currentCC: string): CountyInfo | null {
-        const pre = prefix.trim().toUpperCase();
-        const suf = suffix.trim().toUpperCase();
+    /** 尝试用一条规则匹配数字块：符号匹配 → DNA 校验 → 数字解析 */
+    private static tryRule(
+        text: string,
+        numStr: string,
+        numStart: number,
+        numEnd: number,
+        info: CountyInfo,
+        matches: PriceMatch[]
+    ): boolean {
+        const range = tryMatchSymbol(text, numStart, numEnd, info);
+        if (!range) return false;
+        if (!validateNumberDNA(numStr, info)) return false;
 
-        if (!pre && !suf) return null;
+        const value = parseNumber(numStr, info);
+        if (value === null) return false;
 
-        const candidates = countyInfos.filter(c => {
-            const sym = c.symbol.trim().toUpperCase();
-            const code = c.currencyCode.toUpperCase();
-            if (pre) {
-                if (pre === sym && c.symbolPos === 'front') return true;
-                if (pre === code) return true;
-                if (pre.includes(sym) && c.symbolPos === 'front') return true;
-            }
-            if (suf) {
-                if (suf === sym && c.symbolPos === 'end') return true;
-                if (suf === code) return true;
-                if (suf.includes(sym) && c.symbolPos === 'end') return true;
-            }
-            return false;
+        const raw = text.substring(range.matchStart, range.matchEnd);
+        matches.push({
+            index: range.matchStart,
+            length: raw.length,
+            value,
+            info,
+            raw
         });
-
-        if (candidates.length === 0) return null;
-        if (candidates.length === 1) return candidates[0];
-
-        const hasDecimal = this.detectHasDecimal(digits);
-        const modeMatched = candidates.filter(c => (c.fractionDigits > 0) === hasDecimal);
-        if (modeMatched.length === 1) return modeMatched[0];
-
-        const finalCandidates = modeMatched.length > 0 ? modeMatched : candidates;
-        const sameCC = finalCandidates.find(c => c.code.toLowerCase() === currentCC);
-        if (sameCC) return sameCC;
-
-        const usDefault = finalCandidates.find(c => c.code.toLowerCase() === 'us');
-        return usDefault || finalCandidates[0];
-    }
-
-    /**
-     * 小数位特征识别
-     */
-    private static detectHasDecimal(digits: string): boolean {
-        const clean = digits.trim().replace(/\s/g, '');
-        const lastDot = clean.lastIndexOf('.');
-        const lastComma = clean.lastIndexOf(',');
-        const lastSep = Math.max(lastDot, lastComma);
-
-        if (lastSep === -1) return false;
-        const suffix = clean.substring(lastSep + 1);
-        return suffix.length === 1 || suffix.length === 2;
-    }
-
-    /**
-     * 数字文本解析
-     */
-    private static parseWithConfig(digits: string, def: CountyInfo): number | null {
-        const clean = digits.trim().replace(/\s/g, '');
-        const separators = Array.from(new Set(clean.replace(/\d/g, '').split('')));
-        for (const sep of separators) {
-            if (sep !== def.decimalSep && sep !== def.thousandsSep) return null;
-        }
-
-        if (def.decimalSep) {
-            if ((clean.split(def.decimalSep).length - 1) > 1) return null;
-        }
-
-        if (def.fractionDigits === 0) return parseInt(clean.replace(/\D/g, ''));
-
-        const lastSepIdx = Math.max(
-            def.decimalSep ? clean.lastIndexOf(def.decimalSep) : -1,
-            def.thousandsSep ? clean.lastIndexOf(def.thousandsSep) : -1
-        );
-
-        if (lastSepIdx === -1) return parseInt(clean.replace(/\D/g, ''));
-
-        const suffix = clean.substring(lastSepIdx + 1);
-        if (suffix.length === 1 || suffix.length === 2) {
-            const body = clean.substring(0, lastSepIdx).replace(/\D/g, '');
-            return parseFloat(`${body}.${suffix}`);
-        }
-        return parseInt(clean.replace(/\D/g, ''));
+        return true;
     }
 }
