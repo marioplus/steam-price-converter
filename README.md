@@ -46,6 +46,11 @@
 ![混合区域显示](https://s3.bmp.ovh/2026/02/24/XqymkenM.jpg)
 
 
+## 交流反馈
+
+如果遇到任何问题或有功能建议，请前往 GitHub 提交 [Issue](https://github.com/marioplus/steam-price-converter/issues)。
+其他平台的留言或反馈可能无法及时查看和回复，请尽量使用 GitHub 进行反馈。
+
 ## 开发
 
 根据[此处](https://github.com/lisonge/vite-plugin-monkey/issues/1)提示关闭 Tampermonkey 的 CSP 检测
