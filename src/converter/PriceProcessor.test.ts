@@ -165,4 +165,18 @@ describe('PriceProcessor 规格对齐自动化回归', () => {
             expect(result).toBe(noise);
         });
     });
+
+    describe('【降级匹配】宽松符号间隔', () => {
+        it('symbolGap 不匹配时降级命中（印度 ₹ 前置有空格）', async () => {
+            SettingManager.instance.setting.countyCode = 'CN';
+            const result = await PriceProcessor.convertContent('₹ 2,399');
+            expect(result).toBe('₹ 2,399(¥2399)');
+        });
+
+        it('严格匹配仍优先于降级', async () => {
+            SettingManager.instance.setting.countyCode = 'CN';
+            const result = await PriceProcessor.convertContent('$100.50');
+            expect(result).toBe('$100.50(¥100.5)');
+        });
+    });
 });

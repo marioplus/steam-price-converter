@@ -57,6 +57,36 @@ function tryMatchSymbol(
     }
 }
 
+/**
+ * 宽松符号匹配：忽略 symbolGap，允许符号与数字间有可选空白
+ */
+function tryMatchSymbolRelaxed(
+    text: string,
+    numStart: number,
+    numEnd: number,
+    info: CountyInfo
+): { matchStart: number; matchEnd: number } | null {
+    if (info.symbolPos === 'front') {
+        // 向左跳过空白，再匹配符号
+        let cursor = numStart;
+        while (cursor > 0 && /\s/.test(text[cursor - 1])) cursor--;
+        const start = cursor - info.symbol.length;
+        if (start < 0) return null;
+        const slice = text.substring(start, cursor);
+        if (slice.toUpperCase() !== info.symbol.toUpperCase()) return null;
+        return { matchStart: start, matchEnd: numEnd };
+    } else {
+        // 向右跳过空白，再匹配符号
+        let cursor = numEnd;
+        while (cursor < text.length && /\s/.test(text[cursor])) cursor++;
+        const end = cursor + info.symbol.length;
+        if (end > text.length) return null;
+        const slice = text.substring(cursor, end);
+        if (slice.toUpperCase() !== info.symbol.toUpperCase()) return null;
+        return { matchStart: numStart, matchEnd: end };
+    }
+}
+
 // ─── DNA 校验 ──────────────────────────────────────────
 
 /** 校验数字块的分隔符是否符合该币种的 DNA 规则 */
@@ -164,17 +194,26 @@ export class PriceProcessor {
             const numEnd = numStart + numStr.length;
 
             let matched = false;
+            const relaxedOut = { candidate: null as PriceMatch | null };
 
             // 优先尝试当前区域
             if (currentRule && currentRule.code !== targetCode) {
-                matched = this.tryRule(text, numStr, numStart, numEnd, currentRule, matches);
+                matched = this.tryRule(text, numStr, numStart, numEnd, currentRule, matches, relaxedOut);
             }
 
             // 未命中则按符号长度降序尝试其他区域
             if (!matched) {
                 for (const rule of otherRules) {
-                    if (this.tryRule(text, numStr, numStart, numEnd, rule, matches)) break;
+                    if (this.tryRule(text, numStr, numStart, numEnd, rule, matches, relaxedOut)) {
+                        matched = true;
+                        break;
+                    }
                 }
+            }
+
+            // 降级：严格匹配全部失败，采用宽松候选
+            if (!matched && relaxedOut.candidate) {
+                matches.push(relaxedOut.candidate);
             }
         }
 
@@ -219,23 +258,44 @@ export class PriceProcessor {
         numStart: number,
         numEnd: number,
         info: CountyInfo,
-        matches: PriceMatch[]
+        matches: PriceMatch[],
+        relaxedOut?: { candidate: PriceMatch | null }
     ): boolean {
+        // ── 严格路径 ──
         const range = tryMatchSymbol(text, numStart, numEnd, info);
-        if (!range) return false;
-        if (!validateNumberDNA(numStr, info)) return false;
+        if (range && validateNumberDNA(numStr, info)) {
+            const value = parseNumber(numStr, info);
+            if (value !== null) {
+                const raw = text.substring(range.matchStart, range.matchEnd);
+                matches.push({
+                    index: range.matchStart,
+                    length: raw.length,
+                    value,
+                    info,
+                    raw
+                });
+                return true;
+            }
+        }
 
-        const value = parseNumber(numStr, info);
-        if (value === null) return false;
+        // ── 宽松路径（仅在提供 relaxedOut 且尚无候选时尝试）──
+        if (relaxedOut && !relaxedOut.candidate) {
+            const relaxedRange = tryMatchSymbolRelaxed(text, numStart, numEnd, info);
+            if (relaxedRange) {
+                const value = parseNumber(numStr, info);
+                if (value !== null) {
+                    const raw = text.substring(relaxedRange.matchStart, relaxedRange.matchEnd);
+                    relaxedOut.candidate = {
+                        index: relaxedRange.matchStart,
+                        length: raw.length,
+                        value,
+                        info,
+                        raw
+                    };
+                }
+            }
+        }
 
-        const raw = text.substring(range.matchStart, range.matchEnd);
-        matches.push({
-            index: range.matchStart,
-            length: raw.length,
-            value,
-            info,
-            raw
-        });
-        return true;
+        return false;
     }
 }
