@@ -54,9 +54,22 @@ async function convert() {
         const uniqueTargets = new Set<Element>();
 
         mutations.forEach(mutation => {
-            const target = <HTMLElement>mutation.target
-            const priceEls = target.querySelectorAll(selector)
-            priceEls.forEach(el => uniqueTargets.add(el));
+            if (mutation.type === 'characterData') {
+                // TextNode → 向上找最近的 Element 祖先
+                const parentEl = mutation.target.parentElement
+                if (parentEl && parentEl.matches(selector)) {
+                    uniqueTargets.add(parentEl)
+                }
+                // 如果父 Element 不匹配，可能祖先才匹配
+                const closestEl = parentEl?.closest(selector)
+                if (closestEl) {
+                    uniqueTargets.add(closestEl)
+                }
+            } else {
+                const target = mutation.target as HTMLElement
+                const priceEls = target.querySelectorAll(selector)
+                priceEls.forEach(el => uniqueTargets.add(el));
+            }
         })
 
         if (uniqueTargets.size > 0) {
@@ -68,6 +81,7 @@ async function convert() {
     priceObserver.observe(document.body, {
         childList: true,
         subtree: true,
+        characterData: true,
     })
 }
 

@@ -10,6 +10,11 @@ export type ElementSnap = {
     selector?: string
 }
 
+export type ConvertResult =  {
+    converted: boolean
+    convertText?: string
+}
+
 export class ConverterManager {
 
     static instance: ConverterManager = new ConverterManager()
@@ -50,9 +55,9 @@ export class ConverterManager {
                 .forEach(converter => {
                     const task = (async () => {
                         try {
-                            const exchanged = await converter.convert(elementSnap)
-                            if (exchanged) {
-                                converter.afterConvert(elementSnap)
+                            const elementConverted = await converter.convert(elementSnap)
+                            if (elementConverted) {
+                                converter.afterConvert(elementSnap,elementConverted)
                             }
                         } catch (e) {
                             console.group('转换失败')

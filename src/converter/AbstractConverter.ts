@@ -1,4 +1,4 @@
-import { ElementSnap } from './ConverterManager'
+import { ConvertResult, ElementSnap } from './ConverterManager'
 import { Attrs } from '../constant/Constant'
 
 export abstract class AbstractConverter {
@@ -18,9 +18,9 @@ export abstract class AbstractConverter {
         }
 
         // 防止重复转换
+
         const status = elementSnap.element.getAttribute(Attrs.STATUS_KEY)
-        const converted = Attrs.STATUS_CONVERTED === status
-        if (converted) {
+        if (status && elementSnap.element.textContent.indexOf(status) !== -1) {
             return false
         }
 
@@ -59,15 +59,17 @@ export abstract class AbstractConverter {
      * @param elementSnap 选择器选择到的元素快照
      * @return 处理结果
      */
-    abstract convert(elementSnap: ElementSnap): Promise<boolean>
+    abstract convert(elementSnap: ElementSnap): Promise<ConvertResult>
 
     /**
      * 替换之后的操作
      * @param elementSnap 选择器选择到的元素快照
      */
     // @ts-ignore
-    afterConvert(elementSnap: ElementSnap): void {
-        // 标记被转换
-        elementSnap.element.setAttribute(Attrs.STATUS_KEY, Attrs.STATUS_CONVERTED)
+    afterConvert(elementSnap: ElementSnap, result: ConvertResult): void {
+        if (result.converted) {
+            // 标记被转换
+            elementSnap.element.setAttribute(Attrs.STATUS_KEY, result.convertText!)
+        }
     }
 }

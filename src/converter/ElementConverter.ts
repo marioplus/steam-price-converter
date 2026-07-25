@@ -1,6 +1,6 @@
-import { AbstractConverter } from './AbstractConverter'
-import { ElementSnap } from './ConverterManager'
-import { PriceProcessor } from './PriceProcessor'
+import {AbstractConverter} from './AbstractConverter'
+import {ConvertResult, ElementSnap} from './ConverterManager'
+import {PriceProcessor} from './PriceProcessor'
 
 export class ElementConverter extends AbstractConverter {
 
@@ -35,15 +35,17 @@ export class ElementConverter extends AbstractConverter {
 
         const wishlist = [
             // 右上角钱包
-            'div.Hxi-pnf9Xlw- > div._79DIT7RUQ5g-',
+            'div.vTro5UlZ-gU- > div.QO6CjVPSFuI-',
+            // 右上角名称下拉菜单，查看我的钱包，
+            'a.En-WtuWIGUc- > span.nikULGV-7Q0-',
             // 当前价格
-            'div.ME2eMO7C1Tk- > div.DOnsaVcV0Is-',
+            'div.-OkCLv-56oQ- > div._9Rf9BwU0xAQ-',
             // 原价
-            'div.ME2eMO7C1Tk- > div.ywNldZ-YzEE-',
-            // 筛选
-            'label.idELaaXmvTo-',
-            // 筛选后的标签
-            'button.Wh-OfiQaHSM-',
+            'div.-OkCLv-56oQ- > div.-HQzBzl6lqI-',
+            // 价格筛选滑块滑块
+            'label.qhUI2RnjHYw-',
+            // 价格筛选标签
+            'button.cDJOlrqyRq8-.n5jTCXrzS8A-.Focusable',
         ]
 
         const inventory = [
@@ -143,9 +145,9 @@ export class ElementConverter extends AbstractConverter {
         return selectors
     }
 
-    async convert(elementSnap: ElementSnap): Promise<boolean> {
+    async convert(elementSnap: ElementSnap): Promise<ConvertResult> {
         // 提取货币代码和货币量
         elementSnap.element.textContent = await PriceProcessor.convertContent(elementSnap.textContext!)
-        return true
+        return { converted: true, convertText: elementSnap.element.textContent }  
     }
 }
