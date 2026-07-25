@@ -49,7 +49,8 @@ export class ElementConverter extends AbstractConverter {
         ]
 
         const inventory = [
-            '#iteminfo1_item_market_actions  div[id^="market_item_action_buyback_at_price_"]'
+            // 起售价格
+            'div.f6hU22EA7Z8peFWZVBJU'
         ]
 
         // 购物车
@@ -75,7 +76,21 @@ export class ElementConverter extends AbstractConverter {
             // 头像下拉菜单
             '#account_dropdown .account_name',
             // 市场统计
-            '#es_summary .es_market_summary_item'
+            '#es_summary .es_market_summary_item',
+
+            // 钱包余额
+            '#marketWalletBalanceAmount',
+            // 列表
+            'span.normal_price[data-price]',
+
+            // 价格筛选
+            'button.inqz7Zdx9Xg-.ob-nIzzquk8-.fkz-MePtKwI-.D8IENuW8Q7w-',
+            // 起价
+            'span.IokSIloSPlA-',
+
+            // 详情页
+            // 折线图价格
+            'text.recharts-text.recharts-cartesian-axis-tick-value > tspan',
         ]
 
         const notify = [
@@ -107,20 +122,6 @@ export class ElementConverter extends AbstractConverter {
             '.contenthubshared_OriginalPrice_3hBh3',
             '.contenthubshared_FinalPrice_F_tGv',
             '.salepreviewwidgets_StoreSalePriceBox_Wh0L8:not(.salepreviewwidgets_StoreSalePrepurchaseLabel_Wxeyn)',
-
-            // 市场
-            // 总余额
-            '#marketWalletBalanceAmount',
-            // 列表
-            'span.normal_price[data-price]',
-            'span.sale_price',
-            // 求购、求售统计
-            '.market_commodity_orders_header_promote:nth-child(even)',
-            // 求购、求售列表
-            '.market_commodity_orders_table td:nth-child(odd)',
-            // 详情列表
-            '.market_table_value > span',
-            '.jqplot-highlighter-tooltip',
 
             // 消费记录
             'tr.wallet_table_row > td.wht_total',
