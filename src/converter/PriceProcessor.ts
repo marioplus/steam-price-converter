@@ -1,8 +1,8 @@
-import { countyInfos, CountyInfo } from '../county/CountyInfo';
-import { RateManager } from '../rate/RateManager';
-import { SettingManager } from '../setting/SettingManager';
-import { SpcContext } from '../SpcContext';
-import { Logger } from '../utils/Logger';
+import {CountyInfo, countyInfos} from '../county/CountyInfo';
+import {RateManager} from '../rate/RateManager';
+import {SettingManager} from '../setting/SettingManager';
+import {SpcContext} from '../SpcContext';
+import {Logger} from '../utils/Logger';
 
 // ─── 工具函数 ───────────────────────────────────────────
 
@@ -45,7 +45,7 @@ function tryMatchSymbol(
         if (start < 0) return null;
         const slice = text.substring(start, numStart);
         if (slice.toUpperCase() !== prefix.toUpperCase()) return null;
-        return { matchStart: start, matchEnd: numEnd };
+        return {matchStart: start, matchEnd: numEnd};
     } else {
         // 后置：数字右侧应为 symbolGap + symbol
         const suffix = info.symbolGap + info.symbol;
@@ -53,7 +53,7 @@ function tryMatchSymbol(
         if (end > text.length) return null;
         const slice = text.substring(numEnd, end);
         if (slice.toUpperCase() !== suffix.toUpperCase()) return null;
-        return { matchStart: numStart, matchEnd: end };
+        return {matchStart: numStart, matchEnd: end};
     }
 }
 
@@ -74,7 +74,7 @@ function tryMatchSymbolRelaxed(
         if (start < 0) return null;
         const slice = text.substring(start, cursor);
         if (slice.toUpperCase() !== info.symbol.toUpperCase()) return null;
-        return { matchStart: start, matchEnd: numEnd };
+        return {matchStart: start, matchEnd: numEnd};
     } else {
         // 向右跳过空白，再匹配符号
         let cursor = numEnd;
@@ -83,7 +83,7 @@ function tryMatchSymbolRelaxed(
         if (end > text.length) return null;
         const slice = text.substring(cursor, end);
         if (slice.toUpperCase() !== info.symbol.toUpperCase()) return null;
-        return { matchStart: numStart, matchEnd: end };
+        return {matchStart: numStart, matchEnd: end};
     }
 }
 
@@ -194,7 +194,7 @@ export class PriceProcessor {
             const numEnd = numStart + numStr.length;
 
             let matched = false;
-            const relaxedOut = { candidate: null as PriceMatch | null };
+            const relaxedOut = {candidate: null as PriceMatch | null};
 
             // 优先尝试当前区域
             if (currentRule && currentRule.code !== targetCode) {
@@ -223,14 +223,20 @@ export class PriceProcessor {
         const uniqueCurrencies = [...new Set(matches.map(m => m.info.currencyCode))];
         const rateMap = new Map<string, number>();
 
-        await Promise.all(uniqueCurrencies.map(async (code) => {
-            try {
-                const rate = await RateManager.instance.getRate(code);
-                rateMap.set(code, rate);
-            } catch (e) {
-                Logger.error(`[PriceProcessor] 获取币种汇率失败: ${code}`, e);
-            }
-        }));
+        let setting = SpcContext.getContext().setting;
+        if (setting.useCustomRate) {
+            Logger.info(`[PriceProcessor] 使用自定义汇率，当前自定义汇率为${setting.customRate}`)
+            uniqueCurrencies.forEach((code) => rateMap.set(code, setting.customRate))
+        } else {
+            await Promise.all(uniqueCurrencies.map(async (code) => {
+                try {
+                    const rate = await RateManager.instance.getRate(code);
+                    rateMap.set(code, rate);
+                } catch (e) {
+                    Logger.error(`[PriceProcessor] 获取币种汇率失败: ${code}`, e);
+                }
+            }));
+        }
 
         // 反向替换（按 index 降序，避免索引偏移）
         let result = text;

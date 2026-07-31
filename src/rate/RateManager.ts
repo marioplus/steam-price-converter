@@ -47,11 +47,6 @@ export class RateManager implements IRateApi {
         const to = targetCurrencyCode || context.targetCountyInfo.currencyCode;
         const cacheKey = `${from}:${to}`;
 
-        // 1. 优先使用自定义汇率
-        if (context.setting.useCustomRate && !sourceCurrencyCode) {
-            return context.setting.customRate
-        }
-
         // 2. 请求去重：如果已有相同请求在进行中，直接复用
         const pending = this.pendingRequests.get(cacheKey);
         if (pending) return pending;
