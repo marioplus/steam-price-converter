@@ -8,6 +8,9 @@ export class ElementConverter extends AbstractConverter {
         const home = [
             // 大图
             '.discount_prices > .discount_final_price',
+            // 折扣与活动
+            '.cQ79XIQ7w-Y- > .Cnw9IXSgr7I-',
+            '.cQ79XIQ7w-Y- > .JBijjejcvmo-',
             // 头像下拉
             '.Hxi-pnf9Xlw- span.HOrB6lehQpg-',
             // 低于 xx
@@ -56,11 +59,13 @@ export class ElementConverter extends AbstractConverter {
         // 购物车
         const cart = [
             // 原价
-            '.Panel.Focusable ._3-o3G9jt3lqcvbRXt8epsn.StoreOriginalPrice',
+            '.dstuYF4eZu4- .-nS4ZC0Bruo-',
             // 折扣价
-            '.Panel.Focusable .pk-LoKoNmmPK4GBiC9DR8',
+            '.dstuYF4eZu4- .hHZqChnRhag-.StoreOriginalPrice',
             // 总额
-            '._2WLaY5TxjBGVyuWe_6KS3N',
+            '.ZxG3hS-2Jjo-._1mIUrXeHG3k- > .n9HLAjXXhvI-',
+            // 为你推荐
+            '.QYFii1vIT5Q-',
         ]
         //  购物车复核
         const cartCheckout = [
@@ -105,6 +110,15 @@ export class ElementConverter extends AbstractConverter {
             '.game_area_purchase_game_dropdown_menu_items_container_background.game_area_purchase_game_dropdown_menu_items_container  td.game_area_purchase_game_dropdown_menu_item_text'
         ]
 
+        // 具体产品
+        const product=[
+          // 更多作品 / 更多类似
+          // 原价
+          '.yyrI0Nka69I- .D3fuhd6kG6I-',
+          // 折扣价
+          '.OySWwOLLxFc-'
+        ]
+
         const selectors = [
             // 商店
             // 首页
@@ -143,12 +157,13 @@ export class ElementConverter extends AbstractConverter {
         selectors.push(...market)
         selectors.push(...notify)
         selectors.push(...app)
+        selectors.push(...product)
         return selectors
     }
 
     async convert(elementSnap: ElementSnap): Promise<ConvertResult> {
         // 提取货币代码和货币量
         elementSnap.element.textContent = await PriceProcessor.convertContent(elementSnap.textContext!)
-        return { converted: true, convertText: elementSnap.element.textContent }  
+        return { converted: true, convertText: elementSnap.element.textContent }
     }
 }
