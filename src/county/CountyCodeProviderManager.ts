@@ -4,6 +4,7 @@ import {RequestStorePageCountyCodeProvider} from './RequestStorePageCountyCodePr
 import {StorePageCountyCodeProvider} from './StorePageCountyCodeProvider'
 import {MarketPageCountyCodeProvider} from './MarketPageCountyCodeProvider'
 import {Logger} from '../utils/Logger'
+import {CartPageCountyCodeProvider} from "./CartPageCountyCodeProvider";
 
 export class CountyCodeProviderManager {
 
@@ -14,6 +15,7 @@ export class CountyCodeProviderManager {
     private constructor() {
 
         this.providers = [
+            new CartPageCountyCodeProvider(),
             new StorePageCountyCodeProvider(),
             new MarketPageCountyCodeProvider(),
             new RequestStorePageCountyCodeProvider(),
