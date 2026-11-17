@@ -40,15 +40,12 @@ export class StorePageCountyCodeProvider implements ICountyInfoProvider {
             }
         }
 
-        const matcher = /(?<="countrycode":")[A-Z]{2}(?!=")/g
         const scripts = storeDom.querySelectorAll('script')
-        for (let scriptText in scripts) {
-            const flag = scriptText.includes(`("countrycode":")HK(")`)
-            if (flag) {
-                const match = scriptText.match(matcher)
-                if (match) {
-                    return match.toString()
-                }
+        for (const script of scripts) {
+            const text = script.textContent ?? ''
+            const match = text.match(/"countrycode"\s*:\s*"([A-Z]{2})"/)
+            if (match) {
+                return match[1]
             }
         }
 
