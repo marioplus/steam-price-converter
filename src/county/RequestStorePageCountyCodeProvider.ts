@@ -12,7 +12,9 @@ export class RequestStorePageCountyCodeProvider extends StorePageCountyCodeProvi
 
     match(): boolean {
         const href = window.location.href
-        return !href.includes('store.steampowered.com') || href.includes('store.steampowered.com/wishlist')
+        return !href.includes('store.steampowered.com')
+            || href.includes('store.steampowered.com/wishlist')
+            || href.includes('store.steampowered.com/cart')
     }
 
     async getStoreDocument(): Promise<Document> {
